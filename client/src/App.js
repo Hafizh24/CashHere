@@ -1,7 +1,11 @@
+import Login from "./components/login";
+import SimpleSidebar from "./components/sidebar";
+
 function App() {
   return (
     <>
-      <h1>hello</h1>
+      {/* <SimpleSidebar/> */}
+      < Login/>
     </>
   );
 }

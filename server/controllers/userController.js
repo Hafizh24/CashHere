@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken')
 const transporter = require('../middleware/transporter')
 const fs = require('fs')
 const handlebars = require('handlebars')
+require('dotenv').config()
 
 module.exports = {
   userLogin: async(req, res) => {
@@ -37,7 +38,7 @@ module.exports = {
 
       //data yang mau disimpan di token
       let payload = {id: userLogin.id}
-      const token = jwt.sign(payload, 'thisiscashhere')
+      const token = jwt.sign(payload, process.env.KEY_JWT)
       
       res.status(200).send({
           message: "Login success",
@@ -127,7 +128,7 @@ module.exports = {
   },
   updateUser: async (req, res) => {
     try{
-      const {id, isVerified, password} = req.body    
+      const {id, isVerified} = req.body    
       const updateFields = {}
 
       if(id){
@@ -142,22 +143,31 @@ module.exports = {
           }
         )
       }
-
-      if(password){
-        const salt = await bcrypt.genSalt(10)
-        const hashPassword = await bcrypt.hash(password, salt)
-        updateFields.password = hashPassword;
+      res.status(200).send({message: "Data updated"})
+    }catch(error){
+      console.log("This is the error", error);
+      res.status(400).send({ error: error.message });
+    }
+  },
+  updateUserPassword: async (req, res) => {
+    try{
+      const {email, password} = req.body
+      const salt = await bcrypt.genSalt(10)
+      const hashPassword = await bcrypt.hash(password, salt)
+      console.log("ini data body", req.body);
 
         await User.update(
-          updateFields,
+          {
+            password: hashPassword
+          },
           {
             where:{
-              id: req.user.id
+              email: email
             }
           }
         )
-      }
-      res.status(200).send({message: "Data updated"})
+
+      res.status(200).send({message: 'Password successfully updated'});
     }catch(error){
       console.log("This is the error", error);
       res.status(400).send({ error: error.message });
@@ -171,7 +181,6 @@ module.exports = {
               id: id,
           },
         });
-
         res.status(200).send({message: 'Account successfully deleted'});
     }catch(error){
       console.log("This is the error", error);
@@ -180,19 +189,18 @@ module.exports = {
   },
   resetPassword: async(req, res) => {
     try{
-      let { username, email } = req.query
-      let payload = {id: req.user.id}
-      const token = jwt.sign(payload, 'thisiscashhere')
+      let { email } = req.query
       const data = fs.readFileSync('./template.html', 'utf-8')
       const tempCompile = await handlebars.compile(data)
-      const tempResult = tempCompile({username: username, link:`http://localhost:3000/reset-password/${token}`})
+      const tempResult = tempCompile({email: email, link:`http://localhost:3000/reset-password/${email}`})
 
       await transporter.sendMail({
           from: 'vadittolk@gmail.com',
           to: email,
           subject: 'Email Confirmation',
           html: tempResult
-      }) 
+      })
+      res.status(200).send({message: 'Email has been sent'}); 
     }catch(error){
       console.log("This is the error", error);
       res.status(400).send({ error: error.message });

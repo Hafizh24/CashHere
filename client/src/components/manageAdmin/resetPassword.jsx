@@ -19,7 +19,6 @@ function ResetPasswordPage() {
   const params = useParams();
   const toast = useToast();
   const navigate = useNavigate();
-  const token = localStorage.getItem('token')
 
     const ResetPasswordSchema = Yup.object().shape({
         password: Yup.string().min(3, "Must be at least 3 characters long").required("Password can't be empty"),
@@ -30,21 +29,13 @@ function ResetPasswordPage() {
 
     const handleSubmit = async (data) => {
       try{
-        if(params.token === token){
-          await axios.patch("http://localhost:2000/user/update-user", data, {
-            headers: {
-              Authorization: `Bearer ${params.token}`,
-            }
-          }); //sending data to database
+          data.email = params.email
+          console.log(data);
+          await axios.patch("http://localhost:2000/user/update-user-password", data)
           toast({
               title: "Success", description: `Password has been updated`, status: "success", duration: 4000, position: "top"
           });
           navigate('/home')
-        }else{
-          toast({
-            title: "Success", description: `Please login first`, status: "error", duration: 4000, position: "top"
-          });
-        }
       }catch(err){
         console.log(err);
       }

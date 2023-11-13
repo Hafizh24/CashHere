@@ -21,7 +21,7 @@ const router = createBrowserRouter([
   { path: "/manage-cashier", element: <ManagerCashier></ManagerCashier> },
   { path: "/manage-product", element: <ManageProduct></ManageProduct> },
   { path: "/profile", element: <Profile /> },
-  { path: "/reset-password/:token", element: <ResetPasswordPage></ResetPasswordPage> },
+  { path: "/reset-password/:email", element: <ResetPasswordPage></ResetPasswordPage> },
   { path: "/admin-settings", element: <AdminSettings></AdminSettings> },
   { path: "/login-admin", element: <LoginAdmin></LoginAdmin> },
   {

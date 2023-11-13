@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
 module.exports = {
     verifyToken: (req, res, next) => {
@@ -11,7 +12,7 @@ module.exports = {
             }
             token = token.split(' ')[1]
 
-            let verifiedUser = jwt.verify(token, 'thisiscashhere')
+            let verifiedUser = jwt.verify(token, process.env.KEY_JWT)
             req.user = verifiedUser //buat property baru di object req
             next()
         }catch(err){

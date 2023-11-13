@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": "password",
-    "database": "mini_project_3",
+    "password": "oursql123#",
+    "database": "cashhere",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },

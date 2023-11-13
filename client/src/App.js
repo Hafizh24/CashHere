@@ -15,14 +15,14 @@ import { setData } from "./redux/userSlice";
 import LoginCashier from "./components/cashier/loginCashier";
 
 const router = createBrowserRouter([
-  { path: "/", element: <WelcomePage></WelcomePage>},
-  { path: "/home", element: <Home></Home>},
-  { path: "/admin-dashboard", element: <AdminDashboard></AdminDashboard>},
-  { path: "/manage-cashier", element: <ManagerCashier></ManagerCashier>},
-  { path: "/manage-product", element: <ManageProduct></ManageProduct>},
-  { path: "/reset-password/:email", element: <ResetPasswordPage></ResetPasswordPage>},
-  { path: "/admin-settings", element: <AdminSettings></AdminSettings>},
-  { path: "/login-admin", element: <LoginAdmin></LoginAdmin>},
+  { path: "/", element: <WelcomePage></WelcomePage> },
+  { path: "/home", element: <Home></Home> },
+  { path: "/admin-dashboard", element: <AdminDashboard></AdminDashboard> },
+  { path: "/manage-cashier", element: <ManagerCashier></ManagerCashier> },
+  { path: "/manage-product", element: <ManageProduct></ManageProduct> },
+  { path: "/reset-password/:email", element: <ResetPasswordPage></ResetPasswordPage> },
+  { path: "/admin-settings", element: <AdminSettings></AdminSettings> },
+  { path: "/login-admin", element: <LoginAdmin></LoginAdmin> },
   { path: "/login-cashier", element: <LoginCashier></LoginCashier> },
   // { path: "/reset-password", element: <></>}
   {
@@ -50,12 +50,11 @@ function App() {
     }
   };
 
-  useEffect(() =>{
+  useEffect(() => {
     keepLogin();
-  }, [])
+  }, []);
   return (
     <>
-      <RouterProvider router={router}></RouterProvider>
       <RouterProvider router={router}></RouterProvider>
     </>
   );

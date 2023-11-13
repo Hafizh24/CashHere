@@ -3,9 +3,9 @@ import CardProfile from "../components/profile/CardProfile";
 
 const Profile = () => {
   return (
-    <div>
+    <>
       <CardProfile />
-    </div>
+    </>
   );
 };
 

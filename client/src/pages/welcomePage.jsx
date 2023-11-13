@@ -49,15 +49,8 @@ import { Link } from 'react-router-dom'
                 Login as Cashier
               </Button>
               </Link>
-              <Link to="/home">
-                <Button
-                    colorScheme={'green'}
-                    bg={'#3C6255'}
-                    rounded={'full'}
-                    px={6}
-                    _hover={{
-                    bg: '#61876E',
-                    }}>
+              <Link to="/login-admin">
+                <Button colorScheme={'green'} bg={'#3C6255'} rounded={'full'} px={6} _hover={{bg: '#61876E',}}>
                     Login as Admin
                 </Button>
               </Link>

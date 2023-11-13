@@ -15,12 +15,13 @@ import {
   useColorModeValue,
   Stack
 } from "@chakra-ui/react"
-import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons"
+import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons"
 
-const Links = ["Dashboard", "Projects", "Team"]
+const Links = ["Home", "Projects", "Team"]
 
 const NavLink = props => {
   const { children } = props
+
   return (
     <Box
       as="a"
@@ -38,7 +39,7 @@ const NavLink = props => {
   )
 }
 
-export default function WithAction() {
+export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
@@ -65,15 +66,6 @@ export default function WithAction() {
             </HStack>
           </HStack>
           <Flex alignItems={"center"}>
-            <Button
-              variant={"solid"}
-              colorScheme={"teal"}
-              size={"sm"}
-              mr={4}
-              leftIcon={<AddIcon />}
-            >
-              Action
-            </Button>
             <Menu>
               <MenuButton
                 as={Button}
@@ -84,9 +76,6 @@ export default function WithAction() {
               >
                 <Avatar
                   size={"sm"}
-                  src={
-                    "https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-                  }
                 />
               </MenuButton>
               <MenuList>
@@ -109,8 +98,6 @@ export default function WithAction() {
           </Box>
         ) : null}
       </Box>
-
-      <Box p={4}>Main Content Here</Box>
     </>
   )
 }

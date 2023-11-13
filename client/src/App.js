@@ -12,6 +12,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import { setData } from "./redux/userSlice";
+import LoginCashier from "./components/cashier/loginCashier";
 
 const router = createBrowserRouter([
   { path: "/", element: <WelcomePage></WelcomePage>},
@@ -22,6 +23,8 @@ const router = createBrowserRouter([
   { path: "/reset-password/:email", element: <ResetPasswordPage></ResetPasswordPage>},
   { path: "/admin-settings", element: <AdminSettings></AdminSettings>},
   { path: "/login-admin", element: <LoginAdmin></LoginAdmin>},
+  { path: "/login-cashier", element: <LoginCashier></LoginCashier> },
+  // { path: "/reset-password", element: <></>}
   {
     element: <Required></Required>,
     children: [

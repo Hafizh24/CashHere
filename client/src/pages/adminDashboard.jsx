@@ -2,49 +2,27 @@ import { Button, Stack, VStack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/navbar";
 
-function AdminDashboard() {
-  return (
-    <>
-      <Navbar></Navbar>
-      <Stack justifyContent={"center"} h={"100vh"}>
-        <VStack p={5}>
-          <Link to={"/manage-cashier"}>
-            <Button
-              size={"lg"}
-              variant={"outline"}
-              bgColor={"#3C6255"}
-              _hover={{ backgroundColor: "#61876E" }}
-              color={"white"}
-              rounded={"full"}>
-              Manage Cashier
-            </Button>
-          </Link>
-          <Link to={"/manage-product"}>
-            <Button
-              size={"lg"}
-              variant={"outline"}
-              bgColor={"#3C6255"}
-              _hover={{ backgroundColor: "#61876E" }}
-              color={"white"}
-              rounded={"full"}>
-              Manage Product
-            </Button>
-          </Link>
-          <Link to={"/admin-settings"}>
-            <Button
-              size={"lg"}
-              variant={"outline"}
-              bgColor={"#3C6255"}
-              _hover={{ backgroundColor: "#61876E" }}
-              color={"white"}
-              rounded={"full"}>
-              Account settings
-            </Button>
-          </Link>
-        </VStack>
-      </Stack>
-    </>
-  );
+
+function AdminDashboard(){
+
+    return(
+        <>
+        <Navbar></Navbar>
+        <Stack justifyContent={'center'} h={'100vh'}>
+            <VStack p={5}>
+                <Link to={'/manage-cashier'}>
+                    <Button size={'lg'} variant={'outline'} bgColor={'#3C6255'} _hover={{backgroundColor:'#61876E'}} color={'white'} rounded={'full'}>Manage Cashier</Button>
+                </Link>
+                <Link to={'/manage-product'}>
+                    <Button size={'lg'} variant={'outline'} bgColor={'#3C6255'} _hover={{backgroundColor:'#61876E'}} color={'white'} rounded={'full'}>Manage Product</Button>
+                </Link>
+                <Link to={'/admin-settings'}>
+                    <Button size={'lg'} variant={'outline'} bgColor={'#3C6255'} _hover={{backgroundColor:'#61876E'}} color={'white'} rounded={'full'}>Account settings</Button>
+                </Link>
+            </VStack>
+        </Stack>
+        </>
+    )
 }
 
 export default AdminDashboard;

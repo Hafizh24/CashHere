@@ -4,7 +4,6 @@ import ResetPasswordPage from "./components/manageAdmin/resetPassword";
 import ManagerCashier from "./components/manageCashier/manageCashier";
 import ManageProduct from "./components/manageProduct/manageProduct";
 import Required from "./components/required";
-import Profile from "./pages/Profile";
 import AdminDashboard from "./pages/adminDashboard";
 import Home from "./pages/home";
 import LoginAdmin from "./pages/loginAdmin";
@@ -15,15 +14,14 @@ import axios from "axios";
 import { setData } from "./redux/userSlice";
 
 const router = createBrowserRouter([
-  { path: "/", element: <WelcomePage></WelcomePage> },
-  { path: "/home", element: <Home></Home> },
-  { path: "/admin-dashboard", element: <AdminDashboard></AdminDashboard> },
-  { path: "/manage-cashier", element: <ManagerCashier></ManagerCashier> },
-  { path: "/manage-product", element: <ManageProduct></ManageProduct> },
-  { path: "/profile", element: <Profile /> },
-  { path: "/reset-password/:email", element: <ResetPasswordPage></ResetPasswordPage> },
-  { path: "/admin-settings", element: <AdminSettings></AdminSettings> },
-  { path: "/login-admin", element: <LoginAdmin></LoginAdmin> },
+  { path: "/", element: <WelcomePage></WelcomePage>},
+  { path: "/home", element: <Home></Home>},
+  { path: "/admin-dashboard", element: <AdminDashboard></AdminDashboard>},
+  { path: "/manage-cashier", element: <ManagerCashier></ManagerCashier>},
+  { path: "/manage-product", element: <ManageProduct></ManageProduct>},
+  { path: "/reset-password/:email", element: <ResetPasswordPage></ResetPasswordPage>},
+  { path: "/admin-settings", element: <AdminSettings></AdminSettings>},
+  { path: "/login-admin", element: <LoginAdmin></LoginAdmin>},
   {
     element: <Required></Required>,
     children: [
@@ -49,11 +47,12 @@ function App() {
     }
   };
 
-  useEffect(() => {
+  useEffect(() =>{
     keepLogin();
-  }, []);
+  }, [])
   return (
     <>
+      <RouterProvider router={router}></RouterProvider>
       <RouterProvider router={router}></RouterProvider>
     </>
   );

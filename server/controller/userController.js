@@ -12,4 +12,10 @@ module.exports = {
       res.status(400).send({ error: error.message });
     }
   },
+  userLogIn: async (req, res) => {
+
+  }, 
+  resetPassword: async (req, res) => {
+    
+  }
 };

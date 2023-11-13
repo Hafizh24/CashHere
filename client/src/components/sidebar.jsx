@@ -18,7 +18,7 @@ import {
   FiMenu
 } from "react-icons/fi"
 import { PiPackageDuotone } from "react-icons/pi"
-import navimg from "../assets/cash here.png"
+import navimg from "../../src/assets/cashhere.png"
 
 const LinkItems = [
   { name: "Home", icon: FiHome },

@@ -5,6 +5,7 @@ import AdminDashboard from "./pages/adminDashboard";
 import Home from "./pages/home";
 import WelcomePage from "./pages/welcomePage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import LoginCashier from "./components/cashier/loginCashier";
 
 const router = createBrowserRouter([
   { path: "/", element: <WelcomePage></WelcomePage>},
@@ -12,6 +13,8 @@ const router = createBrowserRouter([
   { path: "/admin-dashboard", element: <AdminDashboard></AdminDashboard>},
   { path: "/manage-cashier", element: <ManagerCashier></ManagerCashier>},
   { path: "/manage-product", element: <ManageProduct></ManageProduct>},
+  { path: "/login-cashier", element: <LoginCashier></LoginCashier> },
+  // { path: "/reset-password", element: <></>}
   {
     element: <Required></Required>,
     children: [

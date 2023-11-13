@@ -10,14 +10,7 @@ const theme = extendTheme({
     first: "#3C6255",
     second: "#61876E",
     third: "#A6BB8D",
-    fourth: "#eae7b1",
-  },
-  styles: {
-    global: {
-      body: {
-        bg: "#A6BB8D",
-      },
-    },
+    fourth: "#EAE7B1",
   },
 });
 

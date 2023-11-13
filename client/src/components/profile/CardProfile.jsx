@@ -4,9 +4,9 @@ import {
   Avatar,
   AvatarBadge,
   Box,
+  Button,
   Card,
   CardBody,
-  Divider,
   Flex,
   Input,
   Stack,
@@ -15,18 +15,30 @@ import {
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { EditIcon } from "@chakra-ui/icons";
+import { useState } from "react";
 
 const FILE_SIZE = 1024 * 1024;
+const SUPPORTED_FORMATS = ["image/jpg", "image/gif", "image/png", "image/jpeg"];
 
 const validationSchema = Yup.object({
-  image: Yup.mixed().test(
-    "fileSize",
-    "File size must be less than 1MB",
-    (value) => value && value.size <= FILE_SIZE
-  ),
+  image: Yup.mixed()
+    .test(
+      "fileFormat",
+      "Unsupported Format",
+      (value) => value && SUPPORTED_FORMATS.includes(value.type)
+    )
+    .test("fileSize", "File size must be less than 1MB", (file) => {
+      if (file) {
+        return file.size <= FILE_SIZE;
+      } else {
+        return true;
+      }
+    }),
 });
 
 const CardProfile = () => {
+  const [selectedFile, setSelectedFile] = useState({ file: undefined, previewURI: undefined });
+
   const formik = useFormik({
     initialValues: {
       image: null,
@@ -38,22 +50,38 @@ const CardProfile = () => {
   });
 
   const handleChange = (e) => {
-    formik.setFieldValue("image", e.target.files[0]);
+    const file = e.currentTarget.files[0];
+    const reader = new FileReader();
+
+    if (file) {
+      reader.onloadend = () => {
+        setSelectedFile({
+          file,
+          previewURI: reader.result,
+        });
+      };
+      reader.readAsDataURL(file);
+      formik.setFieldValue("image", file);
+    }
   };
 
   return (
     <>
       {formik.errors.image && (
-        <Alert status="error" position={"absolute"} top={-14}>
+        <Alert status="error" position={"absolute"} top={0}>
           <AlertIcon />
           {formik.errors.image}
         </Alert>
       )}
-      <Box display={"flex"} justifyContent={"center"} mt={"4rem"}>
-        <Card w={"80"} h={"80"}>
+      <Box display={"flex"} justifyContent={"center"} bgColor={"fourth"} h={"100vh"}>
+        <Card w={"96"} h={"96"} mt={14}>
           <CardBody>
             <Flex justifyContent={"center"}>
-              <Avatar name="John Kei" size={"xl"} bg={"gray.300"}>
+              <Avatar
+                name="John Kei"
+                size={"xl"}
+                bg={"third"}
+                src={!formik.errors.image && selectedFile.previewURI}>
                 <AvatarBadge boxSize={"0.9em"} bg={"white"} borderRadius={"full"}>
                   <label style={{ cursor: "pointer" }} htmlFor="image">
                     <EditIcon w={4} h={4} />
@@ -61,7 +89,6 @@ const CardProfile = () => {
                       id="image"
                       name="image"
                       type="file"
-                      accept=".jpg,.png,.svg"
                       display={"none"}
                       onChange={handleChange}
                     />
@@ -70,11 +97,25 @@ const CardProfile = () => {
               </Avatar>
             </Flex>
 
-            <Stack mt="6" spacing="3">
-              <Text fontSize={"lg"}>username</Text>
+            <Stack mt="10" spacing="2">
+              <Text textAlign={"center"} fontSize={"2xl"}>
+                username
+              </Text>
+              <Text textAlign={"center"} fontSize={"2xl"}>
+                email
+              </Text>
             </Stack>
+            <Flex justifyContent={"center"} mt={20}>
+              <Button
+                w={220}
+                bgColor={"second"}
+                color={"white"}
+                size={"md"}
+                borderRadius={"xl"}>
+                Save
+              </Button>
+            </Flex>
           </CardBody>
-          <Divider />
         </Card>
       </Box>
     </>

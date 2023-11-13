@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { userController } = require("../controller");
+const { userController } = require("../controllers");
 const { multerUpload } = require("../middleware/multer");
 const { verifyToken } = require('../middleware/auth');
 const { checkRegister, checkResetPassword } = require("../middleware/validator");

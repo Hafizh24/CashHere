@@ -19,7 +19,7 @@ module.exports = {
       },
     });
     const fileFilter = (req, file, cb) => {
-      const extFilter = ["jpg", "jpeg", "png", "webp"];
+      const extFilter = ["jpg", "jpeg", "png", "gif"];
       const checkEct = extFilter.includes(file.mimetype.split("/")[1].toLowerCase());
 
       if (checkEct) {
@@ -28,6 +28,7 @@ module.exports = {
         cb(new Error("file format not match"));
       }
     };
-    return multer({ storage, fileFilter });
+    const limits = { fileSize: 1024 * 1024 };
+    return multer({ storage, fileFilter, limits });
   },
 };

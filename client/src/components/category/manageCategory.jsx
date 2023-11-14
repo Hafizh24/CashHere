@@ -1,31 +1,31 @@
 import { Flex, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import AddCashier from "./subcomponents/addCashier";
-import UpdateCashier from "./subcomponents/updateCashier";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Navbar from "../navbar";
+import AddCategory from "./addCategory";
+import UpdateCategory from "./updateCategory";
 
-export default function ManagerCashier() {
-  const [cashierData, setCashierData] = useState([]);
+const ManageCategory = () => {
+  const [data, setData] = useState([]);
   const token = localStorage.getItem("token");
 
-  const getCashierData = async () => {
+  const fetchAPI = async () => {
     try {
-      const response = await axios.get("http://localhost:2000/users/get-user", {
+      const response = await axios.get("http://localhost:2000/categories", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setCashierData(response.data.dataCashier);
+      console.log(response.data);
+      setData(response.data);
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    getCashierData();
+    fetchAPI();
   }, []);
-
   return (
     <>
       <Navbar></Navbar>
@@ -37,21 +37,21 @@ export default function ManagerCashier() {
         bgColor={"white"}>
         <Tabs variant="soft-rounded" colorScheme="green">
           <TabList justifyContent={"center"}>
-            <Tab textAlign={"center"}>Register a new cashier</Tab>
-            <Tab textAlign={"center"}>Manage cashier</Tab>
+            <Tab textAlign={"center"}>Add a new product category</Tab>
+            <Tab textAlign={"center"}>Manage product category</Tab>
           </TabList>
           <TabPanels h={"80vh"}>
             <TabPanel>
-              <AddCashier getCashierData={getCashierData}></AddCashier>
+              <AddCategory getData={fetchAPI} />
             </TabPanel>
             <TabPanel>
-              <UpdateCashier
-                cashierData={cashierData}
-                getCashierData={getCashierData}></UpdateCashier>
+              <UpdateCategory data={data} getData={fetchAPI} />
             </TabPanel>
           </TabPanels>
         </Tabs>
       </Flex>
     </>
   );
-}
+};
+
+export default ManageCategory;

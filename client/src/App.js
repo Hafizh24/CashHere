@@ -1,10 +1,9 @@
 import { useDispatch } from "react-redux";
 import AdminSettings from "./components/manageAdmin/adminSettings";
-import ResetPasswordPage from "./components/manageAdmin/resetPassword";
+import ResetPasswordPage from "./components/resetPassword";
 import ManagerCashier from "./components/manageCashier/manageCashier";
 import Required from "./components/required";
 import Home from "./pages/home";
-import LoginAdmin from "./pages/loginAdmin";
 import WelcomePage from "./pages/welcomePage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useEffect } from "react";
@@ -14,6 +13,7 @@ import AddProduct from "./components/manageProduct/addProduct";
 import LoginCashier from "./components/cashier/loginCashier";
 import Profile from "./pages/Profile";
 import ManageCategory from "./components/category/manageCategory";
+import LoginAdmin from "./components/manageAdmin/loginAdmin";
 
 const router = createBrowserRouter([
   { path: "/", element: <WelcomePage></WelcomePage> },

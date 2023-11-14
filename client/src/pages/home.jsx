@@ -4,6 +4,7 @@ import Card from "../components/card";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+import SimpleSidebar, {} from '../components/sidebar'
 
 function Home() {
     

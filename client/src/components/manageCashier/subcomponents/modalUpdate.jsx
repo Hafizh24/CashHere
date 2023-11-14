@@ -1,4 +1,20 @@
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Button, useToast} from '@chakra-ui/react'
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  FormControl,
+  FormLabel,
+  Input,
+  Stack,
+  Button,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import { useFormik } from "formik";
 import axios from "axios";
 
@@ -29,6 +45,7 @@ function ModalUpdate({ isOpen, onClose, clickedData, getCashierData }) {
             console.log(err.response.data.message);
         }
     }
+  };
 
   const formik = useFormik({
     initialValues: {

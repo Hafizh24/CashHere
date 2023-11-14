@@ -16,7 +16,7 @@ const { userRouter, productRouter, categoryRouter, transactionRouter } = require
 app.use("/users", userRouter);
 app.use("/categories", categoryRouter);
 app.use("/transactions", transactionRouter);
-app.use('/products', productRouter)
+app.use("/products", productRouter);
 
 app.listen(PORT, () => {
   // db.sequelize.sync({ alter: true });

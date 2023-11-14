@@ -51,102 +51,70 @@ function UpdateCashier({ cashierData, getCashierData }) {
     onDeleteModalOpen();
   };
 
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`http://localhost:2000/users/delete-cashier/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      // Update the state by filtering out the deleted item
-      getCashierData();
-      toast({
-        title: "Success",
-        description: "Selected cashier has been deleted",
-        status: "success",
-        duration: 3000,
-        position: "top",
-      });
-    } catch (err) {
-      console.log(err);
-      toast({
-        title: "Error",
-        description: "Selected cashier can't be deleted",
-        status: "error",
-        duration: 3000,
-        position: "top",
-      });
+    const handleDelete = async (id) => {
+        try{
+            await axios.delete(`http://localhost:2000/users/delete-cashier/${id}`, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                }
+            });
+            // Update the state by filtering out the deleted item
+            getCashierData();
+            toast({
+                title: "Success", description: "Selected cashier has been deleted", status: "success", duration: 3000, position: "top",
+            });
+        }catch(err){
+            console.log(err);
+            toast({
+                title: "Error", description: "Selected cashier can't be deleted", status: "error", duration: 3000, position: "top",
+            });
+        }
     }
-  };
 
-  return (
-    <Stack spacing={8} mx={"auto"} minW={"32vw"} py={12} px={6}>
-      <Stack align={"center"}>
-        <Heading fontSize={"4xl"}>Manage cashier</Heading>
-      </Stack>
-      <Box rounded={"lg"} bg={useColorModeValue("white", "gray.700")} boxShadow={"lg"} p={8}>
-        <TableContainer>
-          <Table variant="simple" size={["xs", "md"]}>
-            <TableCaption>All cashiers</TableCaption>
-            <Thead>
-              <Tr>
-                <Th fontSize={["xs"]}>Username</Th>
-                <Th fontSize={["xs"]}>Email</Th>
-                <Th fontSize={["xs"]}>Status</Th>
-                <Th fontSize={["xs"]}>Edit</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {cashierData.length > 0 ? (
-                <>
-                  {cashierData.map((item, index) => (
-                    <Tr key={index}>
-                      <Td>{item.username}</Td>
-                      <Td>{item.email}</Td>
-                      <Td>
-                        {item.isVerified === false ? (
-                          <span style={{ color: "red", fontWeight: "bold" }}>Disabled</span>
-                        ) : (
-                          <span style={{ color: "green", fontWeight: "bold" }}>Enabled</span>
-                        )}
-                      </Td>
-                      <Td>
-                        <Button
-                          bgColor={"#3C6255"}
-                          color={"white"}
-                          onClick={() => {
-                            handleEdit(item);
-                          }}
-                          ml={"8px"}
-                          _hover={{ bg: "#61876E" }}
-                          size={["sm", "md"]}>
-                          <EditIcon />
-                        </Button>
-                        <Button
-                          colorScheme="red"
-                          color={"white"}
-                          ml={"8px"}
-                          onClick={() => {
-                            handleModalDelete(item);
-                          }}
-                          size={["sm", "md"]}>
-                          <DeleteIcon />
-                        </Button>
-                      </Td>
+    return(
+        <Stack spacing={8} mx={'auto'} minW={'32vw'} py={12} px={6}>
+          <Stack align={'center'}>
+            <Heading fontSize={'4xl'}>Manage cashier</Heading>
+          </Stack>
+          <Box
+            rounded={'lg'}
+            bg={useColorModeValue('white', 'gray.700')}
+            boxShadow={'lg'}
+            p={8}>
+            <TableContainer>
+                <Table variant='simple' size={['xs', 'md']}>
+                    <TableCaption>All cashiers</TableCaption>
+                    <Thead>
+                    <Tr>
+                        <Th fontSize={['xs']}>Username</Th>
+                        <Th fontSize={['xs']}>Email</Th>
+                        <Th fontSize={['xs']}>Status</Th>
+                        <Th fontSize={['xs']}>Edit</Th>
                     </Tr>
-                  ))}
-                </>
-              ) : (
-                <Tr>
-                  <Td colSpan={3} textAlign={"center"}>
-                    Cashier data is empty
-                  </Td>
-                </Tr>
-              )}
-            </Tbody>
-          </Table>
-        </TableContainer>
-      </Box>
+                    </Thead>
+                    <Tbody>
+                    {cashierData.length>0? 
+                    <>
+                        {cashierData.map((item, index) => (
+                            <Tr key={index}>
+                                <Td>{item.username}</Td>
+                                <Td>{item.email}</Td>
+                                <Td>{item.isVerified === false ? <span style={{ color: 'red', fontWeight: 'bold'}}>Disabled</span>:<span style={{ color: 'green', fontWeight: 'bold'}}>Enabled</span>}</Td>
+                                <Td>
+                                    <Button bgColor={'#3C6255'} color={'white'} onClick={() => {handleEdit(item)}} ml={'8px'} _hover={{bg: '#61876E'}} size={['sm', 'md']}><EditIcon/></Button>
+                                    <Button colorScheme='red' color={'white'}  ml={'8px'} onClick={() => {handleModalDelete(item)}} size={['sm', 'md']}><DeleteIcon/></Button>
+                                </Td>
+                            </Tr>
+                        ))}
+                    </> 
+                    : 
+                    <Tr>
+                        <Td colSpan={3} textAlign={'center'}>Cashier data is empty</Td>
+                    </Tr>}
+                    </Tbody>
+                </Table>
+            </TableContainer>
+          </Box>
 
       <ModalUpdate
         isOpen={isOpen}

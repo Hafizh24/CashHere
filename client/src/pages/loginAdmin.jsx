@@ -17,21 +17,18 @@ function LoginAdmin() {
       .required("Password can't be empty"),
   });
 
-  const handleSubmitLogin = async (data) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:2000/users/user-login?username=${data.username}&password=${data.password}`,
-        data
-      );
-      if (response.data.token) {
-        dispatch(setData(response.data.userLogin));
-        localStorage.setItem("token", response.data.token);
-        navigate("/home");
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
+      const handleSubmitLogin = async (data) => {
+        try {
+            const response = await axios.get(`http://localhost:2000/users/user-login?username=${data.username}&password=${data.password}`, data);
+            if (response.data.token) {
+              dispatch(setData(response.data.userLogin));
+              localStorage.setItem("token", response.data.token);
+              navigate('/home');            
+            }
+        }catch(err) {
+          console.log(err);
+        }
+      };
 
   const formik = useFormik({
     initialValues: {

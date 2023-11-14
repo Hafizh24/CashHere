@@ -14,36 +14,28 @@ import { useFormik } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
 
-function AddCashier({ getCashierData }) {
-  const toast = useToast();
-  const token = localStorage.getItem("token");
-
-  const handleSubmit = async (data) => {
-    try {
-      await axios.post("http://localhost:2000/users/add-user", data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }); //sending data to database
-      getCashierData();
-      toast({
-        title: "Success",
-        description: `Cashier with username : ${data.username} has been created`,
-        status: "success",
-        duration: 3000,
-        position: "top",
-      });
-    } catch (err) {
-      console.log(err.response.data.message);
-      toast({
-        title: "Error",
-        description: `${data.username} already exist`,
-        status: "error",
-        duration: 3000,
-        position: "top",
-      });
+function AddCashier({getCashierData}){
+    const toast = useToast();
+    const token = localStorage.getItem('token')
+    
+    const handleSubmit = async (data) => {
+        try{
+            await axios.post("http://localhost:2000/users/add-user", data, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                }
+            }); //sending data to database
+            getCashierData();
+            toast({
+                title: "Success", description: `Cashier with username : ${data.username} has been created`, status: "success", duration: 3000, position: "top",
+            });
+        }catch(err){
+            console.log(err.response.data.message);
+            toast({
+                title: "Error", description: `${data.username} already exist`, status: "error", duration: 3000, position: "top",
+            });
+        }
     }
-  };
 
   const RegisterEventSchema = Yup.object().shape({
     username: Yup.string().required("Username can't be empty"),

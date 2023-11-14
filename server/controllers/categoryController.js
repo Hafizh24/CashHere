@@ -2,13 +2,32 @@ const db = require("../models");
 const Category = db.Category;
 
 module.exports = {
-  addCategory: async (req, res) => {
+  getAllCategory: async (req, res) => {
     try {
+      const result = await Category.findAll();
+      res.status(200).send(result);
+    } catch (error) {
+      console.log(error);
+      res.status(400).send({ error: error.message });
+    }
+  },
+  addCategory: async (req, res) => {
+    const { name } = req.body;
+    try {
+      const exist = await Category.findOne({
+        where: {
+          name,
+        },
+      });
+      if (exist) {
+        return res.status(422).send("category already exist");
+      }
+
       const result = await Category.create({
-        name: req.body.name,
+        name,
       });
 
-      res.status(200).send(result);
+      res.status(201).send({ message: "category added successfully", data: result });
     } catch (error) {
       console.log(error);
       res.status(400).send({ error: error.message });
@@ -21,7 +40,7 @@ module.exports = {
           id: req.params.id,
         },
       });
-      res.status(200).send("success deleted category");
+      res.status(200).send("category deleted successfully");
     } catch (error) {
       console.log(error);
       res.status(400).send({ error: error.message });
@@ -37,7 +56,9 @@ module.exports = {
           where: req.params.id,
         }
       );
-      res.status(200).send({ message: "success updated category", data: result });
+      res
+        .status(200)
+        .send({ message: "success  category updated successfully", data: result });
     } catch (error) {
       console.log(error);
       res.status(400).send({ error: error.message });

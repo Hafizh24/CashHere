@@ -3,11 +3,12 @@ import AddCashier from "./subcomponents/addCashier";
 import UpdateCashier from "./subcomponents/updateCashier";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Navbar from "../navbar";
+import SidebarWithHeader from "../sidebar";
+
 
 export default function ManagerCashier() {
-    const [cashierData, setCashierData] = useState([]);
-    const token = localStorage.getItem('token')
+  const [cashierData, setCashierData] = useState([]);
+  const token = localStorage.getItem("token");
 
     const getCashierData = async () => {
       try{
@@ -24,13 +25,13 @@ export default function ManagerCashier() {
 
   useEffect(() => {
     getCashierData();
-    }, [])
-  
+  }, []);
+
   return (
     <>
-    <Navbar></Navbar>
+    <SidebarWithHeader></SidebarWithHeader>
     <Flex
-    minH={'100vh'}
+    minH={'90vh'}
     minW={'100vw'}
     align={'center'}
     justify={'center'}
@@ -51,5 +52,5 @@ export default function ManagerCashier() {
       </Tabs>
     </Flex>
     </>
-  )
+  );
 }

@@ -114,7 +114,7 @@ module.exports = {
           image: req.file?.path,
         },
         {
-          where: { id: 1 },
+          where: { id: req.user.id },
         }
       );
       res.status(200).send("success upload");

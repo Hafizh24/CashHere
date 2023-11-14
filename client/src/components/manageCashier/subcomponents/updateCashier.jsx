@@ -1,26 +1,55 @@
-import {Box, Stack, Button, Heading, useColorModeValue, useDisclosure, TableContainer, Table, TableCaption, Thead, Tr, Th, Tbody, Td, useToast, Text} from '@chakra-ui/react'
-import {Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton} from '@chakra-ui/react'
-import { DeleteIcon, EditIcon, WarningIcon } from '@chakra-ui/icons'
+import {
+  Box,
+  Stack,
+  Button,
+  Heading,
+  useColorModeValue,
+  useDisclosure,
+  TableContainer,
+  Table,
+  TableCaption,
+  Thead,
+  Tr,
+  Th,
+  Tbody,
+  Td,
+  useToast,
+  Text,
+} from "@chakra-ui/react";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from "@chakra-ui/react";
+import { DeleteIcon, EditIcon, WarningIcon } from "@chakra-ui/icons";
 import axios from "axios";
-import { useState } from 'react';
-import ModalUpdate from './modalUpdate';
+import { useState } from "react";
+import ModalUpdate from "./modalUpdate";
 
-function UpdateCashier({cashierData, getCashierData}){
-    const [clickedData, setClickedData] = useState([]);
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    const {isOpen: isDeleteModalOpen, onOpen: onDeleteModalOpen, onClose: onDeleteModalClose } = useDisclosure();
-    const toast = useToast();
-    const token = localStorage.getItem('token')
+function UpdateCashier({ cashierData, getCashierData }) {
+  const [clickedData, setClickedData] = useState([]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isDeleteModalOpen,
+    onOpen: onDeleteModalOpen,
+    onClose: onDeleteModalClose,
+  } = useDisclosure();
+  const toast = useToast();
+  const token = localStorage.getItem("token");
 
-    const handleEdit = (item) => {
-        setClickedData(item);
-        onOpen()
-    }
+  const handleEdit = (item) => {
+    setClickedData(item);
+    onOpen();
+  };
 
-    const handleModalDelete = (item) => {
-        setClickedData(item);
-        onDeleteModalOpen();
-    }
+  const handleModalDelete = (item) => {
+    setClickedData(item);
+    onDeleteModalOpen();
+  };
 
     const handleDelete = async (id) => {
         try{
@@ -87,28 +116,44 @@ function UpdateCashier({cashierData, getCashierData}){
             </TableContainer>
           </Box>
 
-          <ModalUpdate
-          isOpen={isOpen}
-          onClose={onClose}
-          clickedData={clickedData}
-          getCashierData={getCashierData}/>
+      <ModalUpdate
+        isOpen={isOpen}
+        onClose={onClose}
+        clickedData={clickedData}
+        getCashierData={getCashierData}
+      />
 
-            <Modal isOpen={isDeleteModalOpen} onClose={onDeleteModalClose} isCentered>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>Are you sure? <WarningIcon color={'red'}/></ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                        <Text>All data related to <span style={{ color: 'red' }}>{clickedData.username}</span> will be deleted.</Text>
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button colorScheme='blue' mr={3} onClick={onDeleteModalClose}>Cancel</Button>
-                        <Button variant='ghost' colorScheme='red' onClick={() => {handleDelete(clickedData?.id); onDeleteModalClose()}}>Delete</Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
-        </Stack>
-    )
+      <Modal isOpen={isDeleteModalOpen} onClose={onDeleteModalClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            Are you sure? <WarningIcon color={"red"} />
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text>
+              All data related to <span style={{ color: "red" }}>{clickedData.username}</span>{" "}
+              will be deleted.
+            </Text>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onDeleteModalClose}>
+              Cancel
+            </Button>
+            <Button
+              variant="ghost"
+              colorScheme="red"
+              onClick={() => {
+                handleDelete(clickedData?.id);
+                onDeleteModalClose();
+              }}>
+              Delete
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </Stack>
+  );
 }
 
 export default UpdateCashier;

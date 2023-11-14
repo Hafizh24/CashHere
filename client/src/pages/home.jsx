@@ -1,23 +1,43 @@
-import { Button, Flex, Text } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Flex, SimpleGrid } from "@chakra-ui/react";
+import SidebarWithHeader from "../components/sidebar";
+import Card from "../components/card";
+import axios from "axios";
+import { useEffect, useState } from "react";
+
 import SimpleSidebar, {} from '../components/sidebar'
 
 function Home() {
-    const user = useSelector((state) => state.user.value);
+    
+    const token = localStorage.getItem('token')
+    const [productData, setProductData] = useState([]);    
 
-    const handleLogout = () => {
-        localStorage.removeItem("token");
+    const getProducts = async () => {
+        try{
+            const response = await axios.get("http://localhost:2000/products/get-product", {
+                headers: {
+                Authorization: `Bearer ${token}`,
+                }
+            });
+          setProductData(response.data.dataProduct)
+        }catch(err){
+            console.log(err);
+        }
     }
+
+    useEffect(() =>{
+        getProducts();
+    }, [])
+
     return(
         <>
-        <Flex alignItems={'center'} justifyContent={'center'} minH={'100vh'} direction={'column'}>
-            <Text>Hello {user.username}</Text>
-            <Link to={'/admin-dashboard'}>
-                <Button bgColor={'#3C6255'} _hover={{backgroundColor:'#61876E'}} color={'white'}>Admin Dashboard</Button>
-            </Link>
-            <Button onClick={() => {handleLogout()}}>Logout</Button>
-        </Flex>
+            <SidebarWithHeader></SidebarWithHeader>
+            <Flex mt={7} minH={'80vh'} pl={[null, '15rem']} align={'center'} justifyContent={'center'} direction={'column'} gap={5}>
+                <SimpleGrid columns={[1, null, 4]} spacing={8}>
+                        {productData.map((item, index) =>(
+                        <Card productData={item}/>
+                        ))}
+                </SimpleGrid>
+            </Flex>
         </>
     )
 }

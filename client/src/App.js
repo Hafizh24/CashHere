@@ -11,15 +11,23 @@ import { useEffect } from "react";
 import axios from "axios";
 import { setData } from "./redux/userSlice";
 import AddProduct from "./components/manageProduct/addProduct";
+import LoginCashier from "./components/cashier/loginCashier";
+import Profile from "./pages/Profile";
+import ManageCategory from "./components/category/manageCategory";
 
 const router = createBrowserRouter([
-  { path: "/", element: <WelcomePage></WelcomePage>},
-  { path: "/home", element: <Home></Home>},
-  { path: "/manage-cashier", element: <ManagerCashier></ManagerCashier>},
-  { path: "/add-product", element: <AddProduct></AddProduct>},
-  { path: "/reset-password/:email", element: <ResetPasswordPage></ResetPasswordPage>},
-  { path: "/admin-settings", element: <AdminSettings></AdminSettings>},
-  { path: "/login-admin", element: <LoginAdmin></LoginAdmin>},
+  { path: "/", element: <WelcomePage></WelcomePage> },
+  { path: "/home", element: <Home></Home> },
+  { path: "/admin-dashboard", element: <AdminDashboard></AdminDashboard> },
+  { path: "/manage-cashier", element: <ManagerCashier></ManagerCashier> },
+  { path: "/manage-product", element: <ManageProduct></ManageProduct> },
+  { path: "/reset-password/:email", element: <ResetPasswordPage></ResetPasswordPage> },
+  { path: "/admin-settings", element: <AdminSettings></AdminSettings> },
+  { path: "/login-admin", element: <LoginAdmin></LoginAdmin> },
+  { path: "/login-cashier", element: <LoginCashier></LoginCashier> },
+  { path: "/profile", element: <Profile /> },
+  { path: "/manage-category", element: <ManageCategory /> },
+  // { path: "/reset-password", element: <></>}
   {
     element: <Required></Required>,
     children: [
@@ -45,9 +53,9 @@ function App() {
     }
   };
 
-  useEffect(() =>{
+  useEffect(() => {
     keepLogin();
-  }, [])
+  }, []);
   return (
     <>
       <RouterProvider router={router}></RouterProvider>

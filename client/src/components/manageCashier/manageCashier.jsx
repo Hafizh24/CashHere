@@ -7,8 +7,8 @@ import SidebarWithHeader from "../sidebar";
 
 
 export default function ManagerCashier() {
-    const [cashierData, setCashierData] = useState([]);
-    const token = localStorage.getItem('token')
+  const [cashierData, setCashierData] = useState([]);
+  const token = localStorage.getItem("token");
 
     const getCashierData = async () => {
       try{
@@ -22,11 +22,12 @@ export default function ManagerCashier() {
           console.log(err);
       }
     }
+  };
 
   useEffect(() => {
     getCashierData();
-    }, [])
-  
+  }, []);
+
   return (
     <>
     <SidebarWithHeader></SidebarWithHeader>
@@ -52,5 +53,5 @@ export default function ManagerCashier() {
       </Tabs>
     </Flex>
     </>
-  )
+  );
 }

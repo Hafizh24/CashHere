@@ -4,17 +4,34 @@ module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
     static associate(models) {
       Product.belongsToMany(models.Transaction, { through: models.TransactionProducts });
+      Product.belongsToMany(models.Category, { through: "ProductCategories" });
     }
   }
   Product.init(
     {
-      name: DataTypes.STRING,
-      category: DataTypes.STRING,
-      price: DataTypes.INTEGER,
-      quantity: DataTypes.INTEGER,
-      image: DataTypes.STRING,
-      description: DataTypes.STRING,
-      isActive: DataTypes.BOOLEAN,
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      price: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      total_stock: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      image: {
+        type: DataTypes.STRING,
+      },
+      description: {
+        type: DataTypes.TEXT,
+      },
+      isActive: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+        allowNull: false,
+      },
     },
     {
       sequelize,

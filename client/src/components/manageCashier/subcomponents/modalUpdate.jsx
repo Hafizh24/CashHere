@@ -2,9 +2,9 @@ import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody,
 import { useFormik } from "formik";
 import axios from "axios";
 
-function ModalUpdate({isOpen, onClose, clickedData, getCashierData}) {
-    const toast = useToast();
-    const token = localStorage.getItem('token')
+function ModalUpdate({ isOpen, onClose, clickedData, getCashierData }) {
+  const toast = useToast();
+  const token = localStorage.getItem("token");
 
       const handleSubmit = async (data) => {
         try{
@@ -29,45 +29,61 @@ function ModalUpdate({isOpen, onClose, clickedData, getCashierData}) {
             console.log(err.response.data.message);
         }
     }
+  };
 
-    const formik = useFormik({
-        initialValues:{
-          isVerified: false,
-        },
-        onSubmit:(values, action) => {
-            handleSubmit(values)
-            action.resetForm();
-        }
-      })
-  
-    return (
-      <>
-        <Modal
-          isOpen={isOpen}
-          onClose={onClose}
-          isCentered
-        >
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>{clickedData.isVerified === false ? <>Enable</> : <>Disable</>} <span style={{ color: 'blue' }}>{clickedData.username}</span>?</ModalHeader>
-            <ModalCloseButton />
-            <form onSubmit={formik.handleSubmit}>
+  const formik = useFormik({
+    initialValues: {
+      isVerified: false,
+    },
+    onSubmit: (values, action) => {
+      handleSubmit(values);
+      action.resetForm();
+    },
+  });
+
+  return (
+    <>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            {clickedData.isVerified === false ? <>Enable</> : <>Disable</>}{" "}
+            <span style={{ color: "blue" }}>{clickedData.username}</span>?
+          </ModalHeader>
+          <ModalCloseButton />
+          <form onSubmit={formik.handleSubmit}>
             <ModalBody pb={8}>
-                <FormControl>
-                    <FormLabel>{clickedData.username} will be {clickedData.isVerified === false ? <>enabled, and he/she can log in to the website.</> : <>disabled and, he/she can't log in to the website.</>} </FormLabel>
-                </FormControl>
+              <FormControl>
+                <FormLabel>
+                  {clickedData.username} will be{" "}
+                  {clickedData.isVerified === false ? (
+                    <>enabled, and he/she can log in to the website.</>
+                  ) : (
+                    <>disabled and, he/she can't log in to the website.</>
+                  )}{" "}
+                </FormLabel>
+              </FormControl>
             </ModalBody>
             <ModalFooter>
-              <Button type='submit' bg={'#3C6255'} color={'white'}  colorScheme='blue' mr={3} _hover={{bg: '#61876E',}}rounded={'full'}>
-              {clickedData.isVerified === false ? <>Enable</> : <>Disable</>}
+              <Button
+                type="submit"
+                bg={"#3C6255"}
+                color={"white"}
+                colorScheme="blue"
+                mr={3}
+                _hover={{ bg: "#61876E" }}
+                rounded={"full"}>
+                {clickedData.isVerified === false ? <>Enable</> : <>Disable</>}
               </Button>
-              <Button onClick={onClose} rounded={'full'}>Cancel</Button>
+              <Button onClick={onClose} rounded={"full"}>
+                Cancel
+              </Button>
             </ModalFooter>
-            </form>
-          </ModalContent>
-        </Modal>
-      </>
-    )
-  }
+          </form>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}
 
-  export default ModalUpdate;
+export default ModalUpdate;

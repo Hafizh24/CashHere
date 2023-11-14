@@ -5,7 +5,7 @@ const productController = require("./productController");
 
 module.exports = {
   userController,
-  productController
+  productController,
   categoryController,
   transactionController,
 };

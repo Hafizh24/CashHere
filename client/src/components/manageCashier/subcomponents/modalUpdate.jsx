@@ -29,7 +29,6 @@ function ModalUpdate({ isOpen, onClose, clickedData, getCashierData }) {
             console.log(err.response.data.message);
         }
     }
-  };
 
   const formik = useFormik({
     initialValues: {

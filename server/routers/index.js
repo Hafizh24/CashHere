@@ -5,7 +5,7 @@ const transactionRouter = require("./transactionRouter");
 
 module.exports = {
   userRouter,
-  productRouter
+  productRouter,
   categoryRouter,
   transactionRouter,
 };

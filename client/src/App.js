@@ -13,7 +13,6 @@ import AddProduct from "./components/manageProduct/addProduct";
 import LoginCashier from "./components/cashier/loginCashier";
 import Profile from "./pages/Profile";
 import ManageCategory from "./components/category/manageCategory";
-import LoginCashier from "./components/cashier/loginCashier";
 import LoginAdmin from "./components/manageAdmin/loginAdmin";
 
 const router = createBrowserRouter([
@@ -28,8 +27,6 @@ const router = createBrowserRouter([
   { path: "/login-cashier", element: <LoginCashier></LoginCashier> },
   { path: "/profile", element: <Profile /> },
   { path: "/manage-category", element: <ManageCategory /> },
-  // { path: "/reset-password", element: <></>}
-  { path: "/login-cashier", element: <LoginCashier></LoginCashier> },
   // { path: "/reset-password", element: <></>}
   {
     element: <Required></Required>,

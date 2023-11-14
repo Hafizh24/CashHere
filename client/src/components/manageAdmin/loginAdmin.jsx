@@ -4,7 +4,7 @@ import * as Yup from "yup"
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setData } from "../redux/userSlice";
+import { setData } from "../../redux/userSlice";
 
 function LoginAdmin(){
     const navigate = useNavigate();
@@ -17,7 +17,8 @@ function LoginAdmin(){
 
       const handleSubmitLogin = async (data) => {
         try {
-            const response = await axios.get(`http://localhost:2000/user/user-login?username=${data.username}&password=${data.password}`, data);
+            const response = await axios.get(`http://localhost:2000/users/user-login?username=${data.username}&password=${data.password}`, data);
+           console.log(response);
             if (response.data.token) {
               dispatch(setData(response.data.userLogin));
               localStorage.setItem("token", response.data.token);

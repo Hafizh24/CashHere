@@ -16,7 +16,7 @@ function ModalUpdate({isOpen, onClose, clickedData, getCashierData}) {
               data.isVerified = false;
             }
             
-            await axios.patch("http://localhost:2000/user/update-user", data, {
+            await axios.patch("http://localhost:2000/users/update-user", data, {
               headers: {
                 Authorization: `Bearer ${token}`,
               }

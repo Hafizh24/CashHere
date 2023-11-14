@@ -11,7 +11,7 @@ export default function ManagerCashier() {
 
     const getCashierData = async () => {
       try{
-          const response = await axios.get("http://localhost:2000/user/get-user", {
+          const response = await axios.get("http://localhost:2000/users/get-user", {
             headers: {
               Authorization: `Bearer ${token}`,
             }

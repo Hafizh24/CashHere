@@ -20,7 +20,7 @@ function AddCashier({getCashierData}){
 
     const handleSubmit = async (data) => {
         try{
-            await axios.post("http://localhost:2000/user/add-user", data, {
+            await axios.post("http://localhost:2000/users/add-user", data, {
                 headers: {
                   Authorization: `Bearer ${token}`,
                 }

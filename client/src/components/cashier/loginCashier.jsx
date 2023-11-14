@@ -33,14 +33,11 @@ export default function LoginCashier() {
   const handleSubmit = async (data) => {
     console.log(data);
     try {
-      const response = await axios.get(
-        `http://localhost:2000/user/user-login?username=${data.username}&password=${data.password}`,
-        data
-      );
+      const response = await axios.get(`http://localhost:2000/users/user-login?username=${data.username}&password=${data.password}`, data);
       if (response.data.token) {
         dispatch(setData(response.data.userLogin));
         localStorage.setItem("token", response.data.token);
-        navigate("/home");
+        navigate('/home');  
       }
       window.location.reload();
     } catch (err) {
@@ -90,8 +87,8 @@ export default function LoginCashier() {
                   name="username"
                   value={formik.values.username}
                   onChange={formik.handleChange}
-                  _hover={{ border: "1px solid #61876E" }}
-                  border={"1px solid "}
+                  _hover={{ border: "2px solid #61876E" }}
+                  border={"1px solid #61876E"}
                   focusBorderColor="#3C6255"
                   type="text"
                   error={
@@ -107,10 +104,11 @@ export default function LoginCashier() {
               <FormControl id="password">
                 <FormLabel>Password</FormLabel>
                 <Input
+                _hover={{ border: "2px solid #61876E" }}
                   name="password"
                   value={formik.values.password}
                   onChange={formik.handleChange}
-                  border={"1px solid "}
+                  border={"1px solid #61876E "}
                   focusBorderColor="#3C6255"
                   type="password"
                 />

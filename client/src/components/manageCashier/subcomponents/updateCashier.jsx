@@ -24,7 +24,7 @@ function UpdateCashier({cashierData, getCashierData}){
 
     const handleDelete = async (id) => {
         try{
-            await axios.delete(`http://localhost:2000/user/delete-cashier/${id}`, {
+            await axios.delete(`http://localhost:2000/users/delete-cashier/${id}`, {
                 headers: {
                   Authorization: `Bearer ${token}`,
                 }

@@ -1,18 +1,18 @@
 import { useDispatch } from "react-redux";
 import AdminSettings from "./components/manageAdmin/adminSettings";
-import ResetPasswordPage from "./components/manageAdmin/resetPassword";
+import ResetPasswordPage from "./components/resetPassword";
 import ManagerCashier from "./components/manageCashier/manageCashier";
 import ManageProduct from "./components/manageProduct/manageProduct";
 import Required from "./components/required";
 import AdminDashboard from "./pages/adminDashboard";
 import Home from "./pages/home";
-import LoginAdmin from "./pages/loginAdmin";
 import WelcomePage from "./pages/welcomePage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import { setData } from "./redux/userSlice";
 import LoginCashier from "./components/cashier/loginCashier";
+import LoginAdmin from "./components/manageAdmin/loginAdmin";
 
 const router = createBrowserRouter([
   { path: "/", element: <WelcomePage></WelcomePage>},
@@ -39,7 +39,7 @@ function App() {
 
   const keepLogin = async () => {
     try {
-      const response = await axios.get("http://localhost:2000/user/keep-login", {
+      const response = await axios.get("http://localhost:2000/users/keep-login", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -55,7 +55,6 @@ function App() {
   }, [])
   return (
     <>
-      <RouterProvider router={router}></RouterProvider>
       <RouterProvider router={router}></RouterProvider>
     </>
   );

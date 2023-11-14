@@ -13,6 +13,8 @@ import { useEffect } from "react";
 import axios from "axios";
 import { setData } from "./redux/userSlice";
 import LoginCashier from "./components/cashier/loginCashier";
+import Profile from "./pages/Profile";
+import ManageCategory from "./components/category/manageCategory";
 
 const router = createBrowserRouter([
   { path: "/", element: <WelcomePage></WelcomePage> },
@@ -24,6 +26,8 @@ const router = createBrowserRouter([
   { path: "/admin-settings", element: <AdminSettings></AdminSettings> },
   { path: "/login-admin", element: <LoginAdmin></LoginAdmin> },
   { path: "/login-cashier", element: <LoginCashier></LoginCashier> },
+  { path: "/profile", element: <Profile /> },
+  { path: "/manage-category", element: <ManageCategory /> },
   // { path: "/reset-password", element: <></>}
   {
     element: <Required></Required>,
@@ -39,7 +43,7 @@ function App() {
 
   const keepLogin = async () => {
     try {
-      const response = await axios.get("http://localhost:2000/user/keep-login", {
+      const response = await axios.get("http://localhost:2000/users/keep-login", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -1,6 +1,5 @@
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, Stack, Button, Text, useToast} from '@chakra-ui/react'
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Button, useToast} from '@chakra-ui/react'
 import { useFormik } from "formik";
-import * as Yup from "yup"
 import axios from "axios";
 
 function ModalUpdate({isOpen, onClose, clickedData, getCashierData}) {
@@ -16,7 +15,7 @@ function ModalUpdate({isOpen, onClose, clickedData, getCashierData}) {
               data.isVerified = false;
             }
             
-            await axios.patch("http://localhost:2000/user/update-user", data, {
+            await axios.patch("http://localhost:2000/users/update-user", data, {
               headers: {
                 Authorization: `Bearer ${token}`,
               }

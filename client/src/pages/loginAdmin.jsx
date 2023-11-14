@@ -17,7 +17,7 @@ function LoginAdmin(){
 
       const handleSubmitLogin = async (data) => {
         try {
-            const response = await axios.get(`http://localhost:2000/user/user-login?username=${data.username}&password=${data.password}`, data);
+            const response = await axios.get(`http://localhost:2000/users/user-login?username=${data.username}&password=${data.password}`, data);
             if (response.data.token) {
               dispatch(setData(response.data.userLogin));
               localStorage.setItem("token", response.data.token);

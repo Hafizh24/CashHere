@@ -3,7 +3,8 @@ import AddCashier from "./subcomponents/addCashier";
 import UpdateCashier from "./subcomponents/updateCashier";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Navbar from "../navbar";
+import SidebarWithHeader from "../sidebar";
+
 
 export default function ManagerCashier() {
     const [cashierData, setCashierData] = useState([]);
@@ -11,7 +12,7 @@ export default function ManagerCashier() {
 
     const getCashierData = async () => {
       try{
-          const response = await axios.get("http://localhost:2000/user/get-user", {
+          const response = await axios.get("http://localhost:2000/users/get-user", {
             headers: {
               Authorization: `Bearer ${token}`,
             }
@@ -28,9 +29,9 @@ export default function ManagerCashier() {
   
   return (
     <>
-    <Navbar></Navbar>
+    <SidebarWithHeader></SidebarWithHeader>
     <Flex
-    minH={'100vh'}
+    minH={'90vh'}
     minW={'100vw'}
     align={'center'}
     justify={'center'}

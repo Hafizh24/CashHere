@@ -10,7 +10,7 @@ function AdminSettings(){
 
   const resetPassword = async () => {
     try{
-      await axios.get(`http://localhost:2000/user/reset-password?username=${user.username}&email=${user.email}`, {
+      await axios.get(`http://localhost:2000/users/reset-password?username=${user.username}&email=${user.email}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

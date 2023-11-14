@@ -31,7 +31,7 @@ function ResetPasswordPage() {
       try{
           data.email = params.email
           console.log(data);
-          await axios.patch("http://localhost:2000/user/update-user-password", data)
+          await axios.patch("http://localhost:2000/users/update-user-password", data)
           toast({
               title: "Success", description: `Password has been updated`, status: "success", duration: 4000, position: "top"
           });

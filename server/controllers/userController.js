@@ -95,6 +95,39 @@ module.exports = {
       res.status(400).send({ error: error.message });
     }
   },
+  addAdmin: async (req, res) => {
+    try {
+      const { username, email, password } = req.body;
+
+      //check if user already exist
+      const findUser = await User.findOne({
+        where: {
+          [Op.or]: [{ username: username }, { email: email }],
+        },
+      });
+
+      //if user isn't already exist
+      if (findUser == null) {
+        const salt = await bcrypt.genSalt(10);
+        const hashPassword = await bcrypt.hash(password, salt);
+
+        const result = await User.create({
+          username: username,
+          email: email,
+          password: hashPassword,
+          isVerified: true,
+          isAdmin: true,
+        });
+      } else {
+        return res.status(400).send({ message: "User already exist" });
+      }
+
+      res.status(200).send({ message: "Register Success" });
+    } catch (error) {
+      console.log("This is the error", error);
+      res.status(400).send({ error: error.message });
+    }
+  },
   keepLogin: async (req, res) => {
     try {
       const user = await User.findOne({
@@ -173,6 +206,7 @@ module.exports = {
   },
   updateUserPassword: async (req, res) => {
     try {
+      const { password } = req.body;
       const { password } = req.body;
       const salt = await bcrypt.genSalt(10);
       const hashPassword = await bcrypt.hash(password, salt);

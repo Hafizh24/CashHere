@@ -34,10 +34,11 @@ function Home() {
             setIsLoaded(false)
         }
     }
+  };
 
-    useEffect(() =>{
-        getProducts();
-    }, [])
+  useEffect(() => {
+    getProducts();
+  }, []);
 
     return(
         <>

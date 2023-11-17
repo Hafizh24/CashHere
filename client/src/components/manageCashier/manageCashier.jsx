@@ -5,23 +5,22 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import SidebarWithHeader from "../sidebar";
 
-
 export default function ManagerCashier() {
   const [cashierData, setCashierData] = useState([]);
   const token = localStorage.getItem("token");
 
-    const getCashierData = async () => {
-      try{
-          const response = await axios.get("http://localhost:2000/users/get-user", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            }
-        });
-          setCashierData(response.data.dataCashier)
-      }catch(err){
-          console.log(err);
-      }
+  const getCashierData = async () => {
+    try {
+      const response = await axios.get("http://localhost:2000/users/get-user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setCashierData(response.data.dataCashier);
+    } catch (err) {
+      console.log(err);
     }
+  };
 
   useEffect(() => {
     getCashierData();

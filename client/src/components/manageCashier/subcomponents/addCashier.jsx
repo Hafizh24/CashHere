@@ -14,6 +14,7 @@ import { useFormik } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
 import { useState } from "react";
+import { useState } from "react";
 
 function AddCashier({getCashierData}){
     const toast = useToast();

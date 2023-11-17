@@ -128,12 +128,10 @@ const CardProfile = () => {
                     !formik.errors.image && selectedFile.previewURI
                       ? selectedFile.previewURI
                       : `http://localhost:2000/${user.image}`
-                  }
-                  // src={`http://localhost:2000/${user.image}`}
-                >
+                  }>
                   <AvatarBadge boxSize={"0.9em"} bg={"white"} borderRadius={"full"}>
                     <label style={{ cursor: "pointer" }} htmlFor="image">
-                      <EditIcon w={4} h={4} />
+                      <EditIcon color={"black"} w={4} h={4} />
                       <Input
                         id="image"
                         name="image"

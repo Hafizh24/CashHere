@@ -1,34 +1,52 @@
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Button, useToast} from '@chakra-ui/react'
 import { useFormik } from "formik";
 import axios from "axios";
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useToast,
+} from "@chakra-ui/react";
 
 function ModalUpdate({ isOpen, onClose, clickedData, getCashierData }) {
   const toast = useToast();
   const token = localStorage.getItem("token");
 
-      const handleSubmit = async (data) => {
-        try{
-            data.id = clickedData.id
-            if(clickedData.isVerified === false){
-              data.isVerified = true;
-            }else{
-              data.isVerified = false;
-            }
-            
-            await axios.patch("http://localhost:2000/users/update-user", data, {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              }
-            }); //sending data to database
-            getCashierData()
-            toast({
-                title: "Success", description: `${clickedData.username} has been ${data.isVerified === true ? "enabled" : "disabled"}`, status: "success", duration: 4000, position: "top"
-            });
-            onClose();
-        }catch(err){
-            console.log(err.response.data.message);
-        }
+  const handleSubmit = async (data) => {
+    try {
+      data.id = clickedData.id;
+      if (clickedData.isVerified === false) {
+        data.isVerified = true;
+      } else {
+        data.isVerified = false;
+      }
+
+      await axios.patch("http://localhost:2000/users/update-user", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }); //sending data to database
+      getCashierData();
+      toast({
+        title: "Success",
+        description: `${clickedData.username} has been ${
+          data.isVerified === true ? "enabled" : "disabled"
+        }`,
+        status: "success",
+        duration: 4000,
+        position: "top",
+      });
+      onClose();
+    } catch (err) {
+      console.log(err.response.data.message);
     }
+  };
 
   const formik = useFormik({
     initialValues: {

@@ -15,7 +15,7 @@ const ManageCategory = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data);
+      // console.log(response.data);
       setData(response.data);
     } catch (err) {
       console.log(err);

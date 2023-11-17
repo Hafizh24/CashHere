@@ -29,6 +29,9 @@ module.exports = (sequelize, DataTypes) => {
       isVerified: {
         type: DataTypes.BOOLEAN,
       },
+      isEnabled: {
+        type: DataTypes.BOOLEAN,
+      },
     },
     {
       sequelize,

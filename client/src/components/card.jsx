@@ -1,11 +1,23 @@
-import { Box, Heading, Text, Stack, useColorModeValue, Button, HStack, StackDivider, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, useToast, ModalCloseButton, Image, Skeleton } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
+import {
+  Box,
+  Heading,
+  Text,
+  Stack,
+  useColorModeValue,
+  Button,
+  HStack,
+  StackDivider, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, useToast, ModalCloseButton, Image, Skeleton,
+  useToast,
+} from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../redux/cartSlice";
 import ModalUpdateProduct from "./manageProduct/subcomponents/modalUpdateProduct";
 import { DeleteIcon, EditIcon, WarningIcon } from "@chakra-ui/icons";
 import axios from "axios";
 import { useState } from "react";
 
-export default function Card({productData, getProducts}) {
+export default function Card({ productData, getProducts }) {
+  const toast = useToast();
   const user = useSelector((state) => state.user.value);
   const token = localStorage.getItem("token");
   const toast = useToast()
@@ -30,6 +42,7 @@ export default function Card({productData, getProducts}) {
         });
     }
   }
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -42,11 +55,15 @@ export default function Card({productData, getProducts}) {
         rounded={"md"}
         p={6}
         flex="0 0 auto" // Allow flex item to shrink if needed
-        mx={"13px"}
-      >
-        <Box overflow={"hidden"} h={{ base: "130px", md: "130px", lg: "180px" }} bg={"gray.100"} mt={-6} mx={-6} mb={6} pos={"relative"}>          
-          <Image src={`https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=3160&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`} fill alt="Example" />
-        </Box>
+        mx={"13px"}>
+        <Box
+          overflow={"hidden"}
+          h={{ base: "75px", md: "130px", lg: "180px" }}
+          bg={"gray.100"}
+          mt={-6}
+          mx={-6}
+          mb={6}
+          pos={"relative"}></Box>
         <Stack>
           <Heading
             // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -66,8 +83,38 @@ export default function Card({productData, getProducts}) {
           {user.isAdmin === true && <>Stock : {productData?.total_stock}</>}
           </Text>
           <Text color={"black"} fontSize={["xs", "sm"]} letterSpacing={1.1}>
-          {user.isAdmin === true && <>Status : {productData?.isActive === true ? <>Active</> : <>Inactive</>}</>}
+            {user.isAdmin === true && <>Status : {productData?.isActive === true ? <>Active</> : <>Inactive</>}</>}
           </Text>
+          <HStack
+            justifyContent={"space-between"}
+            divider={<StackDivider borderColor="gray.400" />}>
+            {user?.isAdmin === true ? (
+              <>
+                <Button size={["sm", "md"]} colorScheme="messenger">
+                  Edit product
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  onClick={() => {
+                    dispatch(
+                      addToCart({ id: productData.id, quantity: 1, amount: productData.price })
+                    );
+                    toast({
+                      title: "Success",
+                      description: `${productData.name} has been added to cart`,
+                      status: "success",
+                      duration: 1000,
+                      position: "top",
+                    });
+                  }}
+                  size={["sm", "md"]}
+                  colorScheme="messenger">
+                  Add to cart
+                </Button>
+              </>
+            )}
           <HStack justifyContent={'flex-end'} divider={<StackDivider borderColor="gray.400" />}>
             {user?.isAdmin === true ? 
             <>

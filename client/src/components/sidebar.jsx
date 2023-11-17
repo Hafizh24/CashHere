@@ -1,23 +1,39 @@
-"use client"
-import {IconButton, Avatar, Box, CloseButton, Flex, HStack, VStack, Icon, useColorModeValue, Text, Drawer, DrawerContent, useDisclosure,
-  Menu, MenuButton, MenuDivider, MenuItem, MenuList, Button
-} from "@chakra-ui/react"
+"use client";
 import {
-  FiHome, FiStar, FiSettings, FiMenu, FiBell, FiChevronDown
-} from "react-icons/fi"
-import { PiPackageDuotone, PiUserListLight } from "react-icons/pi"
+  IconButton,
+  Avatar,
+  Box,
+  CloseButton,
+  Flex,
+  HStack,
+  VStack,
+  Icon,
+  useColorModeValue,
+  Text,
+  Drawer,
+  DrawerContent,
+  useDisclosure,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuList,
+  Button,
+} from "@chakra-ui/react";
+import { FiHome, FiStar, FiSettings, FiMenu, FiBell, FiChevronDown } from "react-icons/fi";
+import { PiPackageDuotone, PiUserListLight } from "react-icons/pi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const LinkItems = [
   { name: "Home", icon: FiHome, route: "/home", cashier: true },
-  { name: "Cashier", icon: PiUserListLight, route: "/manage-cashier"  },
-  { name: "Product", icon: PiPackageDuotone, route: "/manage-product"  },
+  { name: "Cashier", icon: PiUserListLight, route: "/manage-cashier" },
+  { name: "Product", icon: PiPackageDuotone, route: "/manage-product" },
   { name: "Security", icon: FiStar, cashier: true },
-  { name: "Settings", icon: FiSettings, cashier: true }
-]
+  { name: "Settings", icon: FiSettings, cashier: true },
+];
 
-const SidebarContent = ({user, onClose, ...rest }) => {
+const SidebarContent = ({ user, onClose, ...rest }) => {
   return (
     <Box
       transition="3s ease"
@@ -27,49 +43,45 @@ const SidebarContent = ({user, onClose, ...rest }) => {
       w={{ base: "full", md: 60 }}
       pos="fixed"
       h="full"
-      {...rest}
-    >
+      {...rest}>
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
           Logo
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
-      {LinkItems.map(link => (
+      {LinkItems.map((link) => (
         <>
-        {user?.isAdmin === true ? 
-          <>
-            <Link to={link.route}>
+          {user?.isAdmin === true ? (
+            <>
+              <Link to={link.route}>
                 <NavItem key={link.name} icon={link.icon}>
-                {link.name}
+                  {link.name}
                 </NavItem>
-            </Link>
-          </> 
-        :  
-        <>
-        {link.cashier === true && <>
-            <Link to={link.route}>
-                <NavItem key={link.name} icon={link.icon}>
-                {link.name}
-                </NavItem>
-            </Link>
-            </>}
-        </>}
+              </Link>
+            </>
+          ) : (
+            <>
+              {link.cashier === true && (
+                <>
+                  <Link to={link.route}>
+                    <NavItem key={link.name} icon={link.icon}>
+                      {link.name}
+                    </NavItem>
+                  </Link>
+                </>
+              )}
+            </>
+          )}
         </>
       ))}
-      
     </Box>
-  )
-}
+  );
+};
 
 const NavItem = ({ icon, children, ...rest }) => {
   return (
-    <Box
-      as="a"
-      href="#"
-      style={{ textDecoration: "none" }}
-      _focus={{ boxShadow: "none" }}
-    >
+    <Box as="a" href="#" style={{ textDecoration: "none" }} _focus={{ boxShadow: "none" }}>
       <Flex
         align="center"
         p="4"
@@ -81,8 +93,7 @@ const NavItem = ({ icon, children, ...rest }) => {
           bg: "#3C6255",
           color: "white",
         }}
-        {...rest}
-      >
+        {...rest}>
         {icon && (
           <Icon
             mr="4"
@@ -96,8 +107,8 @@ const NavItem = ({ icon, children, ...rest }) => {
         {children}
       </Flex>
     </Box>
-  )
-}
+  );
+};
 
 const MobileNav = ({ onOpen, user, handleLogout, ...rest }) => {
   return (
@@ -110,8 +121,7 @@ const MobileNav = ({ onOpen, user, handleLogout, ...rest }) => {
       borderBottomWidth="1px"
       borderBottomColor={useColorModeValue("gray.200", "gray.700")}
       justifyContent={{ base: "space-between", md: "flex-end" }}
-      {...rest}
-    >
+      {...rest}>
       <IconButton
         display={{ base: "flex", md: "none" }}
         onClick={onOpen}
@@ -124,42 +134,31 @@ const MobileNav = ({ onOpen, user, handleLogout, ...rest }) => {
         display={{ base: "flex", md: "none" }}
         fontSize="2xl"
         fontFamily="monospace"
-        fontWeight="bold"
-      >
+        fontWeight="bold">
         Logo
       </Text>
-      
+
       <HStack spacing={{ base: "0", md: "6" }}>
-        <IconButton
-          size="lg"
-          variant="ghost"
-          aria-label="open menu"
-          icon={<FiBell />}
-        />
+        <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell />} />
         <Flex alignItems={"center"}>
           <Menu>
-            <MenuButton
-              py={2}
-              transition="all 0.3s"
-              _focus={{ boxShadow: "none" }}
-            >
+            <MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: "none" }}>
               <HStack>
                 <Avatar
                   size={"sm"}
                   name={user.username}
-                  bgColor={'white'}
-                  color={'black'}
-                  border={'1px'}
+                  bgColor={"white"}
+                  color={"black"}
+                  border={"1px"}
                 />
                 <VStack
                   display={{ base: "none", md: "flex" }}
                   alignItems="flex-start"
                   spacing="1px"
-                  ml="2"
-                >
+                  ml="2">
                   <Text fontSize="sm">Ini Nama</Text>
                   <Text fontSize="xs" color="gray.600">
-                  {user.username}
+                    {user.username}
                   </Text>
                 </VStack>
                 <Box display={{ base: "none", md: "flex" }}>
@@ -169,8 +168,7 @@ const MobileNav = ({ onOpen, user, handleLogout, ...rest }) => {
             </MenuButton>
             <MenuList
               bg={useColorModeValue("white", "gray.900")}
-              borderColor={useColorModeValue("gray.200", "gray.700")}
-            >
+              borderColor={useColorModeValue("gray.200", "gray.700")}>
               <MenuItem>Profile</MenuItem>
               <MenuItem>Settings</MenuItem>
               <MenuItem>Billing</MenuItem>
@@ -181,17 +179,17 @@ const MobileNav = ({ onOpen, user, handleLogout, ...rest }) => {
         </Flex>
       </HStack>
     </Flex>
-  )
-}
+  );
+};
 
 const SidebarWithHeader = () => {
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const user = useSelector((state) => state.user.value);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const user = useSelector((state) => state.user.value);
 
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        window.location.reload();
-    }
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.reload();
+  };
 
   return (
     <Box bg={useColorModeValue("gray.100", "gray.900")}>
@@ -206,8 +204,7 @@ const SidebarWithHeader = () => {
         onClose={onClose}
         returnFocusOnClose={false}
         onOverlayClick={onClose}
-        size="full"
-      >
+        size="full">
         <DrawerContent>
           <SidebarContent onClose={onClose} />
         </DrawerContent>
@@ -215,7 +212,7 @@ const SidebarWithHeader = () => {
       {/* mobilenav */}
       <MobileNav user={user} onOpen={onOpen} handleLogout={handleLogout} />
     </Box>
-  )
-}
+  );
+};
 
-export default SidebarWithHeader
+export default SidebarWithHeader;

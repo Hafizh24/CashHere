@@ -18,7 +18,6 @@ import {
   ModalCloseButton,
   Image,
   Skeleton,
-  useToast
 } from '@chakra-ui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from '../redux/cartSlice'
@@ -29,14 +28,13 @@ import { useState } from 'react'
 import { addToCart } from '../redux/cartSlice'
 
 export default function Card({ productData, getProducts }) {
-  const toast = useToast()
-  const user = useSelector((state) => state.user.value)
-  const token = localStorage.getItem('token')
-  const toast = useToast()
-  const { isOpen: isOpenUpdate, onOpen: onOpenUpdate, onClose: onCloseUpdate } = useDisclosure()
-  const { isOpen: isOpenWarning, onOpen: onOpenWarning, onClose: onCloseWarning } = useDisclosure()
-  const dispatch = useDispatch()
-
+  const toast = useToast();
+  const user = useSelector((state) => state.user.value);
+  const token = localStorage.getItem("token");
+  
+  const { isOpen: isOpenUpdate, onOpen: onOpenUpdate, onClose: onCloseUpdate } = useDisclosure();
+  const { isOpen: isOpenWarning, onOpen: onOpenWarning, onClose: onCloseWarning } = useDisclosure();
+  
   const handleDelete = async () => {
     try {
       await axios.patch(
@@ -67,7 +65,7 @@ export default function Card({ productData, getProducts }) {
       })
     }
   }
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -84,9 +82,10 @@ export default function Card({ productData, getProducts }) {
         mx={'13px'}
         transition="transform 0.2s ease-in-out" // Smooth transition over 0.3 seconds
         _hover={{
-          transform: 'scale(1.05)' // Scale up to 105% when hovered
-        }}>
-        <Box overflow={'hidden'} h={{ base: '140px', md: '140px', lg: '200px' }} bg={'gray.100'} mt={-6} mx={-6} mb={6} pos={'relative'}>
+          transform: "scale(1.05)",  // Scale up to 105% when hovered
+        }}
+      >
+        <Box overflow={"hidden"} h={{ base: "140px", md: "140px", lg: "200px" }} bg={"gray.100"} mt={-6} mx={-6} mb={6} pos={"relative"}>          
           <Image src={`http://localhost:2000/${productData.image}`} fill alt={productData?.name} />
         </Box>
         <Stack>
@@ -109,57 +108,63 @@ export default function Card({ productData, getProducts }) {
           <Text color={'black'} fontSize={['xs', 'sm']} letterSpacing={1.1}>
             {user.isAdmin === true && <>Status : {productData?.isActive === true ? <>Active</> : <>Inactive</>}</>}
           </Text>
-          {user?.isAdmin === true ? (
-            <>
-              <HStack justifyContent={'flex-end'} divider={<StackDivider borderColor="gray.400" />}>
-                <Button
-                  onClick={() => {
-                    onOpenUpdate()
-                  }}
-                  size={['sm', 'md']}
-                  bgColor={'#3C6255'}
-                  _hover={{ bg: '#61876E' }}
-                  mr={2}
-                  color={'white'}>
-                  <EditIcon />
+          <HStack
+            justifyContent={"space-between"}
+            divider={<StackDivider borderColor="gray.400" />}>
+            {user?.isAdmin === true ? (
+              <>
+                <Button size={["sm", "md"]} colorScheme="messenger">
+                  Edit product
                 </Button>
-                <Button
-                  onClick={() => {
-                    onOpenWarning()
-                  }}
-                  size={['sm', 'md']}
-                  colorScheme="red">
-                  <DeleteIcon />
-                </Button>
-              </HStack>
-            </>
-          ) : (
-            <>
-              <Stack justifyContent={'center'} alignItems={'center'} mt={14}>
+              </>
+            ) : (
+              <>
                 <Button
                   w={48}
                   bgColor={'#3C6255'}
                   _hover={{ bg: '#61876E' }}
                   color={'white'}
                   onClick={() => {
-                    dispatch(addToCart({ id: productData.id, quantity: 1, amount: productData.price }))
+                    dispatch(
+                      addToCart({ id: productData.id, quantity: 1, amount: productData.price })
+                    );
                     toast({
-                      title: 'success',
+                      title: "Success",
                       description: `${productData.name} has been added to cart`,
-                      status: 'success',
+                      status: "success",
                       duration: 1000,
-                      position: 'top'
-                    })
-                  }}>
-                  Add to Cart
+                      position: "top",
+                    });
+                  }}
+                  size={["sm", "md"]}
+                  colorScheme="messenger">
+                  Add to cart
                 </Button>
-              </Stack>
-            </>
-          )}
+              </>
+            )}
+          <HStack justifyContent={'flex-end'} divider={<StackDivider borderColor="gray.400" />}>
+            {user?.isAdmin === true ? 
+            <>
+            <Button onClick={() => {onOpenUpdate()}} size={["sm", "md"]} bgColor={'#3C6255'} _hover={{bg: '#61876E'}} mr={2} color={'white'}>
+              <EditIcon/>
+            </Button>
+            <Button onClick={() => {onOpenWarning()}} size={["sm", "md"]} colorScheme="red">
+              <DeleteIcon/>
+            </Button>
+            </> 
+            : 
+            <>
+            </>}
+          </HStack>
         </Stack>
       </Box>
 
-      <ModalUpdateProduct isOpenUpdate={isOpenUpdate} onCloseUpdate={onCloseUpdate} productData={productData} getProducts={getProducts} />
+      <ModalUpdateProduct
+      isOpenUpdate={isOpenUpdate}
+      onCloseUpdate={onCloseUpdate}
+      productData={productData}
+      getProducts={getProducts}
+      />
 
       <Modal isOpen={isOpenWarning} onClose={onCloseWarning} isCentered>
         <ModalOverlay />

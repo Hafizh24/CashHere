@@ -36,10 +36,10 @@ export default function ManagerCashier() {
     align={'center'}
     justify={'center'}
     bgColor={'white'}>
-      <Tabs variant='soft-rounded' colorScheme='green' >
+      <Tabs variant='soft-rounded' >
         <TabList justifyContent={'center'}>
-          <Tab textAlign={'center'}>Register a new cashier</Tab>
-          <Tab textAlign={'center'}>Manage cashier</Tab>
+          <Tab _selected={{ color: 'white', bg: '#3C6255' }} textAlign={'center'}>Register a new cashier</Tab>
+          <Tab _selected={{ color: 'white', bg: '#3C6255' }} textAlign={'center'}>Manage cashier</Tab>
         </TabList>
         <TabPanels h={'80vh'}>
           <TabPanel>

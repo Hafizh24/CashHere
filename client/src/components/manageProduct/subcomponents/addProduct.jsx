@@ -1,24 +1,23 @@
 import { Box, Button, Flex, FormControl, FormLabel, Input, SimpleGrid, Text, useToast} from "@chakra-ui/react";
-import SidebarWithHeader from "../sidebar";
+import SidebarWithHeader from "../../sidebar";
 import { useFormik } from "formik";
 import * as Yup from "yup"
 import CurrencyInput from 'react-currency-input-field';
 import axios from "axios";
 
-function AddProduct() {
+function AddProduct({getProducts}) {
     const token = localStorage.getItem('token')
     const toast = useToast();
     const AddProductSchema = Yup.object().shape({
         name: Yup.string().required("Username can't be empty"),
         // category: Yup.string().required("Category can't be empty"),
         price: Yup.string().required("Price can't be empty"),
-        quantity: Yup.string().required("Quantity can't be empty"),
+        total_stock: Yup.string().required("Quantity can't be empty"),
         description: Yup.string().required("Description can't be empty"),
       });
 
     const handleSubmit = async (data) => {
         try{
-            console.log(data);
             await axios.post("http://localhost:2000/products/add-product", data, {
                 headers: {
                   Authorization: `Bearer ${token}`,
@@ -27,8 +26,12 @@ function AddProduct() {
             toast({
                 title: "Success", description: `${data.name} has been created`, status: "success", duration: 3000, position: "top",
             });
+            getProducts()
         }catch(err){
-            console.log(err);
+            console.log(err.response.data.message);
+            toast({
+                title: "Error", description: `${err.response.data.message}`, status: "error", duration: 3000, position: "top",
+            });
         }
     }
 
@@ -37,7 +40,7 @@ function AddProduct() {
           name: "",
           category: "",
           price: 0,
-          quantity: "",
+          total_stock: 0,
           image: "",
           description: ""
         },
@@ -49,9 +52,8 @@ function AddProduct() {
       })
     return(
         <>
-            <SidebarWithHeader></SidebarWithHeader>
             <form onSubmit={formik.handleSubmit}>
-                <Flex minH={'80vh'} pl={[null, '15rem']} align={'center'} justifyContent={'center'} direction={'column'} gap={5}>
+                <Flex minH={'80vh'}  align={'center'} justifyContent={'center'} direction={'column'} gap={5}>
                     <SimpleGrid columns={[1, null, 2]} spacing={10}>
                         <Box height='auto' p={3} border={'1px'}>
                             <FormControl>
@@ -84,8 +86,8 @@ function AddProduct() {
                         </Box>
                         <Box height='auto' p={3} border={'1px'}>
                             <FormControl>
-                                <FormLabel>Quantity</FormLabel>
-                                <Input name="quantity" value={formik.values.quantity} onChange={formik.handleChange} border={'1px'} type="number"></Input>
+                                <FormLabel>Total stock</FormLabel>
+                                <Input name="total_stock" value={formik.values.total_stock} onChange={formik.handleChange} border={'1px'} type="number"></Input>
                             </FormControl>
                         </Box>
                         <Box height='auto' p={3} border={'1px'}>

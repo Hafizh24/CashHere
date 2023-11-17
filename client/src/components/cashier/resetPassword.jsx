@@ -27,7 +27,7 @@ export default function ForgotPassword({ isOpen, onClose }) {
     console.log(data);
     try {
       const response = await axios.get(
-        `http://localhost:2000/user/reset-password?email=${data.email}`,
+        `http://localhost:2000/users/reset-password?email=${data.email}`,
         data
       );
       window.location.reload();
@@ -90,7 +90,7 @@ export default function ForgotPassword({ isOpen, onClose }) {
                     </Text>
                   ) : null}
                 </FormControl>
-                <Stack spacing={6}>
+                <Stack spacing={6} marginTop={6}>
                   <Button
                     type="submit"
                     bg={"#61876E"}

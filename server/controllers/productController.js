@@ -4,7 +4,7 @@ const Product = db.Product;
 module.exports = {
     addProduct: async (req, res) => {
         try {
-          const { name, price, quantity, description } = req.body;
+          const { name, price, total_stock, description } = req.body;
     
           //check if product already exist
           const findProduct = await Product.findOne({
@@ -18,7 +18,7 @@ module.exports = {
             await Product.create({
               name: name,
               price: price,
-              quantity: quantity,
+              total_stock: total_stock,
               description: description
             });
           } else {
@@ -39,4 +39,42 @@ module.exports = {
           res.status(400).send({ error: error.message });
         }
       },
+      updateProduct: async (req, res) => {
+        const { id, name, price, description, image, total_stock, isActive } = req.body;
+        const updateFields = {
+            ...(name && { name }),
+            ...(price && { price }),
+            ...(description && { description }),
+            ...(image && { image }),
+            ...(total_stock && { total_stock }),
+          };
+
+        if(isActive === true){
+          updateFields.isActive = true
+        }else{
+          updateFields.isActive = false
+        }
+        
+        try{
+            await Product.update(updateFields, { where:{ id: id } })
+            res.status(200).send({ message: "Product updated" });
+        }catch(error){
+            console.log("This is the error", error);
+            res.status(400).send({ error: error.message });
+        }
+      },
+      deleteProduct: async (req, res) => {
+        const id = req.params.id;
+        try {
+            await Product.destroy({
+                where: {
+                id: id,
+                },
+            });
+        res.status(200).send({ message: "Account successfully deleted" });
+        } catch (error) {
+        console.log("This is the error", error);
+        res.status(400).send({ error: error.message });
+        }
+    },
 }

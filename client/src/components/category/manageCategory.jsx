@@ -1,7 +1,6 @@
 import { Flex, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Navbar from "../navbar";
 import AddCategory from "./addCategory";
 import UpdateCategory from "./updateCategory";
 
@@ -28,7 +27,6 @@ const ManageCategory = () => {
   }, []);
   return (
     <>
-      <Navbar></Navbar>
       <Flex
         minH={"100vh"}
         minW={"100vw"}

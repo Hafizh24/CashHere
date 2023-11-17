@@ -10,14 +10,14 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const LinkItems = [
-  { name: "Home", icon: FiHome, route: "/home" },
-  { name: "Cashier", icon: PiUserListLight, route: "/manage-cashier" },
-  { name: "Product", icon: PiPackageDuotone, route: "/add-product"  },
-  { name: "Security", icon: FiStar },
-  { name: "Settings", icon: FiSettings }
+  { name: "Home", icon: FiHome, route: "/home", cashier: true },
+  { name: "Cashier", icon: PiUserListLight, route: "/manage-cashier"  },
+  { name: "Product", icon: PiPackageDuotone, route: "/manage-product"  },
+  { name: "Security", icon: FiStar, cashier: true },
+  { name: "Settings", icon: FiSettings, cashier: true }
 ]
 
-const SidebarContent = ({ onClose, ...rest }) => {
+const SidebarContent = ({user, onClose, ...rest }) => {
   return (
     <Box
       transition="3s ease"
@@ -36,11 +36,26 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map(link => (
-        <Link to={link.route}>
-            <NavItem key={link.name} icon={link.icon}>
-            {link.name}
-            </NavItem>
-        </Link>
+        <>
+        {user?.isAdmin === true ? 
+          <>
+            <Link to={link.route}>
+                <NavItem key={link.name} icon={link.icon}>
+                {link.name}
+                </NavItem>
+            </Link>
+          </> 
+        :  
+        <>
+        {link.cashier === true && <>
+            <Link to={link.route}>
+                <NavItem key={link.name} icon={link.icon}>
+                {link.name}
+                </NavItem>
+            </Link>
+            </>}
+        </>}
+        </>
       ))}
       
     </Box>
@@ -64,7 +79,7 @@ const NavItem = ({ icon, children, ...rest }) => {
         cursor="pointer"
         _hover={{
           bg: "#3C6255",
-          color: "white"
+          color: "white",
         }}
         {...rest}
       >
@@ -73,7 +88,7 @@ const NavItem = ({ icon, children, ...rest }) => {
             mr="4"
             fontSize="16"
             _groupHover={{
-              color: "white"
+              color: "white",
             }}
             as={icon}
           />
@@ -183,6 +198,7 @@ const SidebarWithHeader = () => {
       <SidebarContent
         onClose={() => onClose}
         display={{ base: "none", md: "block" }}
+        user={user}
       />
       <Drawer
         isOpen={isOpen}

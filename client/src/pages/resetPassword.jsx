@@ -29,13 +29,16 @@ function ResetPasswordPage() {
 
     const handleSubmit = async (data) => {
       try{
-          data.email = params.email
           console.log(data);
-          await axios.patch("http://localhost:2000/users/update-user-password", data)
+          await axios.patch("http://localhost:2000/users/update-user-password", data, {
+            headers: {
+              Authorization: `Bearer ${params.token}`,
+            },
+          })
           toast({
               title: "Success", description: `Password has been updated`, status: "success", duration: 4000, position: "top"
           });
-          navigate('/home')
+          navigate('/')
       }catch(err){
         console.log(err);
       }

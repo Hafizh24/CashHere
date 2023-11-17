@@ -66,13 +66,26 @@ module.exports = {
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(password, salt);
 
-        await User.create({
+        const result = await User.create({
           username: username,
           email: email,
           password: hashPassword,
-          isVerified: true,
-          isAdmin: false,
+          isVerified: false,
+          isAdmin: false
         });
+
+        let payload = {id: result.id}
+        const token = jwt.sign(payload, process.env.KEY_JWT, {expiresIn: '24h'})
+        const data = fs.readFileSync('./template_verify.html', 'utf-8')
+        const tempCompile = await handlebars.compile(data)
+        const tempResult = tempCompile({username: username, link:`http://localhost:3000/verify/${token}`})
+
+        await transporter.sendMail({
+            from: 'vadittolk@gmail.com',
+            to: email,
+            subject: 'CashHere - Account Verification',
+            html: tempResult
+        })
       } else {
         return res.status(400).send({ message: "User already exist" });
       }
@@ -143,20 +156,34 @@ module.exports = {
       res.status(400).send({ error: error.message });
     }
   },
+  updateUserVerified: async (req, res) => {
+    try {
+        await User.update({
+          isVerified: true
+        }, {
+          where: {
+            id: req.user.id,
+          },
+        });
+      res.status(200).send({ message: "Data verified updated" });
+    } catch (error) {
+      console.log("This is the error", error);
+      res.status(400).send({ error: error.message });
+    }
+  },
   updateUserPassword: async (req, res) => {
     try {
-      const { email, password } = req.body;
+      const { password } = req.body;
       const salt = await bcrypt.genSalt(10);
       const hashPassword = await bcrypt.hash(password, salt);
-      console.log("ini data body", req.body);
-
+      
       await User.update(
         {
           password: hashPassword,
         },
         {
           where: {
-            email: email,
+            id: req.user.id
           },
         }
       );
@@ -184,20 +211,32 @@ module.exports = {
   resetPassword: async (req, res) => {
     try {
       let { email } = req.query;
-      const data = fs.readFileSync("./template.html", "utf-8");
-      const tempCompile = await handlebars.compile(data);
-      const tempResult = tempCompile({
-        email: email,
-        link: `http://localhost:3000/reset-password/${email}`,
+
+      const findUser = await User.findOne({
+        where: {
+          email: email
+        },
       });
 
-      await transporter.sendMail({
-        from: "vadittolk@gmail.com",
-        to: email,
-        subject: "Email Confirmation",
-        html: tempResult,
-      });
-      res.status(200).send({ message: "Email has been sent" });
+      if(findUser){
+        let payload = {id: findUser.id}
+        const token = jwt.sign(payload, process.env.KEY_JWT, {expiresIn: '24h'})
+        const data = fs.readFileSync("./template_forgotPassword.html", "utf-8");
+        const tempCompile = await handlebars.compile(data);
+        const tempResult = tempCompile({
+          email: email,
+          link: `http://localhost:3000/reset-password/${token}`,
+        });
+  
+        await transporter.sendMail({
+          from: "vadittolk@gmail.com",
+          to: email,
+          subject: "CashHere - Reset Password",
+          html: tempResult,
+        });
+
+        return res.status(200).send({ message: "Email has been sent" });
+      }
     } catch (error) {
       console.log("This is the error", error);
       res.status(400).send({ error: error.message });

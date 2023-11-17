@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import AdminSettings from "./components/manageAdmin/adminSettings";
-import ResetPasswordPage from "./components/resetPassword";
+import ResetPasswordPage from "./pages/resetPassword";
 import ManagerCashier from "./components/manageCashier/manageCashier";
 import Required from "./components/required";
 import Home from "./pages/home";
@@ -9,29 +9,29 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import { setData } from "./redux/userSlice";
-import AddProduct from "./components/manageProduct/addProduct";
 import LoginCashier from "./components/cashier/loginCashier";
 import Profile from "./pages/Profile";
 import ManageCategory from "./components/category/manageCategory";
 import LoginAdmin from "./components/manageAdmin/loginAdmin";
+import Verify from "./pages/verify";
+import ManageProduct from "./components/manageProduct/manageProduct";
 
 const router = createBrowserRouter([
   { path: "/", element: <WelcomePage></WelcomePage> },
-  { path: "/home", element: <Home></Home> },
-  { path: "/admin-dashboard", element: <AdminDashboard></AdminDashboard> },
-  { path: "/manage-cashier", element: <ManagerCashier></ManagerCashier> },
-  { path: "/manage-product", element: <ManageProduct></ManageProduct> },
-  { path: "/reset-password/:email", element: <ResetPasswordPage></ResetPasswordPage> },
-  { path: "/admin-settings", element: <AdminSettings></AdminSettings> },
   { path: "/login-admin", element: <LoginAdmin></LoginAdmin> },
   { path: "/login-cashier", element: <LoginCashier></LoginCashier> },
-  { path: "/profile", element: <Profile /> },
-  { path: "/manage-category", element: <ManageCategory /> },
-  // { path: "/reset-password", element: <></>}
   {
     element: <Required></Required>,
     children: [
       //untuk yang butuh token
+      { path: "/home", element: <Home></Home> },
+      { path: "/manage-cashier", element: <ManagerCashier></ManagerCashier> },
+      { path: "/manage-product", element: <ManageProduct></ManageProduct> },
+      { path: "/reset-password/:token", element: <ResetPasswordPage></ResetPasswordPage> },
+      { path: "/verify/:token", element: <Verify></Verify> },
+      { path: "/admin-settings", element: <AdminSettings></AdminSettings> },
+      { path: "/profile", element: <Profile /> },
+      { path: "/manage-category", element: <ManageCategory /> },
     ],
   },
 ]);

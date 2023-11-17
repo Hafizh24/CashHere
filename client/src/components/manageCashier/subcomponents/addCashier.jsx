@@ -13,13 +13,16 @@ import {
 import { useFormik } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
+import { useState } from "react";
 
 function AddCashier({getCashierData}){
     const toast = useToast();
     const token = localStorage.getItem('token')
+    const [ loading, setLoading] = useState(false)
     
     const handleSubmit = async (data) => {
         try{
+            setLoading(true)
             await axios.post("http://localhost:2000/users/add-user", data, {
                 headers: {
                   Authorization: `Bearer ${token}`,
@@ -29,8 +32,10 @@ function AddCashier({getCashierData}){
             toast({
                 title: "Success", description: `Cashier with username : ${data.username} has been created`, status: "success", duration: 3000, position: "top",
             });
+            setLoading(false)
         }catch(err){
             console.log(err.response.data.message);
+            setLoading(false)
             toast({
                 title: "Error", description: `${data.username} already exist`, status: "error", duration: 3000, position: "top",
             });
@@ -124,6 +129,8 @@ function AddCashier({getCashierData}){
             </FormControl>
             <Stack>
               <Button
+                isLoading={loading}
+                loadingText={'loading'}
                 type="submit"
                 bg={"#3C6255"}
                 color={"white"}

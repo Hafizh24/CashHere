@@ -1,5 +1,4 @@
 import { AddIcon, DeleteIcon, MinusIcon } from "@chakra-ui/icons";
-import NumPad from "react-numpad-material";
 import {
   Button,
   Card,
@@ -170,22 +169,6 @@ const Cart = ({ data, onClose, isOpen }) => {
                   </Text>
                 </Stack>
                 <Flex>
-                  <NumPad.Popover
-                    onChange={(value) => {
-                      console.log("value", value);
-                    }}
-                    position="centerRight"
-                    arrow="left"
-                    qtyIncrement={2.5}
-                    isDecimal
-                    decimalSeparator="."
-                    max={30}
-                    min={0}
-                    value={10}>
-                    <li>
-                      <input type="text" placeholder="" />
-                    </li>
-                  </NumPad.Popover>
                   <Button
                     onClick={handleSubmit}
                     bgColor={"first"}

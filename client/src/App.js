@@ -15,7 +15,6 @@ import ManageCategory from "./components/category/manageCategory";
 import LoginAdmin from "./components/manageAdmin/loginAdmin";
 import Verify from "./pages/verify";
 import ManageProduct from "./components/manageProduct/manageProduct";
-import AddProduct from "./components/manageProduct/addProduct";
 
 const router = createBrowserRouter([
   { path: "/", element: <WelcomePage></WelcomePage> },

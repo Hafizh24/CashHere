@@ -20,15 +20,7 @@ import {
   MenuList,
   Button,
 } from "@chakra-ui/react";
-import {
-  FiHome,
-  FiStar,
-  FiSettings,
-  FiMenu,
-  FiBell,
-  FiChevronDown,
-  FiShoppingCart,
-} from "react-icons/fi";
+import { FiHome, FiStar, FiSettings, FiMenu, FiBell, FiChevronDown } from "react-icons/fi";
 import { PiPackageDuotone, PiUserListLight } from "react-icons/pi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -118,7 +110,7 @@ const NavItem = ({ icon, children, ...rest }) => {
   );
 };
 
-const MobileNav = ({ onOpen, user, handleLogout, onOpening, ...rest }) => {
+const MobileNav = ({ onOpen, user, handleLogout, ...rest }) => {
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -147,13 +139,6 @@ const MobileNav = ({ onOpen, user, handleLogout, onOpening, ...rest }) => {
       </Text>
 
       <HStack spacing={{ base: "0", md: "6" }}>
-        <IconButton
-          size="lg"
-          variant="ghost"
-          aria-label="open cart"
-          onClick={onOpening}
-          icon={<FiShoppingCart />}
-        />
         <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell />} />
         <Flex alignItems={"center"}>
           <Menu>
@@ -184,9 +169,7 @@ const MobileNav = ({ onOpen, user, handleLogout, onOpening, ...rest }) => {
             <MenuList
               bg={useColorModeValue("white", "gray.900")}
               borderColor={useColorModeValue("gray.200", "gray.700")}>
-              <Link to={"/profile"}>
-                <MenuItem>Profile</MenuItem>
-              </Link>
+              <MenuItem>Profile</MenuItem>
               <MenuItem>Settings</MenuItem>
               <MenuItem>Billing</MenuItem>
               <MenuDivider />
@@ -199,7 +182,7 @@ const MobileNav = ({ onOpen, user, handleLogout, onOpening, ...rest }) => {
   );
 };
 
-const SidebarWithHeader = ({ onOpening }) => {
+const SidebarWithHeader = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const user = useSelector((state) => state.user.value);
 
@@ -227,12 +210,7 @@ const SidebarWithHeader = ({ onOpening }) => {
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
-      <MobileNav
-        onOpening={onOpening}
-        user={user}
-        onOpen={onOpen}
-        handleLogout={handleLogout}
-      />
+      <MobileNav user={user} onOpen={onOpen} handleLogout={handleLogout} />
     </Box>
   );
 };

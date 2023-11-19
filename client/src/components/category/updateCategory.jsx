@@ -125,14 +125,7 @@ const UpdateCategory = ({ data, getData }) => {
             </Table>
           </TableContainer>
         </Box>
-
-        <ModalUpdateCategory
-          isOpenUpdate={isOpenUpdate}
-          onCloseUpdate={onCloseUpdate}
-          data={data}
-          getData={getData}
-          clickedData={clickedData}
-        />
+        <ModalUpdateCategory isOpenUpdate={isOpenUpdate} onCloseUpdate={onCloseUpdate} data={data} getData={getData} clickedData={clickedData} />
 
         <Modal isOpen={isDeleteModalOpen} onClose={onDeleteModalClose} isCentered>
           <ModalOverlay />

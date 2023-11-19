@@ -79,14 +79,7 @@ const Cart = ({ data, onClose, isOpen }) => {
               return (
                 <Stack mb={3} key={item.id}>
                   <Card direction={'row'} overflow={'hidden'} variant={'outline'}>
-                    <Image
-                      src={`http://localhost:2000/${product.image}`}
-                      borderRadius="full"
-                      w={'6rem'}
-                      h={'6rem'}
-                      pt={2}
-                      pl={2}
-                    />
+                    <Image src={`http://localhost:2000/${product.image}`} borderRadius="full" w={'6rem'} h={'6rem'} pt={2} pl={2} />
                     <CardBody>
                       <Stack direction={'column'}>
                         <Heading fontSize={'md'} fontWeight={'700'} textTransform={'capitalize'}>
@@ -138,7 +131,7 @@ const Cart = ({ data, onClose, isOpen }) => {
                         />
                         <Text>{item.quantity}</Text>
                         <IconButton
-                        isDisabled={item.quantity > product.total_stock ? true : false}
+                          isDisabled={item.quantity > product.total_stock ? true : false}
                           onClick={() => dispatch(addToCart({ id: item.id, quantity: 1 }))}
                           variant={'outline'}
                           size="xs"
@@ -169,13 +162,7 @@ const Cart = ({ data, onClose, isOpen }) => {
                 <Stack mb={'50px'}>
                   <InputGroup>
                     <InputLeftElement pointerEvents="none" color="second" fontSize="1.2em" children="Rp" />
-                    <Input
-                      isRequired={true}
-                      value={amount}
-                      placeholder="Enter amount"
-                      type="number"
-                      onChange={(e) => setAmount(e.currentTarget.value)}
-                    />
+                    <Input isRequired={true} value={amount} placeholder="Enter amount" type="number" onChange={(e) => setAmount(e.currentTarget.value)} />
                   </InputGroup>
                 </Stack>
                 <Flex direction={'column'}>
@@ -197,11 +184,7 @@ const Cart = ({ data, onClose, isOpen }) => {
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
-      <ModalConfirmPayment
-        isPaymentModalOpen={isPaymentModalOpen}
-        onPaymentModalClose={onPaymentModalClose}
-        handleSubmit={handleSubmit}
-      />
+      <ModalConfirmPayment isPaymentModalOpen={isPaymentModalOpen} onPaymentModalClose={onPaymentModalClose} handleSubmit={handleSubmit} />
       <ModalReceipt
         isReceiptModalOpen={isReceiptModalOpen}
         onReceiptModalClose={onReceiptModalClose}

@@ -1,9 +1,9 @@
-const db = require("../models");
-const Transaction = db.Transaction;
-const Product = db.Product;
-const User = db.User;
-const TransactionProduct = db.TransactionProducts;
-const { Op } = require("sequelize");
+const db = require('../models')
+const Transaction = db.Transaction
+const Product = db.Product
+const User = db.User
+const TransactionProduct = db.TransactionProducts
+const { Op } = require('sequelize')
 
 module.exports = {
   addTransaction: async (req, res) => {
@@ -59,23 +59,23 @@ module.exports = {
   },
   getAllTransaction: async (req, res) => {
     try {
-      const result = await TransactionProduct.findAll();
-      res.status(200).send(result);
+      const result = await TransactionProduct.findAll()
+      res.status(200).send(result)
     } catch (error) {
-      console.log(error);
-      res.status(400).send({ error: error.message });
+      console.log(error)
+      res.status(400).send({ error: error.message })
     }
   },
   transactionDateRange: async (req, res) => {
-    try{
-      const {startdate, enddate} = req.body
-      
+    try {
+      const { startdate, enddate } = req.body
+
       const result = await TransactionProduct.findAll({
         include: [
           {
-              model: Product,
-              required: true,
-              attributes: ["name"]
+            model: Product,
+            required: true,
+            attributes: ['name']
           },
           {
             model: Transaction,
@@ -83,42 +83,42 @@ module.exports = {
             include: [
               {
                 model: User,
-                attributes: ["username"]
+                attributes: ['username']
               }
             ]
           }
         ],
-        where : {
+        where: {
           createdAt: {
-            [Op.between]: [startdate, enddate],
-          },
+            [Op.between]: [startdate, enddate]
+          }
         }
       })
       res.status(200).send(result)
     } catch (err) {
-      console.log(err);
-      res.status(400).send({ err: err.message})
+      console.log(err)
+      res.status(400).send({ err: err.message })
     }
   },
   productEachTransaction: async (req, res) => {
-    try{
+    try {
       const result = await Transaction.findAll({
         include: [
           {
-            model: TransactionProduct, 
+            model: TransactionProduct,
             include: [
               {
                 model: Product,
-                attributes: ['name'],
-              },
-            ],
-          },
-        ],
-      });
+                attributes: ['name']
+              }
+            ]
+          }
+        ]
+      })
       res.status(200).send(result)
-    }catch(err){
-      console.log(err);
-      res.status(400).send({ err: err.message})
+    } catch (err) {
+      console.log(err)
+      res.status(400).send({ err: err.message })
     }
   }
-};
+}

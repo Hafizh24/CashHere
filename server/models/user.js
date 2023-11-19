@@ -25,12 +25,15 @@ module.exports = (sequelize, DataTypes) => {
       },
       isAdmin: {
         type: DataTypes.BOOLEAN,
+        allowNull: false,
       },
       isVerified: {
         type: DataTypes.BOOLEAN,
+        allowNull: false,
       },
       isEnabled: {
         type: DataTypes.BOOLEAN,
+        allowNull: false,
       },
     },
     {

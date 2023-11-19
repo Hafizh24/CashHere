@@ -1,4 +1,5 @@
 'use client'
+import { PhoneIcon } from '@chakra-ui/icons'
 import {
   IconButton,
   Avatar,

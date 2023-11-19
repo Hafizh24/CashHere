@@ -138,7 +138,8 @@ module.exports = {
           email: email,
           password: hashPassword,
           isVerified: true,
-          isAdmin: true
+          isAdmin: true,
+          isEnabled: true
         })
       } else {
         return res.status(400).send({ message: 'User already exist' })

@@ -8,7 +8,7 @@ router.get('/user-login', userController.userLogin) //login user
 router.get('/keep-login', verifyToken, userController.keepLogin) //keep login butuh verify token
 router.patch('/change-img', verifyToken, multerUpload().single('image'), userController.updateImage)
 router.post('/add-user', checkRegister, userController.addUser) //register user
-router.post('/add-admin', checkRegister, userController.addAdmin) //register user
+router.post('/register', checkRegister, userController.addAdmin) //register admin
 router.get('/get-user', verifyToken, userController.getUser)
 router.patch('/update-user', verifyToken, userController.updateUser)
 router.patch('/update-user-password', verifyToken, checkResetPassword, userController.updateUserPassword)

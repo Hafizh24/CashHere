@@ -1,9 +1,9 @@
-"use strict";
-const { Model } = require("sequelize");
+'use strict'
+const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class Category extends Model {
     static associate(models) {
-      Category.hasMany(models.Product);
+      Category.hasMany(models.Product)
     }
   }
   Category.init(
@@ -12,13 +12,13 @@ module.exports = (sequelize, DataTypes) => {
       isDeleted: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
-        allowNull: false,
-      },      
+        allowNull: false
+      }
     },
     {
       sequelize,
-      modelName: "Category",
+      modelName: 'Category'
     }
-  );
-  return Category;
-};
+  )
+  return Category
+}

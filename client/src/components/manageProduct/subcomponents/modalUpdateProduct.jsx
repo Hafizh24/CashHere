@@ -1,11 +1,12 @@
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Button, useToast, Input, Text, Switch, HStack} from '@chakra-ui/react'
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Button, useToast, Input, Text, Switch, HStack, Select} from '@chakra-ui/react'
 import { useFormik } from "formik";
 import axios from "axios";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function ModalUpdateProduct({ isOpenUpdate, onCloseUpdate, productData, getProducts }) {
   const toast = useToast();
   const token = localStorage.getItem("token");
+  const [ category, setCategory ] = useState([])
   const [ loading, setLoading ] = useState(false)
   const [ toggle, setToggle ] = useState(productData.isActive)
   const [ toggleText, setToggleText ] = useState("Set this product status")
@@ -17,12 +18,6 @@ function ModalUpdateProduct({ isOpenUpdate, onCloseUpdate, productData, getProdu
 
   const handleSubmit = async (data) => {
       try{
-          data.id = productData.id
-          if(toggle === true){
-            data.isActive = true;
-          }else{
-            data.isActive = false;
-          }
           setLoading(true)
           await axios.patch("http://localhost:2000/products/update-product", data, {
               headers: {
@@ -44,22 +39,51 @@ function ModalUpdateProduct({ isOpenUpdate, onCloseUpdate, productData, getProdu
       }
   }
 
+    const getCategory = async () => {
+      try{
+          const response = await axios.get("http://localhost:2000/categories/", {
+              headers: {
+              Authorization: `Bearer ${token}`,
+              }
+          });
+          setCategory(response.data)
+      }catch(err){            
+          console.log(err);
+      }
+  }
+
   const handleCancel = () =>{
     setToggleText("Set this product status");
     onCloseUpdate();
   }
 
+  useEffect(() => {
+    getCategory();
+  }, [])
+
   const formik = useFormik({
     initialValues: {
+      id: productData?.id,
       name: "",
       price: "",
       image: "",
+      category: productData.CategoryId,
       description: "",
       total_stock: "",
       isActive: productData.isActive
     },
     onSubmit: (values, action) => {
-      handleSubmit(values);
+      const formData = new FormData();
+      formData.append("id", values.id);
+      formData.append("name", values.name);
+      formData.append("category", values.category);
+      formData.append("price", values.price);
+      formData.append("total_stock", values.total_stock);
+      formData.append("description", values.description);
+      formData.append("image", values.image);
+      values.isActive = toggle === true ? true : false;
+      formData.append("isActive", values.isActive);
+      handleSubmit(formData);
       action.resetForm();
     },
   });
@@ -80,6 +104,19 @@ function ModalUpdateProduct({ isOpenUpdate, onCloseUpdate, productData, getProdu
                     Product Name
                 </FormLabel>
                 <Input name='name' type='text' value={formik.values.name} onChange={formik.handleChange} autoComplete='new' border={'1px'} placeholder={productData?.name}></Input>
+              </FormControl>
+              <FormControl>
+                  <FormLabel>Category</FormLabel>
+                  <Select defaultValue={productData.CategoryId} name="category" value={formik.setFieldValue.category} onChange={(e) => {
+                      formik.setFieldValue("category", parseInt(e.target.value));
+                  }}
+                  border={'1px'}>
+                      {category.map((item) => (
+                          <>
+                          <option value={item.id}>{item.name}</option>
+                          </>
+                      ))}
+                  </Select>
               </FormControl>
               <FormControl mt={3}>
                 <FormLabel>
@@ -103,7 +140,7 @@ function ModalUpdateProduct({ isOpenUpdate, onCloseUpdate, productData, getProdu
                 <FormLabel>
                     Change image
                 </FormLabel>
-                <Input name='image' type='file' value={formik.values.image} onChange={formik.handleChange} autoComplete='new' border={'1px'}></Input>
+                <Input name='image' type='file' onChange={(e) => formik.setFieldValue("image", e.currentTarget.files[0])} autoComplete='new' border={'1px'}></Input>
               </FormControl>
               <FormControl mt={3}>
                 <FormLabel>

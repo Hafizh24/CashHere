@@ -12,21 +12,21 @@ export default function Card({productData, getProducts}) {
   const { isOpen: isOpenUpdate, onOpen: onOpenUpdate, onClose: onCloseUpdate } = useDisclosure();
   const { isOpen: isOpenWarning, onOpen: onOpenWarning, onClose: onCloseWarning } = useDisclosure();
   
-  const handleDelete = async (id) => {
+  const handleDelete = async () => {
     try{
-        await axios.delete(`http://localhost:2000/products/delete-product/${id}`, {
+        await axios.patch(`http://localhost:2000/products/delete-product`, {id: productData.id}, {
             headers: {
               Authorization: `Bearer ${token}`,
             }
         });
         toast({
-            title: "Success", description: "Selected cashier has been deleted", status: "success", duration: 3000, position: "top",
+            title: "Success", description: "Selected product has been deleted", status: "success", duration: 3000, position: "top",
         });
         getProducts();
     }catch(err){
         console.log(err);
         toast({
-            title: "Error", description: "Selected cashier can't be deleted", status: "error", duration: 3000, position: "top",
+            title: "Error", description: "Selected product can't be deleted", status: "error", duration: 3000, position: "top",
         });
     }
   }
@@ -35,22 +35,27 @@ export default function Card({productData, getProducts}) {
     <>
       <Box
         maxW={{ base: "300px", md: "370px" }}
-        maxH={{ base: "350px", md: "470px"}}
+        maxH={{ base: "700px", md: "730px"}}
         w={["20rem", "20rem"]}
+        h={['400px','510px']}
         bg={useColorModeValue("white", "gray.900")}
         shadow={"lg"}
         rounded={"md"}
         p={6}
         flex="0 0 auto" // Allow flex item to shrink if needed
         mx={"13px"}
+        transition="transform 0.2s ease-in-out"  // Smooth transition over 0.3 seconds
+        _hover={{
+          transform: "scale(1.05)",  // Scale up to 105% when hovered
+        }}
       >
-        <Box overflow={"hidden"} h={{ base: "130px", md: "130px", lg: "180px" }} bg={"gray.100"} mt={-6} mx={-6} mb={6} pos={"relative"}>          
-          <Image src={`https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=3160&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`} fill alt="Example" />
+        <Box overflow={"hidden"} h={{ base: "140px", md: "140px", lg: "200px" }} bg={"gray.100"} mt={-6} mx={-6} mb={6} pos={"relative"}>          
+          <Image src={`http://localhost:2000/${productData.image}`} fill alt={productData?.name} />
         </Box>
         <Stack>
           <Heading
             // eslint-disable-next-line react-hooks/rules-of-hooks
-            color={"rgb(16, 69, 181)"}
+            color={"#3C6255"}
             fontSize={["xs", "lg"]}
             fontFamily={"body"}
           >
@@ -106,14 +111,14 @@ export default function Card({productData, getProducts}) {
             </Text>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onCloseWarning}>
+            <Button bgColor={'#3C6255'} _hover={{bg: '#61876E'}} color={'white'} mr={3} onClick={onCloseWarning}>
               Cancel
             </Button>
             <Button
               variant="ghost"
               colorScheme="red"
               onClick={() => {
-                handleDelete(productData?.id);
+                handleDelete();
                 onCloseWarning();
               }}>
               Delete

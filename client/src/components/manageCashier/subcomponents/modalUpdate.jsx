@@ -21,10 +21,10 @@ function ModalUpdate({ isOpen, onClose, clickedData, getCashierData }) {
   const handleSubmit = async (data) => {
     try {
       data.id = clickedData.id;
-      if (clickedData.isVerified === false) {
-        data.isVerified = true;
+      if (clickedData.isEnabled === false) {
+        data.isEnabled = true;
       } else {
-        data.isVerified = false;
+        data.isEnabled = false;
       }
 
       await axios.patch("http://localhost:2000/users/update-user", data, {
@@ -36,7 +36,7 @@ function ModalUpdate({ isOpen, onClose, clickedData, getCashierData }) {
       toast({
         title: "Success",
         description: `${clickedData.username} has been ${
-          data.isVerified === true ? "enabled" : "disabled"
+          data.isEnabled === true ? "enabled" : "disabled"
         }`,
         status: "success",
         duration: 4000,
@@ -50,7 +50,7 @@ function ModalUpdate({ isOpen, onClose, clickedData, getCashierData }) {
 
   const formik = useFormik({
     initialValues: {
-      isVerified: false,
+      isEnabled: false,
     },
     onSubmit: (values, action) => {
       handleSubmit(values);
@@ -64,7 +64,7 @@ function ModalUpdate({ isOpen, onClose, clickedData, getCashierData }) {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            {clickedData.isVerified === false ? <>Enable</> : <>Disable</>}{" "}
+            {clickedData.isEnabled === false ? <>Enable</> : <>Disable</>}{" "}
             <span style={{ color: "blue" }}>{clickedData.username}</span>?
           </ModalHeader>
           <ModalCloseButton />
@@ -73,7 +73,7 @@ function ModalUpdate({ isOpen, onClose, clickedData, getCashierData }) {
               <FormControl>
                 <FormLabel>
                   {clickedData.username} will be{" "}
-                  {clickedData.isVerified === false ? (
+                  {clickedData.isEnabled === false ? (
                     <>enabled, and he/she can log in to the website.</>
                   ) : (
                     <>disabled and, he/she can't log in to the website.</>
@@ -90,7 +90,7 @@ function ModalUpdate({ isOpen, onClose, clickedData, getCashierData }) {
                 mr={3}
                 _hover={{ bg: "#61876E" }}
                 rounded={"full"}>
-                {clickedData.isVerified === false ? <>Enable</> : <>Disable</>}
+                {clickedData.isEnabled === false ? <>Enable</> : <>Disable</>}
               </Button>
               <Button onClick={onClose} rounded={"full"}>
                 Cancel

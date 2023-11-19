@@ -18,9 +18,8 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
-  Button,
 } from "@chakra-ui/react";
-import { FiHome, FiStar, FiSettings, FiMenu, FiBell, FiChevronDown } from "react-icons/fi";
+import { FiHome, FiStar, FiSettings, FiMenu, FiChevronDown } from "react-icons/fi";
 import { PiPackageDuotone, PiUserListLight } from "react-icons/pi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -37,7 +36,7 @@ const SidebarContent = ({user, onClose, ...rest }) => {
   return (
     <Box
       transition="3s ease"
-      bg={useColorModeValue("white", "gray.900")}
+      bg={useColorModeValue("#EAE7B1", "gray.900")}
       borderRight="1px"
       borderRightColor={useColorModeValue("gray.200", "gray.700")}
       w={{ base: "full", md: 60 }}
@@ -114,7 +113,7 @@ const MobileNav = ({ onOpen, user, handleLogout, ...rest }) => {
       px={{ base: 4, md: 4 }}
       height="20"
       alignItems="center"
-      bg={useColorModeValue("white", "gray.900")}
+      bg={useColorModeValue("#3C6255", "gray.900")}
       borderBottomWidth="1px"
       borderBottomColor={useColorModeValue("gray.200", "gray.700")}
       justifyContent={{ base: "space-between", md: "flex-end" }}
@@ -136,7 +135,6 @@ const MobileNav = ({ onOpen, user, handleLogout, ...rest }) => {
       </Text>
 
       <HStack spacing={{ base: "0", md: "6" }}>
-        <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell />} />
         <Flex alignItems={"center"}>
           <Menu>
             <MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: "none" }}>
@@ -153,13 +151,13 @@ const MobileNav = ({ onOpen, user, handleLogout, ...rest }) => {
                   alignItems="flex-start"
                   spacing="1px"
                   ml="2">
-                  <Text fontSize="sm">Ini Nama</Text>
-                  <Text fontSize="xs" color="gray.600">
+                  <Text fontSize="sm" color={'white'}>{user.username}</Text>
+                  {/* <Text fontSize="xs" color="gray.600">
                     {user.username}
-                  </Text>
+                  </Text> */}
                 </VStack>
                 <Box display={{ base: "none", md: "flex" }}>
-                  <FiChevronDown />
+                  <FiChevronDown color="white" />
                 </Box>
               </HStack>
             </MenuButton>

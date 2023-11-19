@@ -1,59 +1,46 @@
-import { Button, Flex, Input, SimpleGrid, Skeleton, Stack } from "@chakra-ui/react";
+import { Flex, Image, SimpleGrid, Skeleton} from "@chakra-ui/react";
 import Card from "../../card";
 import { useState } from "react";
+import Filter from "../../filter";
 import Pagination from "../../pagination";
 
-export default function SeeAllProducts({productData, isLoaded, getProducts}){
-    const [searchTerm, setSearchTerm] = useState("");
+export default function SeeAllProducts({productData, setProductData, setIsLoaded, isLoaded, getProducts}){
     const [currentPage, setCurrentPage] = useState(1);
-    const [postsPerPage] = useState(8);
+    const [postsPerPage] = useState(10);    
 
-    // Get current posts
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
     const currentPosts = productData.slice(indexOfFirstPost, indexOfLastPost);
-    const paginate = pageNumber => setCurrentPage(pageNumber);
 
-    const filteredProductsByName = productData.filter((item) =>
-        item.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
     return(
         <>
-        <Flex align={'center'} justifyContent={'center'} direction={'column'} alignItems={'center'} gap={5}>
-        <Stack w={'auto'} justifyContent={'center'} direction={'row'} spacing={4} p={2}>
-            <Input type="text" placeholder="Search by name" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} mb={4} border={'1px'}/>
-            <Input type="text" placeholder="Search by category"  mb={4} border={'1px'}/>
-            <Button>Sort A-Z</Button>
-        </Stack>
-                <SimpleGrid columns={[1, null, 4]} spacing={8}>
-                {searchTerm?<>
-                        {filteredProductsByName.map((item) =>(
-                            <>
-                                <Skeleton isLoaded={isLoaded} fadeDuration={1}>
-                                    <Card productData={item} getProducts={getProducts}/>
-                                </Skeleton>
-                            </>
-                        ))}
-                    </>
-                        :
-                    <>
-                        {currentPosts.map((item) =>(
-                            <>
-                            <>
-                                <Skeleton isLoaded={isLoaded} fadeDuration={1}>
-                                    <Card productData={item} getProducts={getProducts}/>
-                                </Skeleton>
-                            </>
-                            </>
-                        ))}
-                    </>}
-                </SimpleGrid>
-                {!searchTerm && 
+        <Flex h={'fit-content'} align={'center'} justifyContent={'center'} direction={'column'} alignItems={'center'} gap={5}>
+        <Filter setProductData={setProductData} setIsLoaded={setIsLoaded}/>
+            {productData.length != 0? 
                 <>
+                    <SimpleGrid columns={[1, null, 4]} spacing={8}>
+                        {currentPosts.map((item) =>(
+                        <>
+                            {item.isDeleted != true && 
+                            <>
+                                <Skeleton isLoaded={isLoaded} fadeDuration={1}>
+                                    <Card productData={item} getProducts={getProducts}/>
+                                </Skeleton>
+                            </>
+                            }   
+                        </>
+                        ))}
+                    </SimpleGrid>
                     <Pagination
-                    postsPerPage={postsPerPage}
                     totalPosts={productData.length}
-                    paginate={paginate}/>
+                    postsPerPage={postsPerPage}
+                    setCurrentPage={setCurrentPage}
+                    currentPage={currentPage}
+                    />
+                </> 
+                    : 
+                <>
+                    <Image boxSize={'600px'} src={'https://cdn1.iconfinder.com/data/icons/scenarium-silver-vol-8/128/044_error_not_found_page-1024.png'}/>
                 </>}
             </Flex>
         </>

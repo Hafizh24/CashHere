@@ -34,7 +34,8 @@ export default function ManagerCashier() {
     minW={'100vw'}
     align={'center'}
     justify={'center'}
-    bgColor={'white'}>
+    pl={[null, '14rem']}
+    bgColor={'#f0f0ec'}>
       <Tabs variant='soft-rounded' >
         <TabList justifyContent={'center'}>
           <Tab _selected={{ color: 'white', bg: '#3C6255' }} textAlign={'center'}>Register a new cashier</Tab>

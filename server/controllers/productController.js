@@ -1,10 +1,12 @@
+const { Op, where } = require("sequelize");
 const db = require("../models");
 const Product = db.Product;
 
 module.exports = {
     addProduct: async (req, res) => {
         try {
-          const { name, price, total_stock, description } = req.body;
+          const { name, price, total_stock, description, category } = req.body;
+          console.log(req.body);
     
           //check if product already exist
           const findProduct = await Product.findOne({
@@ -19,7 +21,10 @@ module.exports = {
               name: name,
               price: price,
               total_stock: total_stock,
-              description: description
+              description: description,
+              image: req.file?.path,
+              CategoryId : category,
+              isDeleted : false
             });
           } else {
             return res.status(400).send({ message: "Product already exist" });
@@ -39,17 +44,51 @@ module.exports = {
           res.status(400).send({ error: error.message });
         }
       },
+      getProductByFilter: async(req, res) =>{
+        try{
+          const { name, category, sort_alphabetical, sort_price } = req.query;
+          const whereCondition = {};
+          let order = []
+
+          if(name){
+            whereCondition.name = {
+              [Op.like]: `%${name}%`,
+            }
+          }
+          if(category){
+            whereCondition.CategoryId = category
+          }
+          if(sort_alphabetical){
+            order = [['name', `${sort_alphabetical}`]]
+          }
+          if(sort_price){
+            order = [['price', `${sort_price}`]]
+          }
+
+          const dataProduct = await Product.findAll({
+            where: whereCondition,
+            order: order
+          })
+          res.status(200).send({ dataProduct });
+        }catch(error){
+          console.log("This is the error", error);
+          res.status(400).send({ error: error.message });
+        }
+      },
       updateProduct: async (req, res) => {
-        const { id, name, price, description, image, total_stock, isActive } = req.body;
+        const { id, name, price, category, description, total_stock, isActive } = req.body;
+
         const updateFields = {
             ...(name && { name }),
             ...(price && { price }),
+            ...(category && { category }),
             ...(description && { description }),
-            ...(image && { image }),
             ...(total_stock && { total_stock }),
           };
-
-        if(isActive === true){
+        if(req.file) {
+          updateFields.image = req.file?.path
+        }
+        if(isActive === 'true'){
           updateFields.isActive = true
         }else{
           updateFields.isActive = false
@@ -64,9 +103,11 @@ module.exports = {
         }
       },
       deleteProduct: async (req, res) => {
-        const id = req.params.id;
+        const { id } = req.body;
         try {
-            await Product.destroy({
+            await Product.update({
+              isDeleted : true
+            },{
                 where: {
                 id: id,
                 },

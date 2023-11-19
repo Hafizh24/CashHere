@@ -7,7 +7,7 @@ const { checkRegister, checkResetPassword } = require("../middleware/validator")
 router.get("/user-login", userController.userLogin); //login user
 router.get("/keep-login", verifyToken, userController.keepLogin); //keep login butuh verify token
 router.patch("/change-img", verifyToken, multerUpload().single("image"), userController.updateImage);
-router.post("/add-user", checkRegister, userController.addUser); //register user
+router.post("/add-user", verifyToken, checkRegister, userController.addUser); //register user
 router.post("/add-admin", checkRegister, userController.addAdmin); //register user
 router.get("/get-user", verifyToken, userController.getUser);
 router.patch("/update-user", verifyToken, userController.updateUser);

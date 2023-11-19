@@ -1,4 +1,4 @@
-import { Button, Center, FormControl, FormLabel, Input, Stack, Text } from "@chakra-ui/react";
+import { Button, Center, FormControl, FormLabel, Input, Stack, Text, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -9,6 +9,7 @@ import { setData } from "../../redux/userSlice";
 function LoginAdmin() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const LoginSchema = Yup.object().shape({
     username: Yup.string().required("Username can't be empty"),
@@ -23,14 +24,15 @@ function LoginAdmin() {
         `http://localhost:2000/users/user-login?username=${data.username}&password=${data.password}`,
         data
       );
-      console.log(response);
       if (response.data.token) {
         dispatch(setData(response.data.userLogin));
         localStorage.setItem("token", response.data.token);
         navigate("/home");
       }
     } catch (err) {
-      console.log(err);
+      toast({
+        title: "Error", description: `${err.response.data.message}`, status: "error", duration: 3000, position: "top",
+      });
     }
   };
 

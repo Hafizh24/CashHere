@@ -40,11 +40,23 @@ module.exports = {
       let payload = { id: userLogin.id };
       const token = jwt.sign(payload, process.env.KEY_JWT);
 
-      res.status(200).send({
-        message: "Login success",
-        userLogin,
-        token,
-      });
+      if(userLogin.isVerified === true){
+        if(userLogin.isEnabled === true){
+          res.status(200).send({
+            message: "Login success",
+            userLogin,
+            token,
+          });
+        }else{
+          return res.status(400).send({
+            message: "This account is disabled. Please contact your admin.",
+          });
+        }
+      }else{
+        return res.status(400).send({
+          message: "Your account is not verified.",
+        });
+      }
     } catch (error) {
       console.log("This is the error", error);
       res.status(400).send({ error: error.message });
@@ -71,7 +83,8 @@ module.exports = {
           email: email,
           password: hashPassword,
           isVerified: false,
-          isAdmin: false
+          isAdmin: false,
+          isEnabled: true,
         });
 
         let payload = {id: result.id}
@@ -171,12 +184,12 @@ module.exports = {
   },
   updateUser: async (req, res) => {
     try {
-      const { id, isVerified } = req.body;
+      const { id, isEnabled } = req.body;
       const updateFields = {};
 
       if (id) {
         updateFields.id = id;
-        updateFields.isVerified = isVerified;
+        updateFields.isEnabled = isEnabled;
         await User.update(updateFields, {
           where: {
             id: id,
@@ -206,7 +219,6 @@ module.exports = {
   },
   updateUserPassword: async (req, res) => {
     try {
-      const { password } = req.body;
       const { password } = req.body;
       const salt = await bcrypt.genSalt(10);
       const hashPassword = await bcrypt.hash(password, salt);

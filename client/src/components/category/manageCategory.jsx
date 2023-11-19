@@ -29,24 +29,13 @@ const ManageCategory = () => {
     <>
       <Flex
         minH={"100vh"}
-        minW={"100vw"}
+        minW={"50vw"}
         align={"center"}
         justify={"center"}
-        bgColor={"white"}>
-        <Tabs variant="soft-rounded" colorScheme="green">
-          <TabList justifyContent={"center"}>
-            <Tab textAlign={"center"}>Add a new product category</Tab>
-            <Tab textAlign={"center"}>Manage product category</Tab>
-          </TabList>
-          <TabPanels h={"80vh"}>
-            <TabPanel>
-              <AddCategory getData={fetchAPI} />
-            </TabPanel>
-            <TabPanel>
-              <UpdateCategory data={data} getData={fetchAPI} />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
+        bgColor={'#f0f0ec'}
+        direction={'column'}>
+          <AddCategory getData={fetchAPI} />
+          <UpdateCategory data={data} getData={fetchAPI} />
       </Flex>
     </>
   );

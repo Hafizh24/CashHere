@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import SidebarWithHeader from "../sidebar";
 import SeeAllProducts from "./subcomponents/seeAllProducts";
 import AddProduct from "./subcomponents/addProduct";
+import ManageCategory from "../category/manageCategory";
 
 export default function ManageProduct() {
   const token = localStorage.getItem('token')
@@ -34,13 +35,15 @@ export default function ManageProduct() {
     <>
     <SidebarWithHeader></SidebarWithHeader>
     <Flex
-    minH={'90vh'}
-    align={'center'}
+    minH={'200vh'}
+    pt={5}
     justify={'center'}
-    pl={[null, '12rem']}>
+    pl={[null, '14rem']}
+    bgColor={'#f0f0ec'}>
       <Tabs variant='soft-rounded' >
         <TabList justifyContent={'center'}>
           <Tab _selected={{ color: 'white', bg: '#3C6255' }} textAlign={'center'}>Add product</Tab>
+          <Tab _selected={{ color: 'white', bg: '#3C6255' }} textAlign={'center'}>Manage Category</Tab>
           <Tab _selected={{ color: 'white', bg: '#3C6255' }} textAlign={'center'}>Manage products</Tab>
         </TabList>
         <TabPanels h={'80vh'}>
@@ -48,7 +51,10 @@ export default function ManageProduct() {
             <AddProduct getProducts={getProducts}/>
           </TabPanel>
           <TabPanel>
-            <SeeAllProducts productData={productData} getProducts={getProducts} isLoaded={isLoaded}/>
+            <ManageCategory/>
+          </TabPanel>          
+          <TabPanel>
+            <SeeAllProducts productData={productData} setProductData={setProductData} setIsLoaded={setIsLoaded} getProducts={getProducts} isLoaded={isLoaded}/>
           </TabPanel>
         </TabPanels>
       </Tabs>

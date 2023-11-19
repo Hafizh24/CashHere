@@ -20,6 +20,7 @@ const router = createBrowserRouter([
   { path: "/", element: <WelcomePage></WelcomePage> },
   { path: "/login-admin", element: <LoginAdmin></LoginAdmin> },
   { path: "/login-cashier", element: <LoginCashier></LoginCashier> },
+  { path: "/verify/:token", element: <Verify></Verify> },
   {
     element: <Required></Required>,
     children: [
@@ -28,7 +29,6 @@ const router = createBrowserRouter([
       { path: "/manage-cashier", element: <ManagerCashier></ManagerCashier> },
       { path: "/manage-product", element: <ManageProduct></ManageProduct> },
       { path: "/reset-password/:token", element: <ResetPasswordPage></ResetPasswordPage> },
-      { path: "/verify/:token", element: <Verify></Verify> },
       { path: "/admin-settings", element: <AdminSettings></AdminSettings> },
       { path: "/profile", element: <Profile /> },
       { path: "/manage-category", element: <ManageCategory /> },

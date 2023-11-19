@@ -40,11 +40,23 @@ module.exports = {
       let payload = { id: userLogin.id };
       const token = jwt.sign(payload, process.env.KEY_JWT);
 
-      res.status(200).send({
-        message: "Login success",
-        userLogin,
-        token,
-      });
+      if(userLogin.isVerified === true){
+        if(userLogin.isEnabled === true){
+          res.status(200).send({
+            message: "Login success",
+            userLogin,
+            token,
+          });
+        }else{
+          return res.status(400).send({
+            message: "This account is disabled. Please contact your admin.",
+          });
+        }
+      }else{
+        return res.status(400).send({
+          message: "Your account is not verified.",
+        });
+      }
     } catch (error) {
       console.log("This is the error", error);
       res.status(400).send({ error: error.message });
@@ -72,23 +84,21 @@ module.exports = {
           password: hashPassword,
           isVerified: false,
           isAdmin: false,
+          isEnabled: true,
         });
 
-        let payload = { id: result.id };
-        const token = jwt.sign(payload, process.env.KEY_JWT, { expiresIn: "24h" });
-        const data = fs.readFileSync("./template_verify.html", "utf-8");
-        const tempCompile = await handlebars.compile(data);
-        const tempResult = tempCompile({
-          username: username,
-          link: `http://localhost:3000/verify/${token}`,
-        });
+        let payload = {id: result.id}
+        const token = jwt.sign(payload, process.env.KEY_JWT, {expiresIn: '24h'})
+        const data = fs.readFileSync('./template_verify.html', 'utf-8')
+        const tempCompile = await handlebars.compile(data)
+        const tempResult = tempCompile({username: username, link:`http://localhost:3000/verify/${token}`})
 
         await transporter.sendMail({
-          from: "vadittolk@gmail.com",
-          to: email,
-          subject: "CashHere - Account Verification",
-          html: tempResult,
-        });
+            from: 'vadittolk@gmail.com',
+            to: email,
+            subject: 'CashHere - Account Verification',
+            html: tempResult
+        })
       } else {
         return res.status(400).send({ message: "User already exist" });
       }
@@ -174,12 +184,12 @@ module.exports = {
   },
   updateUser: async (req, res) => {
     try {
-      const { id, isVerified } = req.body;
+      const { id, isEnabled } = req.body;
       const updateFields = {};
 
       if (id) {
         updateFields.id = id;
-        updateFields.isVerified = isVerified;
+        updateFields.isEnabled = isEnabled;
         await User.update(updateFields, {
           where: {
             id: id,
@@ -194,16 +204,13 @@ module.exports = {
   },
   updateUserVerified: async (req, res) => {
     try {
-      await User.update(
-        {
-          isVerified: true,
-        },
-        {
+        await User.update({
+          isVerified: true
+        }, {
           where: {
             id: req.user.id,
           },
-        }
-      );
+        });
       res.status(200).send({ message: "Data verified updated" });
     } catch (error) {
       console.log("This is the error", error);
@@ -215,14 +222,14 @@ module.exports = {
       const { password } = req.body;
       const salt = await bcrypt.genSalt(10);
       const hashPassword = await bcrypt.hash(password, salt);
-
+      
       await User.update(
         {
           password: hashPassword,
         },
         {
           where: {
-            id: req.user.id,
+            id: req.user.id
           },
         }
       );
@@ -253,20 +260,20 @@ module.exports = {
 
       const findUser = await User.findOne({
         where: {
-          email: email,
+          email: email
         },
       });
 
-      if (findUser) {
-        let payload = { id: findUser.id };
-        const token = jwt.sign(payload, process.env.KEY_JWT, { expiresIn: "24h" });
+      if(findUser){
+        let payload = {id: findUser.id}
+        const token = jwt.sign(payload, process.env.KEY_JWT, {expiresIn: '24h'})
         const data = fs.readFileSync("./template_forgotPassword.html", "utf-8");
         const tempCompile = await handlebars.compile(data);
         const tempResult = tempCompile({
           email: email,
           link: `http://localhost:3000/reset-password/${token}`,
         });
-
+  
         await transporter.sendMail({
           from: "vadittolk@gmail.com",
           to: email,

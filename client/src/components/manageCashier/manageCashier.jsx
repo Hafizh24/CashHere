@@ -28,29 +28,29 @@ export default function ManagerCashier() {
 
   return (
     <>
-      <SidebarWithHeader></SidebarWithHeader>
-      <Flex minH={"90vh"} minW={"100vw"} align={"center"} justify={"center"} bgColor={"white"}>
-        <Tabs variant="soft-rounded">
-          <TabList justifyContent={"center"}>
-            <Tab _selected={{ color: "white", bg: "#3C6255" }} textAlign={"center"}>
-              Register a new cashier
-            </Tab>
-            <Tab _selected={{ color: "white", bg: "#3C6255" }} textAlign={"center"}>
-              Manage cashier
-            </Tab>
-          </TabList>
-          <TabPanels h={"80vh"}>
-            <TabPanel>
-              <AddCashier getCashierData={getCashierData}></AddCashier>
-            </TabPanel>
-            <TabPanel>
-              <UpdateCashier
-                cashierData={cashierData}
-                getCashierData={getCashierData}></UpdateCashier>
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      </Flex>
+    <SidebarWithHeader></SidebarWithHeader>
+    <Flex
+    minH={'90vh'}
+    minW={'100vw'}
+    align={'center'}
+    justify={'center'}
+    pl={[null, '14rem']}
+    bgColor={'#f0f0ec'}>
+      <Tabs variant='soft-rounded' >
+        <TabList justifyContent={'center'}>
+          <Tab _selected={{ color: 'white', bg: '#3C6255' }} textAlign={'center'}>Register a new cashier</Tab>
+          <Tab _selected={{ color: 'white', bg: '#3C6255' }} textAlign={'center'}>Manage cashier</Tab>
+        </TabList>
+        <TabPanels h={'80vh'}>
+          <TabPanel>
+            <AddCashier getCashierData={getCashierData}></AddCashier>
+          </TabPanel>
+          <TabPanel>
+            <UpdateCashier cashierData={cashierData} getCashierData={getCashierData}></UpdateCashier>
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    </Flex>
     </>
   );
 }

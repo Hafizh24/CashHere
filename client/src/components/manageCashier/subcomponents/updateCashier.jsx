@@ -92,6 +92,7 @@ function UpdateCashier({ cashierData, getCashierData }) {
               <Tr>
                 <Th fontSize={["xs"]}>Username</Th>
                 <Th fontSize={["xs"]}>Email</Th>
+                <Th fontSize={["xs"]}>Verified</Th>
                 <Th fontSize={["xs"]}>Status</Th>
                 <Th fontSize={["xs"]}>Edit</Th>
               </Tr>
@@ -105,6 +106,13 @@ function UpdateCashier({ cashierData, getCashierData }) {
                       <Td>{item.email}</Td>
                       <Td>
                         {item.isVerified === false ? (
+                          <span style={{ color: "red", fontWeight: "bold" }}>Not Verified</span>
+                        ) : (
+                          <span style={{ color: "green", fontWeight: "bold" }}>Verified</span>
+                        )}
+                      </Td>
+                      <Td>
+                        {item.isEnabled === false ? (
                           <span style={{ color: "red", fontWeight: "bold" }}>Disabled</span>
                         ) : (
                           <span style={{ color: "green", fontWeight: "bold" }}>Enabled</span>

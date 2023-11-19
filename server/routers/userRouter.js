@@ -6,22 +6,12 @@ const { checkRegister, checkResetPassword } = require("../middleware/validator")
 
 router.get("/user-login", userController.userLogin); //login user
 router.get("/keep-login", verifyToken, userController.keepLogin); //keep login butuh verify token
-router.patch(
-  "/change-img",
-  verifyToken,
-  multerUpload().single("image"),
-  userController.updateImage
-);
-router.post("/add-user", checkRegister, userController.addUser); //register user
+router.patch("/change-img", verifyToken, multerUpload().single("image"), userController.updateImage);
+router.post("/add-user", verifyToken, checkRegister, userController.addUser); //register user
 router.post("/add-admin", checkRegister, userController.addAdmin); //register user
 router.get("/get-user", verifyToken, userController.getUser);
 router.patch("/update-user", verifyToken, userController.updateUser);
-router.patch(
-  "/update-user-password",
-  verifyToken,
-  checkResetPassword,
-  userController.updateUserPassword
-);
+router.patch("/update-user-password", verifyToken, checkResetPassword, userController.updateUserPassword);
 router.patch("/update-user-verified", verifyToken, userController.updateUserVerified); //update verified email cashier
 router.get("/reset-password", userController.resetPassword);
 router.delete("/delete-cashier/:id", verifyToken, userController.deleteCashier);

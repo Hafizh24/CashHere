@@ -1,62 +1,60 @@
-import { useFormik } from "formik";
-import axios from "axios";
 import {
-  Button,
-  FormControl,
-  FormLabel,
   Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
   ModalBody,
   ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  useToast,
-} from "@chakra-ui/react";
+  FormControl,
+  FormLabel,
+  Button,
+  useToast
+} from '@chakra-ui/react'
+import { useFormik } from 'formik'
+import axios from 'axios'
 
 function ModalUpdate({ isOpen, onClose, clickedData, getCashierData }) {
-  const toast = useToast();
-  const token = localStorage.getItem("token");
+  const toast = useToast()
+  const token = localStorage.getItem('token')
 
   const handleSubmit = async (data) => {
     try {
-      data.id = clickedData.id;
+      data.id = clickedData.id
       if (clickedData.isEnabled === false) {
-        data.isEnabled = true;
+        data.isEnabled = true
       } else {
-        data.isEnabled = false;
+        data.isEnabled = false
       }
 
-      await axios.patch("http://localhost:2000/users/update-user", data, {
+      await axios.patch('http://localhost:2000/users/update-user', data, {
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }); //sending data to database
-      getCashierData();
+          Authorization: `Bearer ${token}`
+        }
+      }) //sending data to database
+      getCashierData()
       toast({
-        title: "Success",
-        description: `${clickedData.username} has been ${
-          data.isEnabled === true ? "enabled" : "disabled"
-        }`,
-        status: "success",
+        title: 'Success',
+        description: `${clickedData.username} has been ${data.isEnabled === true ? 'enabled' : 'disabled'}`,
+        status: 'success',
         duration: 4000,
-        position: "top",
-      });
-      onClose();
+        position: 'top'
+      })
+      onClose()
     } catch (err) {
-      console.log(err.response.data.message);
+      console.log(err.response.data.message)
     }
-  };
+  }
 
   const formik = useFormik({
     initialValues: {
-      isEnabled: false,
+      isEnabled: false
     },
     onSubmit: (values, action) => {
-      handleSubmit(values);
-      action.resetForm();
-    },
-  });
+      handleSubmit(values)
+      action.resetForm()
+    }
+  })
 
   return (
     <>
@@ -64,35 +62,35 @@ function ModalUpdate({ isOpen, onClose, clickedData, getCashierData }) {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            {clickedData.isEnabled === false ? <>Enable</> : <>Disable</>}{" "}
-            <span style={{ color: "blue" }}>{clickedData.username}</span>?
+            {clickedData.isEnabled === false ? <>Enable</> : <>Disable</>}{' '}
+            <span style={{ color: 'blue' }}>{clickedData.username}</span>?
           </ModalHeader>
           <ModalCloseButton />
           <form onSubmit={formik.handleSubmit}>
             <ModalBody pb={8}>
               <FormControl>
                 <FormLabel>
-                  {clickedData.username} will be{" "}
+                  {clickedData.username} will be{' '}
                   {clickedData.isEnabled === false ? (
                     <>enabled, and he/she can log in to the website.</>
                   ) : (
                     <>disabled and, he/she can't log in to the website.</>
-                  )}{" "}
+                  )}{' '}
                 </FormLabel>
               </FormControl>
             </ModalBody>
             <ModalFooter>
               <Button
                 type="submit"
-                bg={"#3C6255"}
-                color={"white"}
+                bg={'#3C6255'}
+                color={'white'}
                 colorScheme="blue"
                 mr={3}
-                _hover={{ bg: "#61876E" }}
-                rounded={"full"}>
+                _hover={{ bg: '#61876E' }}
+                rounded={'full'}>
                 {clickedData.isEnabled === false ? <>Enable</> : <>Disable</>}
               </Button>
-              <Button onClick={onClose} rounded={"full"}>
+              <Button onClick={onClose} rounded={'full'}>
                 Cancel
               </Button>
             </ModalFooter>
@@ -100,7 +98,7 @@ function ModalUpdate({ isOpen, onClose, clickedData, getCashierData }) {
         </ModalContent>
       </Modal>
     </>
-  );
+  )
 }
 
-export default ModalUpdate;
+export default ModalUpdate

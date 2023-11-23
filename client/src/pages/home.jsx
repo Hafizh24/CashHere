@@ -37,11 +37,14 @@ function Home() {
             console.log(err);
             setIsLoaded(false)
         }
-    }
+  
+  
 
-    useEffect(() => {
-        getProducts();
-    }, []);
+  
+
+useEffect(() => {
+  getProducts()
+}, [])
 
     return(
         <>
@@ -52,30 +55,21 @@ function Home() {
             {productData?.length !== 0? 
                 <>
                 <SimpleGrid columns={[1, null, 4]} spacing={8}>
-                            {currentPosts.map((item) =>(
-                            <>
-                            {item.isActive === true && item.isDeleted === false &&( 
-                                <>
-                                    <Skeleton isLoaded={isLoaded} fadeDuration={1}>
-                                        <Card productData={item} getProducts={getProducts}/>
-                                    </Skeleton>
-                                </>
-                            )}
-                            </>
-                        ))}
+                    { searchTerm ?
+                    <>
+                        <FilterProductByName productData={productData} getProducts={getProducts} searchTerm={searchTerm} isLoaded={isLoaded}/>
+                    </>
+                        :
+                    <>
+                        <PaginatedProduct productData={productData} getProducts={getProducts} isLoaded={isLoaded} postsPerPage={postsPerPage} currentPage={currentPage}/>
+                    </>}
                 </SimpleGrid>
-                <Pagination
-                totalPosts={productData.length}
-                postsPerPage={postsPerPage}
-                setCurrentPage={setCurrentPage}
-                currentPage={currentPage}
-                />
-                <Cart onClose={onClose} isOpen={isOpen} data={productData}/>
-
-                </>
-                :
+                {!searchTerm && 
                 <>
-                    <Heading size={'xl'}>Data is empty</Heading>
+                    <Pagination
+                    postsPerPage={postsPerPage}
+                    totalPosts={productData.length}
+                    paginate={paginate}/>
                 </>}
             </Flex>
         </>
@@ -83,3 +77,4 @@ function Home() {
 }
 
 export default Home;
+

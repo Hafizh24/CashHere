@@ -1,9 +1,8 @@
 import {
+  Button,
+  FormControl,
+  FormLabel,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
   FormControl,

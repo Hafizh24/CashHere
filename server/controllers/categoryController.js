@@ -4,7 +4,9 @@ const Category = db.Category;
 module.exports = {
   getAllCategory: async (req, res) => {
     try {
-      const result = await Category.findAll();
+      const result = await Category.findAll({
+        where: { isDeleted: 0 },
+      });
       res.status(200).send(result);
     } catch (error) {
       console.log(error);
@@ -35,11 +37,16 @@ module.exports = {
   },
   deleteCategory: async (req, res) => {
     try {
-      await Category.destroy({
-        where: {
-          id: req.params.id,
+      await Category.update(
+        {
+          isDeleted: 1,
         },
-      });
+        {
+          where: {
+            id: req.params.id,
+          },
+        }
+      );
       res.status(200).send("category deleted successfully");
     } catch (error) {
       console.log(error);

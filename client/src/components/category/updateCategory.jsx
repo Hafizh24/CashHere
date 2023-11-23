@@ -14,87 +14,72 @@ import {
   Tbody,
   Td,
   useToast,
-  Text,
-} from "@chakra-ui/react";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-} from "@chakra-ui/react";
-import { DeleteIcon, EditIcon, WarningIcon } from "@chakra-ui/icons";
-import axios from "axios";
-import { useState } from "react";
-// import ModalUpdate from "./modalUpdate";
+  Text
+} from '@chakra-ui/react'
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from '@chakra-ui/react'
+import { DeleteIcon, EditIcon, WarningIcon } from '@chakra-ui/icons'
+import axios from 'axios'
+import { useState } from 'react'
+import ModalUpdateCategory from './modalUpdateCategory'
 
 const UpdateCategory = ({ data, getData }) => {
-  //   console.log(data);
-  const [clickedData, setClickedData] = useState([]);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const {
-    isOpen: isDeleteModalOpen,
-    onOpen: onDeleteModalOpen,
-    onClose: onDeleteModalClose,
-  } = useDisclosure();
-  const toast = useToast();
-  const token = localStorage.getItem("token");
-
-  const handleEdit = (item) => {
-    setClickedData(item);
-    onOpen();
-  };
+  const [clickedData, setClickedData] = useState([])
+  const { isOpen: isDeleteModalOpen, onOpen: onDeleteModalOpen, onClose: onDeleteModalClose } = useDisclosure()
+  const { isOpen: isOpenUpdate, onOpen: onOpenUpdate, onClose: onCloseUpdate } = useDisclosure()
+  const toast = useToast()
+  const token = localStorage.getItem('token')
 
   const handleModalDelete = (item) => {
-    setClickedData(item);
-    onDeleteModalOpen();
-  };
+    setClickedData(item)
+    onDeleteModalOpen()
+  }
+  const handleModalEdit = (item) => {
+    setClickedData(item)
+    onOpenUpdate()
+  }
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:2000/categories/${id}`, {
+      await axios.patch(`http://localhost:2000/categories/delete/${id}`, {
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      // Update the state by filtering out the deleted item
-      getData();
+          Authorization: `Bearer ${token}`
+        }
+      })
+      getData()
 
       toast({
-        title: "Success",
-        description: "Selected category has been deleted",
-        status: "success",
+        title: 'Success',
+        description: 'Selected category has been deleted',
+        status: 'success',
         duration: 3000,
-        position: "top",
-      });
+        position: 'top'
+      })
     } catch (err) {
-      console.log(err);
+      console.log(err)
       toast({
-        title: "Error",
+        title: 'Error',
         description: "Selected category can't be deleted",
-        status: "error",
+        status: 'error',
         duration: 3000,
-        position: "top",
-      });
+        position: 'top'
+      })
     }
-  };
+  }
 
   return (
     <>
-      <Stack spacing={8} mx={"auto"} minW={"32vw"} py={12} px={6}>
-        <Stack align={"center"}>
-          <Heading fontSize={"4xl"}>Manage product category</Heading>
+      <Stack spacing={8} mx={'auto'} minW={'32vw'} py={12} px={6}>
+        <Stack align={'center'}>
+          <Heading fontSize={'4xl'}>Manage product category</Heading>
         </Stack>
-        <Box rounded={"lg"} bg={useColorModeValue("white", "gray.700")} boxShadow={"lg"} p={8}>
+        <Box rounded={'lg'} bg={useColorModeValue('white', 'gray.700')} boxShadow={'lg'} p={8}>
           <TableContainer>
-            <Table variant="simple" size={["xs", "md"]}>
+            <Table variant="simple" size={['xs', 'md']}>
               <TableCaption>All product categories</TableCaption>
               <Thead>
                 <Tr>
-                  <Th fontSize={["xs"]}>Name</Th>
-                  <Th fontSize={["xs"]}>Edit</Th>
+                  <Th fontSize={['xs']}>Name</Th>
+                  <Th fontSize={['xs']}>Edit</Th>
                 </Tr>
               </Thead>
               <Tbody>
@@ -102,27 +87,27 @@ const UpdateCategory = ({ data, getData }) => {
                   <>
                     {data.map((item) => (
                       <Tr key={item.id}>
-                        <Td textTransform={"capitalize"}>{item.name}</Td>
+                        <Td textTransform={'capitalize'}>{item.name}</Td>
                         <Td>
                           <Button
-                            bgColor={"#3C6255"}
-                            color={"white"}
+                            bgColor={'#3C6255'}
+                            color={'white'}
                             onClick={() => {
-                              handleEdit(item);
+                              handleModalEdit(item)
                             }}
-                            ml={"8px"}
-                            _hover={{ bg: "#61876E" }}
-                            size={["sm", "md"]}>
+                            ml={'8px'}
+                            _hover={{ bg: '#61876E' }}
+                            size={['sm', 'md']}>
                             <EditIcon />
                           </Button>
                           <Button
                             colorScheme="red"
-                            color={"white"}
-                            ml={"8px"}
+                            color={'white'}
+                            ml={'8px'}
                             onClick={() => {
-                              handleModalDelete(item);
+                              handleModalDelete(item)
                             }}
-                            size={["sm", "md"]}>
+                            size={['sm', 'md']}>
                             <DeleteIcon />
                           </Button>
                         </Td>
@@ -131,7 +116,7 @@ const UpdateCategory = ({ data, getData }) => {
                   </>
                 ) : (
                   <Tr>
-                    <Td colSpan={3} textAlign={"center"}>
+                    <Td colSpan={3} textAlign={'center'}>
                       Product category data is empty
                     </Td>
                   </Tr>
@@ -141,24 +126,24 @@ const UpdateCategory = ({ data, getData }) => {
           </TableContainer>
         </Box>
 
-        {/* <ModalUpdate
-          isOpen={isOpen}
-          onClose={onClose}
+        <ModalUpdateCategory
+          isOpenUpdate={isOpenUpdate}
+          onCloseUpdate={onCloseUpdate}
+          data={data}
+          getData={getData}
           clickedData={clickedData}
-          getCashierData={getCashierData}
-        /> */}
+        />
 
         <Modal isOpen={isDeleteModalOpen} onClose={onDeleteModalClose} isCentered>
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>
-              Are you sure? <WarningIcon color={"red"} />
+              Are you sure? <WarningIcon color={'red'} />
             </ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <Text>
-                All data related to <span style={{ color: "red" }}>{clickedData.name}</span>{" "}
-                will be deleted.
+                All data related to <span style={{ color: 'red' }}>{clickedData.name}</span> will be deleted.
               </Text>
             </ModalBody>
             <ModalFooter>
@@ -169,8 +154,8 @@ const UpdateCategory = ({ data, getData }) => {
                 variant="ghost"
                 colorScheme="red"
                 onClick={() => {
-                  handleDelete(clickedData?.id);
-                  onDeleteModalClose();
+                  handleDelete(clickedData?.id)
+                  onDeleteModalClose()
                 }}>
                 Delete
               </Button>
@@ -179,7 +164,7 @@ const UpdateCategory = ({ data, getData }) => {
         </Modal>
       </Stack>
     </>
-  );
-};
+  )
+}
 
-export default UpdateCategory;
+export default UpdateCategory

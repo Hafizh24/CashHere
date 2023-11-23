@@ -77,7 +77,9 @@ export default function Filter({setProductData, setIsLoaded}){
       })
     return(
         <form onSubmit={formik.handleSubmit}>
-        <Stack w={['70vw', '50vw']} direction={['column', 'row']}>                    
+
+        <Stack w={['70vw', '50vw']} direction={['column', 'row']} spacing={5}>                    
+
                 <Input rounded={'full'} name="name" type="text" placeholder="Search by name" value={formik.values.name} onChange={formik.handleChange} autoComplete="new" mb={4} focusBorderColor='#3C6255' _hover={{}} border={'1px'}/>
                 <Select rounded={'full'} border={'1px'} name="category" value={formik.setFieldValue.category} onChange={(e) => {formik.setFieldValue("category", parseInt(e.target.value))}} focusBorderColor='#3C6255' _hover={{}} defaultValue={''}>
                 <option value="" disabled hidden>Select category</option>

@@ -18,18 +18,21 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Image,
+  Stack,
 } from "@chakra-ui/react";
-import { FiHome, FiStar, FiSettings, FiMenu, FiChevronDown } from "react-icons/fi";
+import { FiHome, FiMenu, FiChevronDown, FiShoppingCart } from "react-icons/fi";
 import { PiPackageDuotone, PiUserListLight } from "react-icons/pi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { GoGraph } from "react-icons/go"
+import logo from "../assets/cashhere.png"
 
 const LinkItems = [
   { name: "Home", icon: FiHome, route: "/home", cashier: true },
   { name: "Cashier", icon: PiUserListLight, route: "/manage-cashier"  },
   { name: "Product", icon: PiPackageDuotone, route: "/manage-product"  },
-  { name: "Security", icon: FiStar, cashier: true },
-  { name: "Settings", icon: FiSettings, cashier: true }
+  { name: "Sales Report", icon: GoGraph, route: "/sales-report"}
 ]
 
 const SidebarContent = ({user, onClose, ...rest }) => {
@@ -44,9 +47,8 @@ const SidebarContent = ({user, onClose, ...rest }) => {
       h="full"
       {...rest}>
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Logo
-        </Text>
+      <Image 
+        src={logo} alt={'logo'} pt={'10px'} h={'50px'} w={'100px'} />
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map(link => (
@@ -106,7 +108,8 @@ const NavItem = ({ icon, children, ...rest }) => {
   );
 };
 
-const MobileNav = ({ onOpen, user, handleLogout, ...rest }) => {
+const MobileNav = ({ onOpen, user, onOpening, handleLogout, ...rest }) => {
+  const total = useSelector((state) => state.cart.total)
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -130,12 +133,44 @@ const MobileNav = ({ onOpen, user, handleLogout, ...rest }) => {
         display={{ base: "flex", md: "none" }}
         fontSize="2xl"
         fontFamily="monospace"
-        fontWeight="bold">
-        Logo
+        fontWeight="bold"
+        color={'white'}>
+        CashHere
       </Text>
 
       <HStack spacing={{ base: "0", md: "6" }}>
+      {user?.isAdmin === false ? (
+          <Stack direction={'row'} spacing={0}>
+            <IconButton
+              size={['sm', null, null, 'lg']}
+              onClick={onOpening}
+              variant="ghost"
+              color={'white'}
+              icon={<FiShoppingCart />}
+            />
+            {total > 0 ? (
+              <Text
+                mr={[1, null]}
+                color={'white'}
+                bgColor={'red'}
+                fontSize={['9px', 'xs']}
+                borderWidth={'1px'}
+                borderRadius={'full'}
+                w={[4, null, null, 6]}
+                h={[4, null, null, 6]}
+                p={[null, null, 1]}
+                textAlign={'center'}>
+                {total}
+              </Text>
+            ) : (
+              ''
+            )}
+          </Stack>
+        ) : (
+          ''
+        )}
         <Flex alignItems={"center"}>
+          
           <Menu>
             <MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: "none" }}>
               <HStack>
@@ -164,9 +199,10 @@ const MobileNav = ({ onOpen, user, handleLogout, ...rest }) => {
             <MenuList
               bg={useColorModeValue("white", "gray.900")}
               borderColor={useColorModeValue("gray.200", "gray.700")}>
-              <MenuItem>Profile</MenuItem>
+              <Link to={'/profile'}>
+                  <MenuItem>Profile</MenuItem>
+              </Link>
               <MenuItem>Settings</MenuItem>
-              <MenuItem>Billing</MenuItem>
               <MenuDivider />
               <MenuItem onClick={handleLogout}>Sign out</MenuItem>
             </MenuList>
@@ -177,7 +213,7 @@ const MobileNav = ({ onOpen, user, handleLogout, ...rest }) => {
   );
 };
 
-const SidebarWithHeader = () => {
+const SidebarWithHeader = ({onOpening}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const user = useSelector((state) => state.user.value);
 
@@ -205,7 +241,7 @@ const SidebarWithHeader = () => {
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
-      <MobileNav user={user} onOpen={onOpen} handleLogout={handleLogout} />
+      <MobileNav user={user} onOpening={onOpening} onOpen={onOpen} handleLogout={handleLogout} />
     </Box>
   );
 };

@@ -1,9 +1,10 @@
 import { Box, Heading, Text, Stack, useColorModeValue, Button, HStack, StackDivider, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, useToast, ModalCloseButton, Image, Skeleton } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ModalUpdateProduct from "./manageProduct/subcomponents/modalUpdateProduct";
 import { DeleteIcon, EditIcon, WarningIcon } from "@chakra-ui/icons";
 import axios from "axios";
 import { useState } from "react";
+import { addToCart } from "../redux/cartSlice";
 
 export default function Card({productData, getProducts}) {
   const user = useSelector((state) => state.user.value);
@@ -11,6 +12,7 @@ export default function Card({productData, getProducts}) {
   const toast = useToast()
   const { isOpen: isOpenUpdate, onOpen: onOpenUpdate, onClose: onCloseUpdate } = useDisclosure();
   const { isOpen: isOpenWarning, onOpen: onOpenWarning, onClose: onCloseWarning } = useDisclosure();
+  const dispatch = useDispatch();
   
   const handleDelete = async () => {
     try{
@@ -73,20 +75,39 @@ export default function Card({productData, getProducts}) {
           <Text color={"black"} fontSize={["xs", "sm"]} letterSpacing={1.1}>
           {user.isAdmin === true && <>Status : {productData?.isActive === true ? <>Active</> : <>Inactive</>}</>}
           </Text>
-          <HStack justifyContent={'flex-end'} divider={<StackDivider borderColor="gray.400" />}>
-            {user?.isAdmin === true ? 
-            <>
-            <Button onClick={() => {onOpenUpdate()}} size={["sm", "md"]} bgColor={'#3C6255'} _hover={{bg: '#61876E'}} mr={2} color={'white'}>
-              <EditIcon/>
-            </Button>
-            <Button onClick={() => {onOpenWarning()}} size={["sm", "md"]} colorScheme="red">
-              <DeleteIcon/>
-            </Button>
+          {user?.isAdmin === true ? 
+          <>
+            <HStack justifyContent={'flex-end'} divider={<StackDivider borderColor="gray.400" />}>
+              <Button onClick={() => {onOpenUpdate()}} size={["sm", "md"]} bgColor={'#3C6255'} _hover={{bg: '#61876E'}} mr={2} color={'white'}>
+                <EditIcon/>
+              </Button>
+              <Button onClick={() => {onOpenWarning()}} size={["sm", "md"]} colorScheme="red">
+                <DeleteIcon/>
+              </Button>
+            </HStack>
             </> 
             : 
             <>
+            <Stack justifyContent={'center'} alignItems={'center'} mt={14}>
+                <Button
+                  w={48}
+                  bgColor={'#3C6255'}
+                  _hover={{ bg: '#61876E' }}
+                  color={'white'}
+                  onClick={() => {
+                    dispatch(addToCart({ id: productData.id, quantity: 1, amount: productData.price }))
+                    toast({
+                      title: 'success',
+                      description: `${productData.name} has been added to cart`,
+                      status: 'success',
+                      duration: 1000,
+                      position: 'top'
+                    })
+                  }}>
+                  Add to Cart
+                </Button>
+              </Stack>
             </>}
-          </HStack>
         </Stack>
       </Box>
 

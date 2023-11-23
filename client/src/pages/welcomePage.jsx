@@ -1,62 +1,72 @@
 import {
-    Box,
-    Heading,
-    Container,
-    Text,
-    Button,
-    Stack,
-  } from '@chakra-ui/react'
+  Box,
+  Heading,
+  Container,
+  Text,
+  Button,
+  Stack,
+  Flex,
+  Image,
+} from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
-  
-  export default function WelcomePage() {
-    return (
-      <>
-        <Container maxW={'3xl'}>
-          <Stack
-            as={Box}
-            textAlign={'center'}
-            spacing={{ base: 8, md: 14 }}
-            py={{ base: 20, md: 36 }}>
-            <Heading
-              fontWeight={600}
-              fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
-              lineHeight={'110%'}>
-              Welcome to <br />
-              <Text as={'span'} color={'green.400'}>
-                Cash Here
-              </Text>
-            </Heading>
-            <Text color={'gray.500'}>
-              Monetize your content by charging your most loyal readers and reward them
-              loyalty points. Give back to your loyal readers by granting them access to
-              your pre-releases and sneak-peaks.
+import admin from '../assets/admin.png'
+export default function WelcomePage() {
+  return (
+    <>
+
+      <Stack minH={'100vh'} direction={{base: "column", md: "row"}}>
+      <Flex p={8} flex={1} align={"center"}
+      justify={"center"}>
+        <Stack
+        ml={'9'}
+          as={Box}
+          textAlign={'left'}
+          spacing={{ base: 8, md: 14 }}
+          py={{ base: 20, md: 36 }}>
+          <Heading
+            fontWeight={600}
+            fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
+            lineHeight={'110%'}>
+            Point of Sale and Inventory Management Website <br />
+            <Text as={'span'} color={'#3C6255'}>
+              With Cash Here
             </Text>
-            <Stack
-              direction={'row'}
-              spacing={3}
-              align={'center'}
-              alignSelf={'center'}
-              position={'relative'}>
-              <Link to="/login-cashier">
-              <Button
-                colorScheme={'green'}
-                bg={'#3C6255'}
-                rounded={'full'}
-                px={6}
-                _hover={{
-                  bg: '#61876E',
-                }}>
-                Login as Cashier
-              </Button>
-              </Link>
-              <Link to="/login-admin">
-                <Button colorScheme={'green'} bg={'#3C6255'} rounded={'full'} px={6} _hover={{bg: '#61876E',}}>
-                    Login as Admin
-                </Button>
-              </Link>
-            </Stack>
+          </Heading>
+          <Flex w={'70%'}>
+          <Text color={'gray.900'} fontSize={'medium'}>
+          Manage your store sales, inventory, and employees with
+              such convenience; draw customers and increase your revenue.
+              Build your business together with us.
+          </Text>
+          </Flex>
+          <Stack
+            direction={'row'}
+            spacing={3}
+            align={'left'}
+            alignSelf={'left'}
+            position={'relative'}>
+            <Link to="/login-cashier">
+            <Button
+            w={'20rem'}
+              colorScheme={'green'}
+              bg={'#3C6255'}
+              borderRadius={'5px'}
+              px={6}
+              _hover={{
+                bg: '#61876E',
+              }}>
+              Sign In
+            </Button>
+            </Link>
           </Stack>
-        </Container>
-      </>
-    )
-  }
+        </Stack>
+      </Flex>
+      <Flex justifyItems={'center'} justifyContent={"center"} alignContent={"center"} flex={1}>
+        <Box maxW={'100%'}>
+        <Image mt={'100px'} display={{base: "none", md:"block"}} h={'45rem'} alt={"Login Image"} objectFit={"cover"} src={admin} />
+        </Box>
+      </Flex>
+      </Stack>
+    </>
+  )
+}

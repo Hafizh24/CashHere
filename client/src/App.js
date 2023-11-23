@@ -15,12 +15,16 @@ import ManageCategory from "./components/category/manageCategory";
 import LoginAdmin from "./components/manageAdmin/loginAdmin";
 import Verify from "./pages/verify";
 import ManageProduct from "./components/manageProduct/manageProduct";
+import SalesbyDateRange from "./components/salesByDateRange";
+import SalesReport from "./pages/SalesReport";
+import ProductSales from "./pages/ProductSales";
 
 const router = createBrowserRouter([
   { path: "/", element: <WelcomePage></WelcomePage> },
   { path: "/login-admin", element: <LoginAdmin></LoginAdmin> },
   { path: "/login-cashier", element: <LoginCashier></LoginCashier> },
   { path: "/verify/:token", element: <Verify></Verify> },
+  { path: "/reset-password/:token", element: <ResetPasswordPage></ResetPasswordPage> },
   {
     element: <Required></Required>,
     children: [
@@ -28,10 +32,12 @@ const router = createBrowserRouter([
       { path: "/home", element: <Home></Home> },
       { path: "/manage-cashier", element: <ManagerCashier></ManagerCashier> },
       { path: "/manage-product", element: <ManageProduct></ManageProduct> },
-      { path: "/reset-password/:token", element: <ResetPasswordPage></ResetPasswordPage> },
       { path: "/admin-settings", element: <AdminSettings></AdminSettings> },
       { path: "/profile", element: <Profile /> },
       { path: "/manage-category", element: <ManageCategory /> },
+      { path: "/sales-report", element: <SalesReport/>},
+      { path: "/sales-by-date-range", element: <SalesbyDateRange/>},
+      { path: "/product-sales", element: <ProductSales/>}
     ],
   },
 ]);

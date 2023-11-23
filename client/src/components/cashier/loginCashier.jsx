@@ -10,19 +10,22 @@ import {
   Stack,
   Image,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
-import cashier from "../../assets/kasir2.png";
+import cashier from "../../assets/inikasir.png";
 import { useDispatch } from "react-redux";
 import { setData } from "../../redux/userSlice";
 import ForgotPassword from "./resetPassword";
+import { useState } from "react";
+
 export default function LoginCashier() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const toast = useToast();
   const LoginSchema = Yup.object().shape({
     username: Yup.string().required("Username can't be empty"),
     password: Yup.string()
@@ -31,17 +34,26 @@ export default function LoginCashier() {
   });
 
   const handleSubmit = async (data) => {
-    console.log(data);
     try {
-      const response = await axios.get(`http://localhost:2000/users/user-login?username=${data.username}&password=${data.password}`, data);
-      if (response.data.token) {
-        dispatch(setData(response.data.userLogin));
-        localStorage.setItem("token", response.data.token);
-        navigate('/home');  
+      if (checkedItems === true) {
+        data.rememberme = true;
+      } else {
+        data.rememberme = false;
       }
-      window.location.reload();
+      const response = await axios.get(
+        `http://localhost:2000/users/user-login?username=${data.username}&password=${data.password}&rememberme=${data.rememberme}`,
+        data
+      );
+      if (response.data.token) {
+        dispatch(setData(response?.data.userLogin));
+        localStorage.setItem("token", response?.data.token);
+        navigate("/home");
+      }
     } catch (err) {
-      console.log(err);
+      console.log(err.response.data.message);
+      toast({
+        title: "Error", description: `${err.response.data.message}`, status: "error", duration: 3000, position: "top",
+      });
     }
   };
 
@@ -61,10 +73,14 @@ export default function LoginCashier() {
   const handleButtonClick = () => {
     onOpen();
   };
-
+  const [checkedItems, setCheckedItems] = useState(false);
+  const handleCheckBoxChange = () => {
+    setCheckedItems(!checkedItems);
+  };
+  console.log(checkedItems);
   return (
     <>
-      <Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
+      <Stack minH={"100vh"} direction={{ base: "column", sm:"row", md:'column', lg:"row"}}>
         <Flex justifyContent={"center"} alignContent={"center"} flex={1}>
           <Image alt={"Login Image"} objectFit={"cover"} src={cashier} />
         </Flex>
@@ -73,7 +89,7 @@ export default function LoginCashier() {
           flex={1}
           align={"center"}
           justify={"center"}
-          bgColor={'gray.100'}
+          bgColor={"gray.200"}
         >
           <Stack spacing={4} w={"full"} maxW={"md"}>
             <Heading fontSize={"2xl"} color={"#3C6255"}>
@@ -104,7 +120,7 @@ export default function LoginCashier() {
               <FormControl id="password">
                 <FormLabel>Password</FormLabel>
                 <Input
-                _hover={{ border: "2px solid #61876E" }}
+                  _hover={{ border: "2px solid #61876E" }}
                   name="password"
                   value={formik.values.password}
                   onChange={formik.handleChange}
@@ -124,7 +140,16 @@ export default function LoginCashier() {
                   align={"start"}
                   justify={"space-between"}
                 >
-                  <Checkbox border={"#3C6255"}>Remember me</Checkbox>
+                  <Checkbox
+                    isChecked={checkedItems}
+                    onChange={() => {
+                      handleCheckBoxChange();
+                    }}
+                    border={"#3C6255"}
+                    colorScheme="green"
+                  >
+                    Remember me
+                  </Checkbox>
                   <Button
                     variant={"unstyled"}
                     color={"#61876E"}

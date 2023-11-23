@@ -38,15 +38,24 @@ module.exports = {
 
       //data yang mau disimpan di token
       let payload = { id: userLogin.id };
-      const token = jwt.sign(payload, process.env.KEY_JWT);
 
       if(userLogin.isVerified === true){
         if(userLogin.isEnabled === true){
-          res.status(200).send({
-            message: "Login success",
-            userLogin,
-            token,
-          });
+          if (req.query.rememberme === 'true') {
+            const token = jwt.sign(payload, process.env.KEY_JWT);
+            res.status(200).send({
+              message: "Login success",
+              userLogin,
+              token,
+            });
+          } else {
+            const token = jwt.sign(payload, process.env.KEY_JWT, {expiresIn: '3h'});
+            res.status(200).send({
+              message: "Login success",
+              userLogin,
+              token,
+            });
+          };
         }else{
           return res.status(400).send({
             message: "This account is disabled. Please contact your admin.",

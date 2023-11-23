@@ -42,28 +42,14 @@ function UpdateCashier({ cashierData, getCashierData }) {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:2000/users/delete-cashier/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+        headers: { Authorization: `Bearer ${token}` }
       })
       // Update the state by filtering out the deleted item
       getCashierData()
-      toast({
-        title: 'Success',
-        description: 'Selected cashier has been deleted',
-        status: 'success',
-        duration: 3000,
-        position: 'top'
-      })
+      toast({ title: 'Success', description: 'Selected cashier has been deleted', status: 'success', duration: 3000, position: 'top' })
     } catch (err) {
       console.log(err)
-      toast({
-        title: 'Error',
-        description: "Selected cashier can't be deleted",
-        status: 'error',
-        duration: 3000,
-        position: 'top'
-      })
+      toast({ title: 'Error', description: "Selected cashier can't be deleted", status: 'error', duration: 3000, position: 'top' })
     }
   }
 

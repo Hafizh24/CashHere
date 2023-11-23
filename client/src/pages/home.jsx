@@ -1,4 +1,6 @@
+
 import { Button, Flex, Heading, SimpleGrid, Skeleton, Stack, useDisclosure} from "@chakra-ui/react";
+
 import SidebarWithHeader from "../components/sidebar";
 import Card from "../components/card";
 import axios from "axios";
@@ -14,8 +16,8 @@ function Home() {
     const [isLoaded, setIsLoaded] = useState(false); 
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage] = useState(8);
-
     const {isOpen, onOpen, onClose} = useDisclosure();
+
 
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
@@ -43,6 +45,7 @@ function Home() {
 
     return(
         <>
+
             <SidebarWithHeader onOpening={onOpen}></SidebarWithHeader>
             <Flex pl={[null, '14rem']} bgColor={'#f0f0ec'} align={'center'} justifyContent={'center'} direction={'column'} pt={5} gap={5}>
             <Filter setProductData={setProductData} setIsLoaded={setIsLoaded}/>
@@ -68,6 +71,7 @@ function Home() {
                 currentPage={currentPage}
                 />
                 <Cart onClose={onClose} isOpen={isOpen} data={productData}/>
+
                 </>
                 :
                 <>

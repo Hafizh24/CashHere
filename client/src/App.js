@@ -25,6 +25,7 @@ const router = createBrowserRouter([
   { path: "/login-cashier", element: <LoginCashier></LoginCashier> },
   { path: "/verify/:token", element: <Verify></Verify> },
   { path: "/reset-password/:token", element: <ResetPasswordPage></ResetPasswordPage> },
+
   {
     element: <Required></Required>,
     children: [

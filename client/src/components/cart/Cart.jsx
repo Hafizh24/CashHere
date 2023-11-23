@@ -86,24 +86,14 @@ const Cart = ({ data, onClose, isOpen }) => {
                           {product?.name}
                         </Heading>
                         <Text fontSize={'md'} fontWeight={'900'} color={'first'}>
-                          {product?.price.toLocaleString('id-ID', {
-                            style: 'currency',
-                            currency: 'IDR',
-                            minimumFractionDigits: 0
-                          })}
+                          {product?.price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 })}
                         </Text>
                       </Stack>
                       <Stack direction={'row'} mt={8} justifyContent={'end'}>
                         <IconButton
                           onClick={() => {
                             dispatch(removeFromCart({ id: item.id }))
-                            toast({
-                              title: 'success',
-                              description: `${product.name} has been removed from cart`,
-                              status: 'success',
-                              duration: 1000,
-                              position: 'top'
-                            })
+                            toast({ title: 'success', description: `${product.name} has been removed from cart`, status: 'success', duration: 1000, position: 'top' })
                           }}
                           variant="filled"
                           size="xs"
@@ -114,13 +104,7 @@ const Cart = ({ data, onClose, isOpen }) => {
                           onClick={() => {
                             if (item.quantity === 1) {
                               dispatch(subtractQuantity({ id: item.id, quantity: 1 }))
-                              toast({
-                                title: 'success',
-                                description: `${product.name} has been removed from cart`,
-                                status: 'success',
-                                duration: 1000,
-                                position: 'top'
-                              })
+                              toast({ title: 'success', description: `${product.name} has been removed from cart`, status: 'success', duration: 1000, position: 'top' })
                             } else {
                               dispatch(subtractQuantity({ id: item.id, quantity: 1 }))
                             }
@@ -152,11 +136,7 @@ const Cart = ({ data, onClose, isOpen }) => {
                     Total
                   </Text>
                   <Text fontSize={'xl'} fontWeight={600}>
-                    {total.toLocaleString('id-ID', {
-                      style: 'currency',
-                      currency: 'IDR',
-                      minimumFractionDigits: 0
-                    })}
+                    {total.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 })}
                   </Text>
                 </Stack>
                 <Stack mb={'50px'}>

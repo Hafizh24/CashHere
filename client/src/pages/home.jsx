@@ -42,9 +42,9 @@ function Home() {
 
   
 
-useEffect(() => {
-  getProducts()
-}, [])
+  useEffect(() => {
+    getProducts()
+  }, [])
 
     return(
         <>
@@ -76,5 +76,4 @@ useEffect(() => {
     )
 }
 
-export default Home;
-
+export default Home

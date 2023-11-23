@@ -12,9 +12,7 @@ export default function ManagerCashier() {
   const getCashierData = async () => {
     try {
       const response = await axios.get('http://localhost:2000/users/get-user', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+        headers: { Authorization: `Bearer ${token}` }
       })
       setCashierData(response.data.dataCashier)
     } catch (err) {

@@ -1,74 +1,53 @@
-const db = require("../models");
-const Category = db.Category;
+const db = require('../models')
+const Category = db.Category
 
 module.exports = {
   getAllCategory: async (req, res) => {
     try {
       const result = await Category.findAll({
-        where: { isDeleted: 0 },
-      });
-      res.status(200).send(result);
+        where: { isDeleted: 0 }
+      })
+      res.status(200).send(result)
     } catch (error) {
-      console.log(error);
-      res.status(400).send({ error: error.message });
+      console.log(error)
+      res.status(400).send({ error: error.message })
     }
   },
   addCategory: async (req, res) => {
-    const { name } = req.body;
+    const { name } = req.body
     try {
       const exist = await Category.findOne({
-        where: {
-          name,
-        },
-      });
+        where: { name }
+      })
       if (exist) {
-        return res.status(422).send("category already exist");
+        return res.status(422).send('category already exist')
       }
 
-      const result = await Category.create({
-        name,
-      });
+      const result = await Category.create({ name })
 
-      res.status(201).send({ message: "category added successfully", data: result });
+      res.status(201).send({ message: 'category added successfully', data: result })
     } catch (error) {
-      console.log(error);
-      res.status(400).send({ error: error.message });
+      console.log(error)
+      res.status(400).send({ error: error.message })
     }
   },
   deleteCategory: async (req, res) => {
     try {
-      await Category.update(
-        {
-          isDeleted: 1,
-        },
-        {
-          where: {
-            id: req.params.id,
-          },
-        }
-      );
-      res.status(200).send("category deleted successfully");
+      await Category.update({ isDeleted: 1 }, { where: { id: req.params.id } })
+      res.status(200).send('category deleted successfully')
     } catch (error) {
-      console.log(error);
-      res.status(400).send({ error: error.message });
+      console.log(error)
+      res.status(400).send({ error: error.message })
     }
   },
   updateCategory: async (req, res) => {
     try {
-      const result = await Category.update(
-        {
-          name: req.body.name,
-        },
-        {
-          where: req.params.id,
-        }
-      );
-      res
-        .status(200)
-        .send({ message: "success  category updated successfully", data: result });
+      const result = await Category.update({ name: req.body.name }, { where: req.params.id })
+
+      res.status(200).send({ message: 'success  category updated successfully', data: result })
     } catch (error) {
-      console.log(error);
-      res.status(400).send({ error: error.message });
+      console.log(error)
+      res.status(400).send({ error: error.message })
     }
-  },
-};
+  }
+}

@@ -1,15 +1,4 @@
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  FormControl,
-  FormLabel,
-  Button,
-  useToast
-} from '@chakra-ui/react'
+import { Button, FormControl, FormLabel, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useToast } from '@chakra-ui/react'
 import { useFormik } from 'formik'
 import axios from 'axios'
 
@@ -27,9 +16,7 @@ function ModalUpdate({ isOpen, onClose, clickedData, getCashierData }) {
       }
 
       await axios.patch('http://localhost:2000/users/update-user', data, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+        headers: { Authorization: `Bearer ${token}` }
       }) //sending data to database
       getCashierData()
       toast({
@@ -61,8 +48,7 @@ function ModalUpdate({ isOpen, onClose, clickedData, getCashierData }) {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            {clickedData.isEnabled === false ? <>Enable</> : <>Disable</>}{' '}
-            <span style={{ color: 'blue' }}>{clickedData.username}</span>?
+            {clickedData.isEnabled === false ? <>Enable</> : <>Disable</>} <span style={{ color: 'blue' }}>{clickedData.username}</span>?
           </ModalHeader>
           <ModalCloseButton />
           <form onSubmit={formik.handleSubmit}>
@@ -70,23 +56,12 @@ function ModalUpdate({ isOpen, onClose, clickedData, getCashierData }) {
               <FormControl>
                 <FormLabel>
                   {clickedData.username} will be{' '}
-                  {clickedData.isEnabled === false ? (
-                    <>enabled, and he/she can log in to the website.</>
-                  ) : (
-                    <>disabled and, he/she can't log in to the website.</>
-                  )}{' '}
+                  {clickedData.isEnabled === false ? <>enabled, and he/she can log in to the website.</> : <>disabled and, he/she can't log in to the website.</>}{' '}
                 </FormLabel>
               </FormControl>
             </ModalBody>
             <ModalFooter>
-              <Button
-                type="submit"
-                bg={'#3C6255'}
-                color={'white'}
-                colorScheme="blue"
-                mr={3}
-                _hover={{ bg: '#61876E' }}
-                rounded={'full'}>
+              <Button type="submit" bg={'#3C6255'} color={'white'} colorScheme="blue" mr={3} _hover={{ bg: '#61876E' }} rounded={'full'}>
                 {clickedData.isEnabled === false ? <>Enable</> : <>Disable</>}
               </Button>
               <Button onClick={onClose} rounded={'full'}>

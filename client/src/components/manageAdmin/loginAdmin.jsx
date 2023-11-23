@@ -18,23 +18,14 @@ function LoginAdmin() {
 
   const handleSubmitLogin = async (data) => {
     try {
-      const response = await axios.get(
-        `http://localhost:2000/users/user-login?username=${data.username}&password=${data.password}`,
-        data
-      )
+      const response = await axios.get(`http://localhost:2000/users/user-login?username=${data.username}&password=${data.password}`, data)
       if (response.data.token) {
         dispatch(setData(response.data.userLogin))
         localStorage.setItem('token', response.data.token)
         navigate('/home')
       }
     } catch (err) {
-      toast({
-        title: 'Error',
-        description: `${err.response.data.message}`,
-        status: 'error',
-        duration: 3000,
-        position: 'top'
-      })
+      toast({ title: 'Error', description: `${err.response.data.message}`, status: 'error', duration: 3000, position: 'top' })
     }
   }
 

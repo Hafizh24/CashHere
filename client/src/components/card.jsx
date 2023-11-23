@@ -6,7 +6,6 @@ import {
   useColorModeValue,
   Button,
   HStack,
-  StackDivider,
   useDisclosure,
   Modal,
   ModalOverlay,
@@ -116,9 +115,11 @@ export default function Card({ productData, getProducts }) {
                 <Button size={["sm", "md"]} colorScheme="messenger">
                   Edit product
                 </Button>
-              </>
-            ) : (
-              <>
+              </HStack>
+            </>
+          ) : (
+            <>
+              <Stack justifyContent={'center'} alignItems={'center'} mt={14}>
                 <Button
                   w={48}
                   bgColor={'#3C6255'}

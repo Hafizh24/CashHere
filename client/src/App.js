@@ -20,20 +20,20 @@ import SalesReport from './pages/SalesReport'
 import ProductSales from './pages/ProductSales'
 
 const router = createBrowserRouter([
-  { path: '/', element: <WelcomePage></WelcomePage> },
-  { path: '/login-admin', element: <LoginAdmin></LoginAdmin> },
-  { path: '/login-cashier', element: <LoginCashier></LoginCashier> },
-  { path: '/verify/:token', element: <Verify></Verify> },
-  { path: '/reset-password/:token', element: <ResetPasswordPage></ResetPasswordPage> },
+  { path: '/', element: <WelcomePage /> },
+  { path: '/login-admin', element: <LoginAdmin /> },
+  { path: '/login-cashier', element: <LoginCashier /> },
+  { path: '/verify/:token', element: <Verify /> },
+  { path: '/reset-password/:token', element: <ResetPasswordPage /> },
 
   {
     element: <Required />,
     children: [
       //untuk yang butuh token
-      { path: '/home', element: <Home></Home> },
-      { path: '/manage-cashier', element: <ManagerCashier></ManagerCashier> },
-      { path: '/manage-product', element: <ManageProduct></ManageProduct> },
-      { path: '/admin-settings', element: <AdminSettings></AdminSettings> },
+      { path: '/home', element: <Home /> },
+      { path: '/manage-cashier', element: <ManagerCashier /> },
+      { path: '/manage-product', element: <ManageProduct /> },
+      { path: '/admin-settings', element: <AdminSettings /> },
       { path: '/profile', element: <Profile /> },
       { path: '/manage-category', element: <ManageCategory /> },
       { path: '/sales-report', element: <SalesReport /> },
@@ -50,9 +50,7 @@ function App() {
   const keepLogin = async () => {
     try {
       const response = await axios.get('http://localhost:2000/users/keep-login', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+        headers: { Authorization: `Bearer ${token}` }
       })
       dispatch(setData(response.data.user))
     } catch (err) {
@@ -62,6 +60,7 @@ function App() {
 
   useEffect(() => {
     keepLogin()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
     <>

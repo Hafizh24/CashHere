@@ -68,6 +68,7 @@ function ModalUpdateProduct({ isOpenUpdate, onCloseUpdate, productData, getProdu
 
   useEffect(() => {
     getCategory()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const formik = useFormik({
@@ -82,10 +83,11 @@ function ModalUpdateProduct({ isOpenUpdate, onCloseUpdate, productData, getProdu
       isActive: productData.isActive
     },
     onSubmit: (values, action) => {
+      console.log(values.category)
       const formData = new FormData()
       formData.append('id', values.id)
       formData.append('name', values.name)
-      formData.append('category', values.category)
+      formData.append('CategoryId', values.category)
       formData.append('price', values.price)
       formData.append('total_stock', values.total_stock)
       formData.append('description', values.description)

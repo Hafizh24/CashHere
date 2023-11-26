@@ -1,56 +1,56 @@
-"use strict";
+'use strict'
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.bulkInsert("Products", [
+    await queryInterface.bulkInsert('Products', [
       {
-        name: "americano",
+        name: 'americano',
         price: 15000,
         total_stock: 10,
-        image:
-          "https://images.unsplash.com/photo-1581996323441-538096e854b9?q=80&w=2881&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        description:
+          'An invigorating classic, the Americano delivers a bold and robust flavor. Perfect for those who enjoy the rich essence of coffee without the added fuss.',
         createdAt: new Date(),
-        updatedAt: new Date(),
+        updatedAt: new Date()
       },
       {
-        name: "caffe latte",
+        name: 'caffe latte',
         price: 25000,
         total_stock: 5,
-        image:
-          "https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?q=80&w=2835&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        description: ' Indulge in the creamy delight of a Caffe Latte, where the smoothness of steamed milk beautifully harmonizes with the intensity of espresso.',
         createdAt: new Date(),
-        updatedAt: new Date(),
+        updatedAt: new Date()
       },
       {
-        name: "cappucino",
+        name: 'cappucino',
         price: 25000,
         total_stock: 20,
-        image:
-          "https://images.unsplash.com/photo-1594261956806-3ad03785c9b4?q=80&w=2848&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        description: 'Experience the artistry of a Cappuccino, meticulously crafted with equal parts espresso, steamed milk, and frothy milk foam.',
+
         createdAt: new Date(),
-        updatedAt: new Date(),
+        updatedAt: new Date()
       },
       {
-        name: "lemon tea",
+        name: 'lemon tea',
         price: 18000,
         total_stock: 20,
-        image:
-          "https://images.unsplash.com/photo-1556679343-c7306c1976bc?q=80&w=2864&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        description: 'A refreshing twist on traditional tea, Lemon Tea combines the soothing warmth of tea leaves with the zesty tang of fresh lemon.',
         createdAt: new Date(),
-        updatedAt: new Date(),
+        updatedAt: new Date()
       },
       {
-        name: "jasmine tea",
+        name: 'jasmine tea',
         price: 16000,
         total_stock: 20,
+        description:
+          'Embrace the delicate aroma and floral notes of Jasmine Tea. This aromatic blend offers a serene and fragrant experience, capturing the essence of jasmine flowers in each soothing cup.',
         createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ]);
+        updatedAt: new Date()
+      }
+    ])
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("Products", null, {});
-  },
-};
+    await queryInterface.bulkDelete('Products', null, {})
+  }
+}

@@ -10,7 +10,7 @@ const ModalConfirmPayment = ({ isPaymentModalOpen, onPaymentModalClose, handleSu
           <ModalHeader>Are you sure to proceed the order</ModalHeader>
           <ModalCloseButton />
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onPaymentModalClose}>
+            <Button colorScheme={'red'} mr={3} onClick={onPaymentModalClose}>
               Cancel
             </Button>
             <Button

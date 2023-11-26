@@ -15,21 +15,20 @@ import {
   IconButton,
   Image,
   Input,
-  InputGroup,
-  InputLeftElement,
   Stack,
   Text,
   useDisclosure,
   useToast
 } from '@chakra-ui/react'
+import CurrencyInput from 'react-currency-input-field'
 import { useDispatch, useSelector } from 'react-redux'
-import { addToCart, addTotal, clearCart, removeFromCart, subtractQuantity } from '../../redux/cartSlice'
+import { addToCart, addTotal, removeFromCart, subtractQuantity } from '../../redux/cartSlice'
 import { useRef, useState } from 'react'
 import axios from 'axios'
 import ModalConfirmPayment from './modalConfirmPayment'
 import ModalReceipt from './modalReceipt'
 
-const Cart = ({ data, onClose, isOpen }) => {
+const Cart = ({ data, onClose, isOpen, getProducts }) => {
   const dispatch = useDispatch()
   const firstField = useRef()
   const toast = useToast()
@@ -50,14 +49,6 @@ const Cart = ({ data, onClose, isOpen }) => {
         { headers: { Authorization: `Bearer ${token}` } }
       )
       onReceiptModalOpen()
-
-      // toast({
-      //   title: 'Success',
-      //   description: `payment success`,
-      //   status: 'success',
-      //   duration: 3000,
-      //   position: 'top'
-      // })
     } catch (error) {
       console.log(error)
     }
@@ -75,7 +66,6 @@ const Cart = ({ data, onClose, isOpen }) => {
           <DrawerBody mt={10}>
             {carts.map((item) => {
               const product = data.find((product) => product.id === item.id)
-              // console.log(product)
               return (
                 <Stack mb={3} key={item.id}>
                   <Card direction={'row'} overflow={'hidden'} variant={'outline'}>
@@ -115,7 +105,7 @@ const Cart = ({ data, onClose, isOpen }) => {
                         />
                         <Text>{item.quantity}</Text>
                         <IconButton
-                          isDisabled={item.quantity > product.total_stock ? true : false}
+                          isDisabled={item.quantity >= product.total_stock ? true : false}
                           onClick={() => dispatch(addToCart({ id: item.id, quantity: 1 }))}
                           variant={'outline'}
                           size="xs"
@@ -140,10 +130,13 @@ const Cart = ({ data, onClose, isOpen }) => {
                   </Text>
                 </Stack>
                 <Stack mb={'50px'}>
-                  <InputGroup>
-                    <InputLeftElement pointerEvents="none" color="second" fontSize="1.2em" children="Rp" />
-                    <Input isRequired={true} value={amount} placeholder="Enter amount" type="number" onChange={(e) => setAmount(e.currentTarget.value)} />
-                  </InputGroup>
+                  <Input
+                    as={CurrencyInput}
+                    defaultValue={amount}
+                    placeholder="Enter amount"
+                    intlConfig={{ locale: 'id-ID', currency: 'IDR' }}
+                    onValueChange={(value) => setAmount(value)}
+                  />
                 </Stack>
                 <Flex direction={'column'}>
                   <Button
@@ -173,6 +166,8 @@ const Cart = ({ data, onClose, isOpen }) => {
         change={change}
         total={total}
         setAmount={setAmount}
+        getProducts={getProducts}
+        onClose={onClose}
       />
     </>
   )

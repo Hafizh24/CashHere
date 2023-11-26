@@ -16,12 +16,12 @@ export default function SeeAllProducts({ productData, setProductData, setIsLoade
     <>
       <Flex h={'fit-content'} align={'center'} justifyContent={'center'} direction={'column'} alignItems={'center'} gap={5}>
         <Filter setProductData={setProductData} setIsLoaded={setIsLoaded} />
-        {productData.length != 0 ? (
+        {productData.length !== 0 ? (
           <>
             <SimpleGrid columns={[1, null, 4]} spacing={8}>
               {currentPosts.map((item) => (
                 <>
-                  {item.isDeleted != true && (
+                  {item.isDeleted !== true && (
                     <>
                       <Skeleton isLoaded={isLoaded} fadeDuration={1}>
                         <Card productData={item} getProducts={getProducts} />

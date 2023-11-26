@@ -130,20 +130,10 @@ const MobileNav = ({ onOpen, user, onOpening, handleLogout, ...rest }) => {
 
       <HStack spacing={{ base: '0', md: '6' }}>
         {user?.isAdmin === false ? (
-          <Stack direction={'row'} spacing={0}>
-            <IconButton size={['sm', null, null, 'lg']} onClick={onOpening} variant="ghost" color={'white'} icon={<FiShoppingCart />} />
+          <Stack as={'button'} direction={'row'} spacing={'0px'} onClick={onOpening} _hover={{ bg: 'second', py: '8px' }}>
+            <FiShoppingCart color="white" fontSize={'23px'} />
             {total > 0 ? (
-              <Text
-                mr={[1, null]}
-                color={'white'}
-                bgColor={'red'}
-                fontSize={['9px', 'xs']}
-                borderWidth={'1px'}
-                borderRadius={'full'}
-                w={[4, null, null, 6]}
-                h={[4, null, null, 6]}
-                p={[null, null, 1]}
-                textAlign={'center'}>
+              <Text position={'relative'} top={-2} color={'white'} bgColor={'red'} fontSize={['11px']} w={'15px'} h={'15px'} borderRadius={'100%'}>
                 {total}
               </Text>
             ) : (

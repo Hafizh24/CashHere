@@ -1,24 +1,10 @@
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
-  ModalFooter,
-  Stack,
-  Text,
-  HStack,
-  VStack
-} from '@chakra-ui/react'
+import { Button, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, ModalFooter, Stack, Text, HStack } from '@chakra-ui/react'
 import React, { useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import ReactToPrint from 'react-to-print'
 import { clearCart } from '../../redux/cartSlice'
 
-const ModalReceipt = ({ products, carts, change, total, onReceiptModalClose, isReceiptModalOpen, setAmount }) => {
+const ModalReceipt = ({ products, carts, change, total, onReceiptModalClose, isReceiptModalOpen, setAmount, getProducts, onClose }) => {
   const dispatch = useDispatch()
   const ref = useRef()
 
@@ -26,11 +12,12 @@ const ModalReceipt = ({ products, carts, change, total, onReceiptModalClose, isR
     onReceiptModalClose()
     dispatch(clearCart())
     setAmount('')
+    onClose()
+    getProducts()
   }
 
   return (
     <>
-      {/* <Button onClick={onOpen}>Trigger modal</Button> */}
       <Modal onClose={onReceiptModalClose} isOpen={isReceiptModalOpen} isCentered>
         <ModalOverlay />
         <ModalContent>
@@ -90,12 +77,12 @@ const ModalReceipt = ({ products, carts, change, total, onReceiptModalClose, isR
                 bodyClass="print-agreement"
                 content={() => ref.current}
                 trigger={() => (
-                  <Button bgColor={'#3C6255'} color={'white'} ml={'8px'} _hover={{ bg: '#61876E' }} size={['sm', 'md']}>
+                  <Button bgColor={'first'} color={'white'} ml={'8px'} _hover={{ bg: 'third' }} size={['sm', 'md']}>
                     Print
                   </Button>
                 )}
               />
-              <Button bgcolor="slategrey" color="" ml={'8px'} onClick={handleClose} size={['sm', 'md']}>
+              <Button bgColor={'navy'} color="white" ml={'8px'} _hover={{ bg: 'skyblue' }} onClick={handleClose} size={['sm', 'md']}>
                 Close
               </Button>
             </HStack>

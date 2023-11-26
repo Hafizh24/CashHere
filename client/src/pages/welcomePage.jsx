@@ -1,4 +1,4 @@
-import { Box, Heading, Container, Text, Button, Stack, Flex, Image } from '@chakra-ui/react'
+import { Box, Heading, Text, Button, Stack, Flex, Image } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import admin from '../assets/admin.png'
 export default function WelcomePage() {

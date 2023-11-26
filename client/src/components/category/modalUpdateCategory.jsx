@@ -16,7 +16,7 @@ import { useFormik } from 'formik'
 import axios from 'axios'
 import { useState } from 'react'
 
-function ModalUpdateCategory({ isOpenUpdate, onCloseUpdate, productData, getProducts, clickedData }) {
+function ModalUpdateCategory({ isOpenUpdate, onCloseUpdate, data, getData, clickedData }) {
   const toast = useToast()
   const token = localStorage.getItem('token')
   const [loading, setLoading] = useState(false)
@@ -30,7 +30,7 @@ function ModalUpdateCategory({ isOpenUpdate, onCloseUpdate, productData, getProd
         }
       }) //sending data to database
       setLoading(false)
-      getProducts()
+      getData()
       toast({
         title: 'Success',
         description: `Data updated`,
@@ -40,7 +40,7 @@ function ModalUpdateCategory({ isOpenUpdate, onCloseUpdate, productData, getProd
       })
       onCloseUpdate()
     } catch (err) {
-      console.log(err.response.data.message)
+      console.log(err.response?.data)
       toast({
         title: 'Error',
         description: `Something's wrong`,
@@ -71,12 +71,12 @@ function ModalUpdateCategory({ isOpenUpdate, onCloseUpdate, productData, getProd
       <Modal isOpen={isOpenUpdate} onClose={onCloseUpdate} isCentered>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{productData?.name}</ModalHeader>
+          <ModalHeader>{data?.name}</ModalHeader>
           <ModalCloseButton />
           <form onSubmit={formik.handleSubmit}>
             <ModalBody pb={8}>
               <FormControl mt={3}>
-                <FormLabel>Product Name</FormLabel>
+                <FormLabel>Category Name</FormLabel>
                 <Input
                   name="name"
                   type="text"
@@ -84,7 +84,7 @@ function ModalUpdateCategory({ isOpenUpdate, onCloseUpdate, productData, getProd
                   onChange={formik.handleChange}
                   autoComplete="new"
                   border={'1px'}
-                  placeholder={productData?.name}></Input>
+                  placeholder={data?.name}></Input>
               </FormControl>
             </ModalBody>
             <ModalFooter>

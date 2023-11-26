@@ -72,6 +72,7 @@ function AddProduct({ getProducts }) {
   useEffect(() => {
     getCategory()
   }, [])
+
   return (
     <>
       <form onSubmit={formik.handleSubmit}>

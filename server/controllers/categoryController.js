@@ -42,9 +42,9 @@ module.exports = {
   },
   updateCategory: async (req, res) => {
     try {
-      const result = await Category.update({ name: req.body.name }, { where: req.params.id })
+      const result = await Category.update({ name: req.body.name }, { where: { id: req.params.id } })
 
-      res.status(200).send({ message: 'success  category updated successfully', data: result })
+      res.status(200).send('sucsess  category updated successfully')
     } catch (error) {
       console.log(error)
       res.status(400).send({ error: error.message })

@@ -2,7 +2,6 @@ import { Box, FormControl, FormLabel, Input, Stack, Button, Heading, useColorMod
 import { useFormik } from 'formik'
 import axios from 'axios'
 import * as Yup from 'yup'
-import UpdateCategory from './updateCategory'
 
 const AddCategory = ({ getData }) => {
   const toast = useToast()

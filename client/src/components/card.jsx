@@ -74,7 +74,8 @@ export default function Card({ productData, getProducts }) {
         }}>
         {/* <Box overflow={'hidden'} h={{ base: '140px', md: '140px', lg: '200px' }} bg={'gray.100'} mt={-6} mx={-6} mb={6} pos={'relative'}>
           <Image src={`http://localhost:2000/${productData.image}`} fill alt={productData?.name} />
-        </Box> */}
+        </Box>{' '}
+        */}
         <Image boxSize={'240px'} mb={6} objectFit={'cover'} src={`http://localhost:2000/${productData.image}`} fill alt={productData?.name} />
         <Stack>
           <Heading

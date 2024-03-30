@@ -58,16 +58,16 @@ export default function Card({ productData, getProducts }) {
   return (
     <>
       <Box
-        maxW={{ base: '300px', md: '370px' }}
-        maxH={{ base: '700px', md: '730px' }}
-        w={['20rem', '20rem']}
-        h={['400px', '510px']}
+        maxW={{ base: '280px', md: '280x' }}
+        maxH={{ base: '650px', md: '650px' }}
+        w={['16rem', '16rem']}
+        h={['400px', '535px']}
         bg={useColorModeValue('white', 'gray.900')}
         shadow={'lg'}
         rounded={'md'}
-        p={6}
+        p={5}
         flex="0 0 auto" // Allow flex item to shrink if needed
-        mx={'13px'}
+        mx={'5px'}
         transition="transform 0.2s ease-in-out" // Smooth transition over 0.3 seconds
         _hover={{
           transform: 'scale(1.05)' // Scale up to 105% when hovered
@@ -87,9 +87,9 @@ export default function Card({ productData, getProducts }) {
             {productData?.name}
           </Heading>
           <Text color={'black'} fontWeight={800} fontSize={['xs', 'sm']} letterSpacing={1.1}>
-            Rp.{productData?.price}
+            {productData?.price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 })}
           </Text>
-          <Text color={'black'} noOfLines={4} fontSize={['xs', 'sm']} letterSpacing={1.1}>
+          <Text color={'black'} noOfLines={3} fontSize={['xs', 'sm']} letterSpacing={1.1}>
             {user.isAdmin === true && <>{productData?.description}</>}
           </Text>
           <Text color={'black'} fontSize={['xs', 'sm']} letterSpacing={1.1}>

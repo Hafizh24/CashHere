@@ -64,6 +64,7 @@ function AddProduct({ getProducts }) {
       formData.append('total_stock', values.total_stock)
       formData.append('description', values.description)
       formData.append('image', values.image)
+      console.log(formData)
       handleSubmit(formData)
       action.resetForm()
     }
@@ -71,6 +72,7 @@ function AddProduct({ getProducts }) {
 
   useEffect(() => {
     getCategory()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

@@ -33,6 +33,7 @@ const Cart = ({ data, onClose, isOpen, getProducts }) => {
   const firstField = useRef()
   const toast = useToast()
   const carts = useSelector((state) => state.cart.data)
+  console.log(carts)
   const total = carts.reduce((total, item) => total + item.amount * item.quantity, 0)
   const token = localStorage.getItem('token')
   const [amount, setAmount] = useState('')

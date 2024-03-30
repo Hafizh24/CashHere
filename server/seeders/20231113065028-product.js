@@ -8,8 +8,7 @@ module.exports = {
         name: 'americano',
         price: 15000,
         total_stock: 10,
-        description:
-          'An invigorating classic, the Americano delivers a bold and robust flavor. Perfect for those who enjoy the rich essence of coffee without the added fuss.',
+        description: 'An invigorating classic, the Americano delivers a bold and robust flavor.',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -42,8 +41,7 @@ module.exports = {
         name: 'jasmine tea',
         price: 16000,
         total_stock: 20,
-        description:
-          'Embrace the delicate aroma and floral notes of Jasmine Tea. This aromatic blend offers a serene and fragrant experience, capturing the essence of jasmine flowers in each soothing cup.',
+        description: 'Embrace the delicate aroma and floral notes of Jasmine Tea.',
         createdAt: new Date(),
         updatedAt: new Date()
       }

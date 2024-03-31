@@ -1,6 +1,6 @@
 import { Stack, Button, Heading, useToast } from '@chakra-ui/react'
-import axios from 'axios'
 import { useSelector } from 'react-redux'
+import instance from '../../api/axios'
 
 function AdminSettings() {
   const token = localStorage.getItem('token')
@@ -9,7 +9,7 @@ function AdminSettings() {
 
   const resetPassword = async () => {
     try {
-      await axios.get(`http://localhost:2000/users/reset-password?username=${user.username}&email=${user.email}`, {
+      await instance.get(`users/reset-password?username=${user.username}&email=${user.email}`, {
         headers: { Authorization: `Bearer ${token}` }
       }) //sending data to database
       toast({

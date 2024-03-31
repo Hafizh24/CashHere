@@ -1,16 +1,15 @@
 import { Button, FormControl, Heading, Input, Stack, Text, useColorModeValue, Modal, ModalContent, ModalBody, ModalOverlay, ModalCloseButton } from '@chakra-ui/react'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
-import axios from 'axios'
+import instance from '../../api/axios'
 
 export default function ForgotPassword({ isOpen, onClose }) {
   const ValidationSchema = Yup.object({
     email: Yup.string().email('Invalid address format').required('Email is required')
   })
   const handleSubmit = async (data) => {
-    console.log(data)
     try {
-      const response = await axios.get(`http://localhost:2000/users/reset-password?email=${data.email}`, data)
+      const response = await instance.get(`users/reset-password?email=${data.email}`, data)
       window.location.reload()
     } catch (err) {
       console.log(err)

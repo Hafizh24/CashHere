@@ -1,8 +1,8 @@
 import { Flex } from '@chakra-ui/react'
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import AddCategory from './addCategory'
 import UpdateCategory from './updateCategory'
+import instance from '../../api/axios'
 
 const ManageCategory = () => {
   const [data, setData] = useState([])
@@ -10,7 +10,7 @@ const ManageCategory = () => {
 
   const fetchAPI = async () => {
     try {
-      const response = await axios.get('http://localhost:2000/categories', {
+      const response = await instance.get('categories', {
         headers: {
           Authorization: `Bearer ${token}`
         }

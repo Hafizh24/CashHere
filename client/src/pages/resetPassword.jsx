@@ -1,8 +1,8 @@
 import { Box, FormControl, FormLabel, Input, Stack, Button, Heading, useColorModeValue, Text, useToast } from '@chakra-ui/react'
 import { useFormik } from 'formik'
-import axios from 'axios'
 import * as Yup from 'yup'
 import { useNavigate, useParams } from 'react-router-dom'
+import instance from '../api/axios'
 
 function ResetPasswordPage() {
   const params = useParams()
@@ -19,7 +19,7 @@ function ResetPasswordPage() {
   const handleSubmit = async (data) => {
     try {
       console.log(data)
-      await axios.patch('http://localhost:2000/users/update-user-password', data, {
+      await instance.patch('users/update-user-password', data, {
         headers: { Authorization: `Bearer ${params.token}` }
       })
       toast({ title: 'Success', description: `Password has been updated`, status: 'success', duration: 4000, position: 'top' })

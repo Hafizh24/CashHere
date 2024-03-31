@@ -1,10 +1,10 @@
 import { Flex, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react'
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import SidebarWithHeader from '../sidebar'
 import SeeAllProducts from './subcomponents/seeAllProducts'
 import AddProduct from './subcomponents/addProduct'
 import ManageCategory from '../category/manageCategory'
+import instance from '../../api/axios'
 
 export default function ManageProduct() {
   const token = localStorage.getItem('token')
@@ -14,7 +14,7 @@ export default function ManageProduct() {
   const getProducts = async () => {
     try {
       setIsLoaded(false)
-      const response = await axios.get('http://localhost:2000/products/get-product', {
+      const response = await instance.get('products/get-product', {
         headers: { Authorization: `Bearer ${token}` }
       })
       setProductData(response.data.dataProduct)
@@ -27,6 +27,7 @@ export default function ManageProduct() {
 
   useEffect(() => {
     getProducts()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

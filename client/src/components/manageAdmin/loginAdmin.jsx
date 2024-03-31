@@ -1,10 +1,11 @@
 import { Button, Center, FormControl, FormLabel, Input, Stack, Text, useToast } from '@chakra-ui/react'
-import axios from 'axios'
+
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setData } from '../../redux/userSlice'
+import instance from '../../api/axios'
 
 function LoginAdmin() {
   const navigate = useNavigate()
@@ -18,7 +19,7 @@ function LoginAdmin() {
 
   const handleSubmitLogin = async (data) => {
     try {
-      const response = await axios.get(`http://localhost:2000/users/user-login?username=${data.username}&password=${data.password}`, data)
+      const response = await instance.get(`users/user-login?username=${data.username}&password=${data.password}`, data)
       if (response.data.token) {
         dispatch(setData(response.data.userLogin))
         localStorage.setItem('token', response.data.token)

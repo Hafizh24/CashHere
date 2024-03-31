@@ -1,11 +1,11 @@
 import { Flex, Heading, SimpleGrid, Skeleton, useDisclosure } from '@chakra-ui/react'
 import SidebarWithHeader from '../components/sidebar'
 import Card from '../components/card'
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import Filter from '../components/filter'
 import Pagination from '../components/pagination'
 import Cart from '../components/cart/Cart'
+import instance from '../api/axios'
 
 function Home() {
   const token = localStorage.getItem('token')
@@ -22,7 +22,7 @@ function Home() {
   const getProducts = async () => {
     try {
       setIsLoaded(false)
-      const response = await axios.get('http://localhost:2000/products/get-product', {
+      const response = await instance.get('products/get-product', {
         headers: { Authorization: `Bearer ${token}` }
       })
       setProductData(response.data.dataProduct)

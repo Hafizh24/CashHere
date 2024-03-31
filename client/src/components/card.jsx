@@ -21,7 +21,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from '../redux/cartSlice'
 import ModalUpdateProduct from './manageProduct/subcomponents/modalUpdateProduct'
 import { DeleteIcon, EditIcon, WarningIcon } from '@chakra-ui/icons'
-import axios from 'axios'
+import instance from '../api/axios'
 
 export default function Card({ productData, getProducts }) {
   const toast = useToast()
@@ -30,10 +30,11 @@ export default function Card({ productData, getProducts }) {
 
   const { isOpen: isOpenUpdate, onOpen: onOpenUpdate, onClose: onCloseUpdate } = useDisclosure()
   const { isOpen: isOpenWarning, onOpen: onOpenWarning, onClose: onCloseWarning } = useDisclosure()
+  const dispatch = useDispatch()
 
   const handleDelete = async () => {
     try {
-      await axios.patch(`http://localhost:2000/products/delete-product`, { id: productData.id }, { headers: { Authorization: `Bearer ${token}` } })
+      await instance.patch(`products/delete-product`, { id: productData.id }, { headers: { Authorization: `Bearer ${token}` } })
       toast({
         title: 'Success',
         description: 'Selected product has been deleted',
@@ -53,7 +54,6 @@ export default function Card({ productData, getProducts }) {
       })
     }
   }
-  const dispatch = useDispatch()
 
   return (
     <>

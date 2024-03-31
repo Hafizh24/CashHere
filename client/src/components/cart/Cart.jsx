@@ -24,9 +24,10 @@ import CurrencyInput from 'react-currency-input-field'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart, addTotal, removeFromCart, subtractQuantity } from '../../redux/cartSlice'
 import { useRef, useState } from 'react'
-import axios from 'axios'
+
 import ModalConfirmPayment from './modalConfirmPayment'
 import ModalReceipt from './modalReceipt'
+import instance from '../../api/axios'
 
 const Cart = ({ data, onClose, isOpen, getProducts }) => {
   const dispatch = useDispatch()
@@ -44,11 +45,7 @@ const Cart = ({ data, onClose, isOpen, getProducts }) => {
 
   const handleSubmit = async () => {
     try {
-      await axios.post(
-        'http://localhost:2000/transaction-details',
-        { cart: carts, total_price: total, amount, change: change },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
+      await instance.post('transaction-details', { cart: carts, total_price: total, amount, change: change }, { headers: { Authorization: `Bearer ${token}` } })
       onReceiptModalOpen()
     } catch (error) {
       console.log(error)

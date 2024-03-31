@@ -1,6 +1,6 @@
 import { Button, FormControl, FormLabel, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useToast } from '@chakra-ui/react'
 import { useFormik } from 'formik'
-import axios from 'axios'
+import instance from '../../../api/axios'
 
 function ModalUpdate({ isOpen, onClose, clickedData, getCashierData }) {
   const toast = useToast()
@@ -15,7 +15,7 @@ function ModalUpdate({ isOpen, onClose, clickedData, getCashierData }) {
         data.isEnabled = false
       }
 
-      await axios.patch('http://localhost:2000/users/update-user', data, {
+      await instance.patch('users/update-user', data, {
         headers: { Authorization: `Bearer ${token}` }
       }) //sending data to database
       getCashierData()

@@ -1,8 +1,8 @@
 import { Box, FormControl, FormLabel, Input, Stack, Button, Heading, useColorModeValue, Text, useToast } from '@chakra-ui/react'
 import { useFormik } from 'formik'
-import axios from 'axios'
 import * as Yup from 'yup'
 import { useState } from 'react'
+import instance from '../../../api/axios'
 
 function AddCashier({ getCashierData }) {
   const toast = useToast()
@@ -12,7 +12,7 @@ function AddCashier({ getCashierData }) {
   const handleSubmit = async (data) => {
     try {
       setLoading(true)
-      await axios.post('http://localhost:2000/users/add-user', data, {
+      await instance.post('users/add-user', data, {
         headers: { Authorization: `Bearer ${token}` }
       }) //sending data to database
       getCashierData()

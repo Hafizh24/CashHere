@@ -4,7 +4,7 @@ import * as Yup from 'yup'
 import { EditIcon } from '@chakra-ui/icons'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import axios from 'axios'
+import instance from '../../api/axios'
 
 const FILE_SIZE = 1024 * 1024
 const SUPPORTED_FORMATS = ['image/jpg', 'image/gif', 'image/png', 'image/jpeg']
@@ -23,24 +23,18 @@ const validationSchema = Yup.object().shape({
     .notRequired()
 })
 
-// const validationSchema = Yup.object().shape({
-//   username: Yup.string().notRequired()
-// })
-
 const CardProfile = () => {
   const [selectedFile, setSelectedFile] = useState({ file: undefined, previewURI: undefined })
   const user = useSelector((state) => state.user.value)
   const token = localStorage.getItem('token')
   const toast = useToast()
-  // console.log(user);
-  // console.log(user.image);
 
   const handleSubmit = async (value) => {
     try {
       const data = new FormData()
       data.append('image', value)
 
-      await axios.patch('http://localhost:2000/users/change-img', data, {
+      await instance.patch('users/change-img', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -91,10 +85,6 @@ const CardProfile = () => {
       formik.setFieldValue('image', file)
     }
   }
-
-  useEffect(() => {
-    // console.log({ formik });
-  })
 
   return (
     <>

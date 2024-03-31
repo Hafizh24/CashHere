@@ -1,7 +1,7 @@
 import { Box, FormControl, FormLabel, Input, Stack, Button, Heading, useColorModeValue, Text, useToast } from '@chakra-ui/react'
 import { useFormik } from 'formik'
-import axios from 'axios'
 import * as Yup from 'yup'
+import instance from '../../api/axios'
 
 const AddCategory = ({ getData }) => {
   const toast = useToast()
@@ -9,7 +9,7 @@ const AddCategory = ({ getData }) => {
 
   const handleSubmit = async (data) => {
     try {
-      await axios.post('http://localhost:2000/categories', data, {
+      await instance.post('categories', data, {
         headers: { Authorization: `Bearer ${token}` }
       }) //sending data to database
       getData()

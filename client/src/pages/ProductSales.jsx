@@ -1,9 +1,9 @@
 import ReportSidebar from '../components/reports/sidebar'
 import { Box, Stack, Button, useColorModeValue, TableContainer, Table, TableCaption, Thead, Tr, Th, Tbody, Td, Flex } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import { saveAs } from 'file-saver'
 import Papa from 'papaparse'
+import instance from '../api/axios'
 
 export default function ProductSales() {
   const [transactionData, setTransactionData] = useState([])
@@ -11,7 +11,7 @@ export default function ProductSales() {
 
   const getTransactionData = async () => {
     try {
-      const response = await axios.get('http://localhost:2000/transaction-details/product-transaction', {
+      const response = await instance.get('transaction-details/product-transaction', {
         headers: {
           Authorization: `Bearer ${token}`
         }

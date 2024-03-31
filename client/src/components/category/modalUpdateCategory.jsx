@@ -13,8 +13,8 @@ import {
   Input
 } from '@chakra-ui/react'
 import { useFormik } from 'formik'
-import axios from 'axios'
 import { useState } from 'react'
+import instance from '../../api/axios'
 
 function ModalUpdateCategory({ isOpenUpdate, onCloseUpdate, data, getData, clickedData }) {
   const toast = useToast()
@@ -24,7 +24,7 @@ function ModalUpdateCategory({ isOpenUpdate, onCloseUpdate, data, getData, click
   const handleSubmit = async (data) => {
     try {
       setLoading(true)
-      await axios.patch(`http://localhost:2000/categories/${clickedData?.id}`, data, {
+      await instance.patch(`categories/${clickedData?.id}`, data, {
         headers: {
           Authorization: `Bearer ${token}`
         }

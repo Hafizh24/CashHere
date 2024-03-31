@@ -1,5 +1,4 @@
 import { Modal, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Button } from '@chakra-ui/react'
-import React from 'react'
 
 const ModalConfirmPayment = ({ isPaymentModalOpen, onPaymentModalClose, handleSubmit }) => {
   return (

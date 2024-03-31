@@ -7,7 +7,6 @@ import Home from './pages/home'
 import WelcomePage from './pages/welcomePage'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { useEffect } from 'react'
-import axios from 'axios'
 import { setData } from './redux/userSlice'
 import LoginCashier from './components/cashier/loginCashier'
 import Profile from './pages/Profile'
@@ -18,6 +17,7 @@ import ManageProduct from './components/manageProduct/manageProduct'
 import SalesbyDateRange from './components/salesByDateRange'
 import SalesReport from './pages/SalesReport'
 import ProductSales from './pages/ProductSales'
+import instance from './api/axios'
 
 const router = createBrowserRouter([
   { path: '/', element: <WelcomePage /> },
@@ -49,7 +49,7 @@ function App() {
 
   const keepLogin = async () => {
     try {
-      const response = await axios.get('http://localhost:2000/users/keep-login', {
+      const response = await instance.get('users/keep-login', {
         headers: { Authorization: `Bearer ${token}` }
       })
       dispatch(setData(response.data.user))

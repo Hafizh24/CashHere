@@ -18,9 +18,9 @@ import {
 } from '@chakra-ui/react'
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from '@chakra-ui/react'
 import { DeleteIcon, EditIcon, WarningIcon } from '@chakra-ui/icons'
-import axios from 'axios'
 import { useState } from 'react'
 import ModalUpdate from './modalUpdate'
+import instance from '../../../api/axios'
 
 function UpdateCashier({ cashierData, getCashierData }) {
   const [clickedData, setClickedData] = useState([])
@@ -41,7 +41,7 @@ function UpdateCashier({ cashierData, getCashierData }) {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:2000/users/delete-cashier/${id}`, {
+      await instance.delete(`users/delete-cashier/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       })
       // Update the state by filtering out the deleted item

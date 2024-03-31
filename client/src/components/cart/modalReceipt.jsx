@@ -1,5 +1,5 @@
 import { Button, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, ModalFooter, Stack, Text, HStack } from '@chakra-ui/react'
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import ReactToPrint from 'react-to-print'
 import { clearCart } from '../../redux/cartSlice'
@@ -12,8 +12,6 @@ const ModalReceipt = ({ products, carts, change, total, onReceiptModalClose, isR
     onReceiptModalClose()
     dispatch(clearCart())
     setAmount('')
-    onClose()
-    getProducts()
   }
 
   return (

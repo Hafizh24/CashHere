@@ -18,9 +18,9 @@ import {
 } from '@chakra-ui/react'
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from '@chakra-ui/react'
 import { DeleteIcon, EditIcon, WarningIcon } from '@chakra-ui/icons'
-import axios from 'axios'
 import { useState } from 'react'
 import ModalUpdateCategory from './modalUpdateCategory'
+import instance from '../../api/axios'
 
 const UpdateCategory = ({ data, getData }) => {
   const [clickedData, setClickedData] = useState([])
@@ -40,7 +40,7 @@ const UpdateCategory = ({ data, getData }) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.patch(`http://localhost:2000/categories/delete/${id}`, {
+      await instance.patch(`categories/delete/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

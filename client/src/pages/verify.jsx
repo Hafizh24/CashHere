@@ -1,6 +1,6 @@
 import { Box, Stack, Button, Heading, Center, useColorModeValue, useToast } from '@chakra-ui/react'
-import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
+import instance from '../api/axios'
 
 function Verify() {
   const params = useParams()
@@ -9,19 +9,14 @@ function Verify() {
 
   const handleSubmit = async () => {
     try {
-      await axios.patch(
-        'http://localhost:2000/users/update-user-verified',
+      await instance.patch(
+        'users/update-user-verified',
         {},
         {
           headers: { Authorization: `Bearer ${params.token}` }
         }
       )
-      toast({ title: 'Success',
-        description: 'User has been verified',
-        status: 'success',
-        duration: 4000,
-        position: 'top'
-      })
+      toast({ title: 'Success', description: 'User has been verified', status: 'success', duration: 4000, position: 'top' })
       navigate('/')
     } catch (err) {
       console.log(err)

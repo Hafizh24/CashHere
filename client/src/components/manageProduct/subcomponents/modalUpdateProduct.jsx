@@ -17,8 +17,8 @@ import {
   Select
 } from '@chakra-ui/react'
 import { useFormik } from 'formik'
-import axios from 'axios'
 import { useEffect, useState } from 'react'
+import instance from '../../../api/axios'
 
 function ModalUpdateProduct({ isOpenUpdate, onCloseUpdate, productData, getProducts }) {
   const toast = useToast()
@@ -36,7 +36,7 @@ function ModalUpdateProduct({ isOpenUpdate, onCloseUpdate, productData, getProdu
   const handleSubmit = async (data) => {
     try {
       setLoading(true)
-      await axios.patch('http://localhost:2000/products/update-product', data, {
+      await instance.patch('products/update-product', data, {
         headers: { Authorization: `Bearer ${token}` }
       }) //sending data to database
       setLoading(false)
@@ -52,7 +52,7 @@ function ModalUpdateProduct({ isOpenUpdate, onCloseUpdate, productData, getProdu
 
   const getCategory = async () => {
     try {
-      const response = await axios.get('http://localhost:2000/categories/', {
+      const response = await instance.get('categories/', {
         headers: { Authorization: `Bearer ${token}` }
       })
       setCategory(response.data)

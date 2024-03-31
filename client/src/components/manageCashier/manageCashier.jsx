@@ -1,9 +1,9 @@
 import { Flex, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react'
 import AddCashier from './subcomponents/addCashier'
 import UpdateCashier from './subcomponents/updateCashier'
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import SidebarWithHeader from '../sidebar'
+import instance from '../../api/axios'
 
 export default function ManagerCashier() {
   const [cashierData, setCashierData] = useState([])
@@ -11,7 +11,7 @@ export default function ManagerCashier() {
 
   const getCashierData = async () => {
     try {
-      const response = await axios.get('http://localhost:2000/users/get-user', {
+      const response = await instance.get('users/get-user', {
         headers: { Authorization: `Bearer ${token}` }
       })
       setCashierData(response.data.dataCashier)

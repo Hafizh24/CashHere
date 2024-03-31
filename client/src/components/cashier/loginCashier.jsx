@@ -1,5 +1,5 @@
 import { Button, Checkbox, Flex, Text, FormControl, FormLabel, Heading, Input, Stack, Image, useDisclosure, useToast } from '@chakra-ui/react'
-import axios from 'axios'
+
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'
 import { setData } from '../../redux/userSlice'
 import ForgotPassword from './resetPassword'
 import { useState } from 'react'
+import instance from '../../api/axios'
 
 export default function LoginCashier() {
   const navigate = useNavigate()
@@ -25,7 +26,7 @@ export default function LoginCashier() {
       } else {
         data.rememberme = false
       }
-      const response = await axios.get(`http://localhost:2000/users/user-login?username=${data.username}&password=${data.password}&rememberme=${data.rememberme}`, data)
+      const response = await instance.get(`users/user-login?username=${data.username}&password=${data.password}&rememberme=${data.rememberme}`, data)
       if (response.data.token) {
         dispatch(setData(response?.data.userLogin))
         localStorage.setItem('token', response?.data.token)
@@ -63,7 +64,7 @@ export default function LoginCashier() {
   const handleCheckBoxChange = () => {
     setCheckedItems(!checkedItems)
   }
-  console.log(checkedItems)
+
   return (
     <>
       <Stack minH={'100vh'} direction={{ base: 'column', sm: 'row', md: 'column', lg: 'row' }}>

@@ -2,8 +2,8 @@ import { Box, Button, Flex, FormControl, FormLabel, Input, Select, SimpleGrid, T
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import CurrencyInput from 'react-currency-input-field'
-import axios from 'axios'
 import { useEffect, useState } from 'react'
+import instance from '../../../api/axios'
 
 function AddProduct({ getProducts }) {
   const token = localStorage.getItem('token')
@@ -22,7 +22,7 @@ function AddProduct({ getProducts }) {
 
   const getCategory = async () => {
     try {
-      const response = await axios.get('http://localhost:2000/categories/', {
+      const response = await instance.get('categories/', {
         headers: { Authorization: `Bearer ${token}` }
       })
       setCategory(response.data)
@@ -34,7 +34,7 @@ function AddProduct({ getProducts }) {
   const handleSubmit = async (data) => {
     try {
       setLoading(true)
-      await axios.post('http://localhost:2000/products/add-product', data, {
+      await instance.post('products/add-product', data, {
         headers: { Authorization: `Bearer ${token}` }
       }) //sending data to database
       toast({ title: 'Success', description: `${data.get('name')} has been created`, status: 'success', duration: 3000, position: 'top' })
@@ -64,7 +64,6 @@ function AddProduct({ getProducts }) {
       formData.append('total_stock', values.total_stock)
       formData.append('description', values.description)
       formData.append('image', values.image)
-      console.log(formData)
       handleSubmit(formData)
       action.resetForm()
     }

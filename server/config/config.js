@@ -7,6 +7,7 @@ module.exports = {
     database: process.env.SQL_DATABASE,
     host: process.env.SQL_HOST,
     dialect: 'mysql',
+    dialectModule: require('mysql2'),
     timezone: '+07:00'
   },
   test: {
